@@ -6,38 +6,27 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="main-img">
-                    <img class="img-fluid" src="https://cdn.pixabay.com/photo/2015/07/24/18/40/model-858753_960_720.jpg"
+                    <img class="img-fluid" src="{{ object.images.all.0.image.url }} "
                          alt="ProductS">
+
                     <div class="row my-3 previews">
-                        <div class="col-md-3">
-                            <img class="w-100"
-                                 src="https://cdn.pixabay.com/photo/2015/07/24/18/40/model-858754_960_720.jpg"
-                                 alt="Sale">
-                        </div>
-                        <div class="col-md-3">
-                            <img class="w-100"
-                                 src="https://cdn.pixabay.com/photo/2015/07/24/18/38/model-858749_960_720.jpg"
-                                 alt="Sale">
-                        </div>
-                        <div class="col-md-3">
-                            <img class="w-100"
-                                 src="https://cdn.pixabay.com/photo/2015/07/24/18/39/model-858751_960_720.jpg"
-                                 alt="Sale">
-                        </div>
-                        <div class="col-md-3">
-                            <img class="w-100"
-                                 src="https://cdn.pixabay.com/photo/2015/07/24/18/37/model-858748_960_720.jpg"
-                                 alt="Sale">
-                        </div>
+                        {% for image_obj in object.images.all|slice:'1:' %}
+                            <div class="col-md-3">
+                                <img class="w-100"
+                                     src="{{ image_obj.image.url }}"
+                                     alt="Sale">
+                            </div>
+                        {% endfor %}
                     </div>
+
                 </div>
             </div>
             <div class="col-md-7">
                 <div class="main-description px-2">
                     <div class="category text-bold">
                         Категорія: {% for category in object.category.all %}
-                                     {{ category.name }}
-                                    {% endfor %}
+                        {{ category.name }}
+                    {% endfor %}
                     </div>
                     <div class="product-title text-bold my-3">
                         {{ object.name }}

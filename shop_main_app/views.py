@@ -12,3 +12,4 @@ class PopularProductListView(ListView):
 class ProductDetailView(DetailView):
     queryset = Product.objects.all()
     template_name = 'product_details.html'
+    extra_context = {'category_list': Category.objects.all()}

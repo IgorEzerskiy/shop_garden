@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from shop_main_app.models import Product, Category
 
@@ -11,4 +11,8 @@ class PopularProductListView(ListView):
     queryset = Product.objects.all()
     # paginate_by = 10
     extra_context = {'category_list': Category.objects.all()}
+
+
+class ProductDetailView(DetailView):
+    pass
 

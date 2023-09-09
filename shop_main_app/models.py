@@ -16,7 +16,7 @@ class Category(models.Model):
     slug = models.SlugField()
     description = models.TextField(max_length=550, verbose_name='Опис')
     image = models.ImageField(
-        upload_to='shop_garden/media/category_images/',
+        upload_to='category_images/',
         max_length=100,
         verbose_name='Зображення'
     )

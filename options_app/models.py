@@ -25,3 +25,6 @@ class Carousel(models.Model):
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING,)
     image = models.ImageField(upload_to='carousel/',)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.category.name} banner'

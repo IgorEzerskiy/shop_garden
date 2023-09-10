@@ -11,6 +11,23 @@ class PopularProductListView(ListView):
                      'footer_info': Footer.objects.all().first()
                      }
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.GET.get('search'):
+            context['search_status'] = True
+
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        if self.request.GET.get('search'):
+            search_param = self.request.GET.get('search')
+            queryset = queryset.filter(title__icontains=search_param)
+
+        return queryset
+
 
 class ProductDetailView(DetailView):
     queryset = Product.objects.all()

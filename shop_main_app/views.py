@@ -1,12 +1,15 @@
 from django.views.generic import ListView, DetailView
 
+from options_app.models import Footer
 from shop_main_app.models import Product, Category
 
 
 class PopularProductListView(ListView):
     template_name = 'main_page.html'
     queryset = Product.objects.all()
-    extra_context = {'category_list': Category.objects.all()}
+    extra_context = {'category_list': Category.objects.all(),
+                     'footer_info': Footer.objects.all().first()
+                     }
 
 
 class ProductDetailView(DetailView):

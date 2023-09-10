@@ -6,41 +6,43 @@
         {% if not search_status %}
             <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-mdb-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-mdb-target="#carouselExampleCaptions" data-mdb-slide-to="0"
-                            class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-mdb-target="#carouselExampleCaptions" data-mdb-slide-to="1"
-                            aria-label="Slide 2"></button>
-                    <button type="button" data-mdb-target="#carouselExampleCaptions" data-mdb-slide-to="2"
-                            aria-label="Slide 3"></button>
+                    {% for carousel_item in carousel_items %}
+                        {% if forloop.counter == 1 %}
+                            <button type="button" data-mdb-target="#carouselExampleCaptions"
+                                    data-mdb-slide-to="{{ forloop.counter0 }}"
+                                    class="active" aria-current="true"
+                                    aria-label="Slide {{ forloop.counter }}"></button>
+                        {% else %}
+                            <button type="button" data-mdb-target="#carouselExampleCaptions"
+                                    data-mdb-slide-to="{{ forloop.counter0 }}"
+                                    aria-label="Slide {{ forloop.counter }}"></button>
+                        {% endif %}
+                    {% endfor %}
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="https://mdbcdn.b-cdn.net/img/new/slides/041.webp" class="d-block w-100"
-                             alt="Wild Landscape"/>
-                        <div class="carousel-caption d-sm-block shadow p-3 mb-5 bg-body-tertiary rounded">
-                            <h5>First slide label</h5>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                            <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://mdbcdn.b-cdn.net/img/new/slides/042.webp" class="d-block w-100"
-                             alt="Camera"/>
-                        <div class="carousel-caption d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">
-                            <h5>Second slide label</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://mdbcdn.b-cdn.net/img/new/slides/043.webp" class="d-block w-100"
-                             alt="Exotic Fruits"/>
-                        <div class="carousel-caption d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">
-                            <h5>Third slide label</h5>
-                            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                            <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
-                        </div>
-                    </div>
+                    {% for carousel_item in carousel_items %}
+                        {% if forloop.counter == 1 %}
+                            <div class="carousel-item active">
+                                <img src="{{ carousel_item.image.url }}" class="d-block w-100 rounded"
+                                     alt="Wild Landscape"/>
+                                <div class="carousel-caption d-sm-block shadow p-3 mb-5 bg-body-tertiary rounded">
+                                    <h5>{{ carousel_item.category.name }}</h5>
+                                    <p>{{ carousel_item.category.description }}</p>
+                                    <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="carousel-item">
+                                <img src="{{ carousel_item.image.url }}" class="d-block w-100 rounded"
+                                     alt="Wild Landscape"/>
+                                <div class="carousel-caption d-sm-block shadow p-3 mb-5 bg-body-tertiary rounded">
+                                    <h5>{{ carousel_item.category.name }}</h5>
+                                    <p>{{ carousel_item.category.description }}</p>
+                                    <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
                 <button class="carousel-control-prev" type="button" data-mdb-target="#carouselExampleCaptions"
                         data-mdb-slide="prev">
@@ -111,7 +113,39 @@
                         <p class="mb-0">Ви шукали: {{ request.GET.search }}</p>
                     </div>
                 {% endif %}
-
+                <div aria-label="..." style="display: flex; justify-content: center" class="mb-3">
+                    <ul class="pagination d-flex">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                            {% if search_status %}
+                                <a class="page-link"
+                                   href="?search={{ request.GET.search }}&page={{ page_obj.previous_page_number }}">Попередня</a>
+                            {% else %}
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Попередня</a>
+                            {% endif %}
+                        {% endif %}
+                        </li>
+                        {% for p in paginator.page_range %}
+                            <li class="page-item">
+                                {% if search_status %}
+                                    <a class="page-link" href="?search={{ request.GET.search }}&page={{ p }}">{{ p }}</a>
+                                {% else %}
+                                    <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                {% if search_status %}
+                                    <a class="page-link"
+                                       href="?search={{ request.GET.search }}&page={{ page_obj.next_page_number }}">Наступна</a>
+                                {% else %}
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Наступна</a>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
                 </div>
             </div>
         </div>

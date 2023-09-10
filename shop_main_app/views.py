@@ -9,7 +9,7 @@ class PopularProductListView(ListView):
     queryset = Product.objects.all()
     extra_context = {'category_list': Category.objects.all(),
                      'footer_info': Footer.objects.all().first(),
-                     'carousel_items': Carousel.objects.all()
+                     'carousel_items': Carousel.objects.filter(is_active=True)
                      }
 
     def get_context_data(self, **kwargs):

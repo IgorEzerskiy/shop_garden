@@ -11,6 +11,7 @@ class PopularProductListView(ListView):
                      'footer_info': Footer.objects.all().first(),
                      'carousel_items': Carousel.objects.filter(is_active=True)
                      }
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,0 +1,107 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<article class="container page">
+    <div class="row">
+        <div class="col col-12 col-lg-5">
+            <h2>Номери телефонів</h2>
+            <table style="border-collapse: collapse; width: 72.03%;" border="0">
+                <tbody>
+                <tr>
+                    <td style="width: 56.3852%;">Київстар:&nbsp;&nbsp;</td>
+                    <td style="width: 41.717%;"><a href="tel:+380968371000"
+                                                   onclick="if (!window.__cfRLUnblockHandlers) return false; Zemledar.gaSend(&#39;event&#39;, &#39;phone-number&#39;, &#39;click&#39;, &#39;(096) 837 1000&#39;);">+38
+                        (096) 837 1000</a></td>
+                </tr>
+                <tr>
+                    <td style="width: 56.3852%;">МТС:&nbsp; &nbsp;</td>
+                    <td style="width: 41.717%;"><a href="tel:+380501306525"
+                                                   onclick="if (!window.__cfRLUnblockHandlers) return false; Zemledar.gaSend(&#39;event&#39;, &#39;phone-number&#39;, &#39;click&#39;, &#39;(050) 130 6525&#39;);">+38
+                        (050) 130 6525</a></td>
+                </tr>
+                <tr>
+                    <td style="width: 56.3852%;">Стаціонарний:</td>
+                    <td style="width: 41.717%;"><a href="tel:+380342782018"
+                                                   onclick="if (!window.__cfRLUnblockHandlers) return false; Zemledar.gaSend(&#39;event&#39;, &#39;phone-number&#39;, &#39;click&#39;, &#39;(0342) 782 018&#39;);">+38
+                        (0342) 782 018</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <h2><br>Електронні скриньки</h2>
+            <a href="mailto:info@zemledar.ua" target="_blank" rel="noopener">info@zemledar.ua – питання щодо
+                замовлень</a> <a href="mailto:sales@zemledar.ua" target="_blank" rel="noopener">sales@zemledar.ua –
+            питання щодо співпраці</a> <a href="mailto:alex@zemledar.ua" target="_blank"
+                                          rel="noopener">alex@zemledar.ua – питання щодо якості продукції / сервісу</a>
+            <h2><br>Адреса самовивозу</h2>
+            <p>м. Івано-Франківск,<br>вул. Гетьмана Мазепи, 136а<br>(поруч з міським озером)<br><br></p>
+        </div>
+        <div class="col col-12 offset-lg-1 col-lg-6 mt-5 mt-lg-0">
+            <h2>Режим роботи</h2>
+            <table style="border-collapse: collapse; width: 48.4066%;" border="0">
+                <tbody>
+                <tr>
+                    <td style="width: 66.5868%;">Понеділок:&nbsp;</td>
+                    <td style="width: 31.504%;">8:00 - 17:00</td>
+                </tr>
+                <tr>
+                    <td style="width: 66.5868%;">Вівторок:</td>
+                    <td style="width: 31.504%;">8:00 - 17:00</td>
+                </tr>
+                <tr>
+                    <td style="width: 66.5868%;">Середа:</td>
+                    <td style="width: 31.504%;">8:00 - 17:00</td>
+                </tr>
+                <tr>
+                    <td style="width: 66.5868%;">Четвер:</td>
+                    <td style="width: 31.504%;">8:00 - 17:00</td>
+                </tr>
+                <tr>
+                    <td style="width: 66.5868%;">П'ятниця:</td>
+                    <td style="width: 31.504%;">8:00 - 17:00</td>
+                </tr>
+                <tr>
+                    <td style="width: 66.5868%;">Субота, Неділя:&nbsp;</td>
+                    <td style="width: 31.504%;">вихідні</td>
+                </tr>
+                </tbody>
+            </table>
+            <h2 class="mt-5">Юридичні дані</h2>
+            <div class="text-medium">ТзОВ "Земледар-Інфо", <br>Код ЄДРПОУ: 3718 3718<br>м. Івано-Франківськ,<br>вул.
+                Гординського, 1<br>76018
+            </div>
+        </div>
+    </div>
+    <h2>Контактна форма</h2>
+    <p>Скористайтеся контактною формою нижче для швикого зв'язку з компанією "Земледар". Наш менеджер зв'яжеться з
+        вами щонайшвидше.&nbsp;</p>
+    <form method="POST" action="https://zemledar.ua/api/front/ua/form/contact-us/submit" accept-charset="UTF-8"
+          class="form ajax-form form-article" autocomplete="off"><input name="_token" type="hidden"
+                                                                        value="nUPNHky1nOsFuGDXrvzQapnACuoeM4qv7kAu8iSg">
+        <div class="row">
+            <div class="col col-12 col-md-4 form-group">
+                <input class="required" placeholder="* Ваше ім’я" name="name" type="text">
+            </div>
+
+            <div class="col col-12 col-md-4 form-group">
+                <input class="required" placeholder="* Електронна пошта" name="email" type="text">
+            </div>
+
+            <div class="col col-12 col-md-4 form-group">
+                <input class="required" placeholder="* Номер телефону" name="phone" type="text">
+            </div>
+
+            <div class="col col-12 form-group">
+                <textarea rows="3" placeholder="Ваше повідомлення" name="message" cols="50"></textarea>
+                <small class="form-text">* - Поля, обов'язкові для введення</small>
+            </div>
+        </div>
+
+        <div class="buttons text-right">
+            <button type="submit" class="button"><span>Надіслати</span></button>
+        </div>
+    </form>
+
+</article>
+
+{% endblock %}

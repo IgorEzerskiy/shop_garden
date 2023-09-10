@@ -39,7 +39,7 @@ class Product(models.Model):
     category = models.ManyToManyField(Category, related_name='products', verbose_name='Категорія')
     index = models.BooleanField(default=True)
     discount = models.PositiveIntegerField(default=0, verbose_name='Знижка')
-    supplier_discount = models.TextField(max_length=500)
+    supplier_discount = models.TextField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return f'Товар {self.title}'

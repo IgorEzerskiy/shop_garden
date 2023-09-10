@@ -44,9 +44,11 @@
                                     <p style="margin-bottom: 0px; font-size: 20px; margin-left: 5px;">{{ category.name }}</p>
                                 </a>
                             </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                            {% if not forloop.last %}
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </li>
@@ -86,7 +88,7 @@
                 </li>
             </ul>
             <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <button type="button" class="btn btn-primary" style="margin-left: 10px;">
@@ -111,16 +113,16 @@
 
         <!-- Right -->
         <div>
-            <a href="{{footer_info.facebook }}" target="_blank" class="me-4 text-reset">
+            <a href="{{ footer_info.facebook }}" target="_blank" class="me-4 text-reset">
                 <i class="fab fa-facebook-f"></i>
             </a>
-            <a href="{{footer_info.instagram }}" target="_blank" class="me-4 text-reset">
+            <a href="{{ footer_info.instagram }}" target="_blank" class="me-4 text-reset">
                 <i class="fab fa-instagram"></i>
             </a>
             <a href="{{ footer_info.telegram }}" target="_blank" class="me-4 text-reset">
                 <i class="fab fa-telegram"></i>
             </a>
-            <a href="{{footer_info.viber }}" target="_blank" class="me-4 text-reset">
+            <a href="{{ footer_info.viber }}" target="_blank" class="me-4 text-reset">
                 <i class="fab fa-viber"></i>
             </a>
         </div>
@@ -137,10 +139,10 @@
                 <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                     <!-- Content -->
                     <h6 class="text-uppercase fw-bold mb-4">
-                        <i class="fas fa-gem me-3"></i>{{footer_info.company_name }}
+                        <i class="fas fa-gem me-3"></i>{{ footer_info.company_name }}
                     </h6>
                     <p>
-                      {{footer_info.short_description }}
+                        {{ footer_info.short_description }}
                     </p>
                 </div>
                 <!-- Grid column -->
@@ -151,10 +153,10 @@
                     <h6 class="text-uppercase fw-bold mb-4">
                         Товари
                     </h6>
-                    {%  for category in category_list %}
-                    <p>
-                        <a href="#!" class="text-reset">{{category.name}}</a>
-                    </p>
+                    {% for category in category_list %}
+                        <p>
+                            <a href="#!" class="text-reset">{{ category.name }}</a>
+                        </p>
                     {% endfor %}
                 </div>
                 <!-- Grid column -->
@@ -169,7 +171,7 @@
                         <a href="#!" class="text-reset">{{ footer_info.delivery_info }}</a>
                     </p>
                     <p>
-                        <a href="#!" class="text-reset">{{footer_info.return_conditions }} </a>
+                        <a href="#!" class="text-reset">{{ footer_info.return_conditions }} </a>
                     </p>
 
                 </div>

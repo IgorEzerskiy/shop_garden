@@ -1,6 +1,7 @@
 from django.db import models
 
 from shop_main_app.models import Category
+from shop_main_app.validators import validate_image
 
 
 # Create your models here.
@@ -19,7 +20,7 @@ class Footer(models.Model):
 
     class Meta:
         verbose_name = 'Футтер'
-        verbose_name_plural = 'Налаштування футтера'
+        verbose_name_plural = 'Налаштування освновного футтера'
 
     def __str__(self):
         return f'{self.company_name} footer'
@@ -30,8 +31,14 @@ class Carousel(models.Model):
         Category,
         on_delete=models.DO_NOTHING,
     )
-    image = models.ImageField(upload_to='carousel/',)
-    is_active = models.BooleanField(default=True)
+    image = models.ImageField(
+        upload_to='carousel/',
+        # validators=[lambda image: validate_image(image=image, width=1600, height=700)]
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='Статус активний/не активний'
+    )
 
     class Meta:
         verbose_name = 'Банери каруселі'

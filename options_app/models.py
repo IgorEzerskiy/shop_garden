@@ -17,14 +17,25 @@ class Footer(models.Model):
     delivery_info = models.TextField()
     return_conditions = models.TextField()
 
+    class Meta:
+        verbose_name = 'Футтер'
+        verbose_name_plural = 'Налаштування футтера'
+
     def __str__(self):
         return f'{self.company_name} footer'
 
 
 class Carousel(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING,)
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.DO_NOTHING,
+    )
     image = models.ImageField(upload_to='carousel/',)
     is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Банери каруселі'
+        verbose_name_plural = 'Карусель головної сторінки'
 
     def __str__(self):
         return f'{self.category.name} banner'

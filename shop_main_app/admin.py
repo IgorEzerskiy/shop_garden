@@ -1,13 +1,12 @@
 from django.contrib import admin
 from shop_main_app.models import Category, Measure, Product, ProductImage
+from django.contrib.auth.models import Group
 
-# Register your models here.
+# unregistered models
+admin.site.unregister(Group)
 
-# admin.site.register(Category)
+# registered models
 admin.site.register(Measure)
-
-
-# admin.site.register(Product)
 
 
 class ProductImageAdmin(admin.StackedInline):

@@ -4,3 +4,4 @@ from django.apps import AppConfig
 class OptionsAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'options_app'
+    verbose_name = 'Додаткові налаштування'

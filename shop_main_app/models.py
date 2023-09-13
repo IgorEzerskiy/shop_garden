@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from shop_main_app.transliterator import transliterate_ua_to_en
 from random import randint
-from shop_main_app.validators import validate_image
+from shop_main_app.validators import ImageValidator
 
 # Create your models here.
 
@@ -114,7 +114,7 @@ class ProductImage(models.Model):
     image = models.ImageField(
         upload_to='product_images/',
         verbose_name='Зображення',
-        # validators=[lambda image: validate_image(image=image, width=700, height=600)]
+        validators=[ImageValidator(700, 600)]
     )
 
     class Meta:

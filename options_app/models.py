@@ -1,7 +1,7 @@
 from django.db import models
 
 from shop_main_app.models import Category
-from shop_main_app.validators import validate_image
+from shop_main_app.validators import ImageValidator
 
 
 # Create your models here.
@@ -33,7 +33,7 @@ class Carousel(models.Model):
     )
     image = models.ImageField(
         upload_to='carousel/',
-        # validators=[lambda image: validate_image(image=image, width=1600, height=700)]
+        validators=[ImageValidator(1600, 700)]
     )
     is_active = models.BooleanField(
         default=True,

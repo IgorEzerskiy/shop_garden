@@ -31,6 +31,21 @@ class PopularProductListView(ListView):
         return queryset
 
 
+class CategoryListView(ListView):
+    template_name = 'category_details.html'
+    queryset = Product.objects.all()
+    extra_context = {'category_list': Category.objects.all(),
+                     'footer_info': Footer.objects.all().first()
+                     }
+    paginate_by = 3
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(category__slug=self.kwargs['slug'])
+
+        return queryset
+
+
 class ProductDetailView(DetailView):
     queryset = Product.objects.all()
     template_name = 'product_details.html'

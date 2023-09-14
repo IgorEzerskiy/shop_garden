@@ -104,7 +104,7 @@
     {% endblock %}
 </main>
 <!-- Footer -->
-<footer class="text-center text-lg-start bg-light text-muted">
+<footer class="text-center text-lg-start bg-light text-muted ">
     <!-- Section: Social media -->
     <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
         <!-- Left -->
@@ -170,10 +170,10 @@
                         Корисні посилання
                     </h6>
                     <p>
-                        <a href="{% url 'delivery_info' %}" class="text-reset">{{ footer_info.delivery_info }}</a>
+                        <a href="{% url 'delivery_info' %}" class="text-reset">Доставка та оплата</a>
                     </p>
                     <p>
-                        <a href="#!" class="text-reset">{{ footer_info.return_conditions }} </a>
+                        <a href="{% url 'return_policy' %}" class="text-reset">Умови повернення</a>
                     </p>
 
                 </div>

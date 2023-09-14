@@ -38,10 +38,12 @@
                     <ul class="dropdown-menu">
                         {% for category in category_list %}
                             <li>
-                                <a class="dropdown-item" href="#" style="display: flex; justify-content:flex-start;">
-                                    <img style="width: 30px; height: 30px;"
-                                         src="{{ category.image.url }}">
-                                    <p style="margin-bottom: 0px; font-size: 20px; margin-left: 5px;">{{ category.name }}</p>
+                                <a class="dropdown-item" href="{% url 'category_list' category.slug %}">
+                                    <div style="display: flex; justify-content: flex-start;">
+                                        <img style="width: 30px; height: 30px;"
+                                             src="{{ category.image.url }}">
+                                        <p style="margin-bottom: 0px; font-size: 20px; margin-left: 15px;">{{ category.name }}</p>
+                                    </div>
                                 </a>
                             </li>
                             {% if not forloop.last %}
@@ -87,7 +89,7 @@
                     </div>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
+            <form class="d-flex" role="search" action="{% url 'search' %}">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>

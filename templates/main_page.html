@@ -3,95 +3,85 @@
 {% block content %}
 
     <div class="container" style="margin-bottom: 25px;">
-        {% if not search_status %}
-            <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-mdb-ride="carousel">
-                <div class="carousel-indicators">
-                    {% for carousel_item in carousel_items %}
-                        {% if forloop.counter == 1 %}
-                            <button type="button" data-mdb-target="#carouselExampleCaptions"
-                                    data-mdb-slide-to="{{ forloop.counter0 }}"
-                                    class="active" aria-current="true"
-                                    aria-label="Slide {{ forloop.counter }}"></button>
-                        {% else %}
-                            <button type="button" data-mdb-target="#carouselExampleCaptions"
-                                    data-mdb-slide-to="{{ forloop.counter0 }}"
-                                    aria-label="Slide {{ forloop.counter }}"></button>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="carousel-inner">
-                    {% for carousel_item in carousel_items %}
-                        {% if forloop.counter == 1 %}
-                            <div class="carousel-item active">
-                                <img src="{{ carousel_item.image.url }}" class="d-block w-100 rounded"
-                                     alt="Wild Landscape"/>
-                                <div class="carousel-caption d-sm-block shadow p-3 mb-5 bg-body-tertiary rounded">
-                                    <h5>{{ carousel_item.category.name }}</h5>
-                                    <p>{{ carousel_item.category.description }}</p>
-                                    <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="carousel-item">
-                                <img src="{{ carousel_item.image.url }}" class="d-block w-100 rounded"
-                                     alt="Wild Landscape"/>
-                                <div class="carousel-caption d-sm-block shadow p-3 mb-5 bg-body-tertiary rounded">
-                                    <h5>{{ carousel_item.category.name }}</h5>
-                                    <p>{{ carousel_item.category.description }}</p>
-                                    <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <button class="carousel-control-prev" type="button" data-mdb-target="#carouselExampleCaptions"
-                        data-mdb-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-mdb-target="#carouselExampleCaptions"
-                        data-mdb-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+        <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-mdb-ride="carousel">
+            <div class="carousel-indicators">
+                {% for carousel_item in carousel_items %}
+                    {% if forloop.counter == 1 %}
+                        <button type="button" data-mdb-target="#carouselExampleCaptions"
+                                data-mdb-slide-to="{{ forloop.counter0 }}"
+                                class="active" aria-current="true"
+                                aria-label="Slide {{ forloop.counter }}"></button>
+                    {% else %}
+                        <button type="button" data-mdb-target="#carouselExampleCaptions"
+                                data-mdb-slide-to="{{ forloop.counter0 }}"
+                                aria-label="Slide {{ forloop.counter }}"></button>
+                    {% endif %}
+                {% endfor %}
             </div>
-        {% endif %}
+            <div class="carousel-inner">
+                {% for carousel_item in carousel_items %}
+                    {% if forloop.counter == 1 %}
+                        <div class="carousel-item active">
+                            <img src="{{ carousel_item.image.url }}" class="d-block w-100 rounded"
+                                 alt="Wild Landscape"/>
+                            <div class="carousel-caption d-sm-block shadow p-3 mb-5 bg-body-tertiary rounded">
+                                <h5>{{ carousel_item.category.name }}</h5>
+                                <p>{{ carousel_item.category.description }}</p>
+                                <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="carousel-item">
+                            <img src="{{ carousel_item.image.url }}" class="d-block w-100 rounded"
+                                 alt="Wild Landscape"/>
+                            <div class="carousel-caption d-sm-block shadow p-3 mb-5 bg-body-tertiary rounded">
+                                <h5>{{ carousel_item.category.name }}</h5>
+                                <p>{{ carousel_item.category.description }}</p>
+                                <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-mdb-target="#carouselExampleCaptions"
+                    data-mdb-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-mdb-target="#carouselExampleCaptions"
+                    data-mdb-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
     </div>
 
     <div class="row">
-        <div class="col-md-4" style="margin-bottom: 15px;">
+        <div class="col-md-3" style="margin-bottom: 15px;">
             <ul class="list-group">
                 <li class="list-group-item list-group-item-action active">Категорії</li>
                 {% for category in category_list %}
-                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
-                        <a href="{% url 'category_list' category.slug %}" style="display: flex; justify-content:flex-start;">
-                            <img style="width: 30px; height: 30px;"
-                                 src="{{ category.image.url }}">
-                            <a href="{% url 'category_list' category.slug %}" style="margin-bottom: 0px; font-size: 20px; margin-left: 5px;">{{ category.name }}</a>
-                        </a>
-                        <span class="badge bg-primary rounded-pill">{{ category.products.all|length }} </span>
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
+                        style="text-align: left">
+                        <div style="display: flex; justify-content: space-between;">
+                            <a href="{% url 'category_list' category.slug %}">
+                                <img style="width: 30px; height: 30px;"
+                                     src="{{ category.image.url }}">
+                                <a href="{% url 'category_list' category.slug %}"
+                                   style="margin-bottom: 0px; font-size: 20px; margin-left: 25px;">{{ category.name }}</a>
+                            </a>
+                        </div>
+                        <div>
+                            <span class="badge bg-primary rounded-pill">{{ category.products.all|length }} </span>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="container text-center">
-                {% if not search_status %}
-                    <h2 class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">Популярні товари</h2>
-                {% else %}
-                    <div class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">
-                        <h2>Результати пошуку</h2>
-                        {% if object_list %}
-                            <p>Ви шукали: {{ request.GET.search }}</p>
-                            <a href={% url 'main' %}>На головну</a>
-                        {% else %}
-                            <a href={% url 'main' %}>На головну</a>
-                        {% endif %}
-                    </div>
-
-                {% endif %}
-                {% if object_list %}
-                    <div class="row">
+                <h2 class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">Популярні товари</h2>
+                <div class="row">
                     {% for product in object_list %}
                         <div class="col">
                             <div class="card" style="width: 18rem; margin-bottom: 15px;">
@@ -100,96 +90,87 @@
                                     <h5 class="card-title">{{ product.title }}</h5>
                                     <p class="card-text">{{ product.description }}</p>
                                     <a href="{% url 'product_details' product.slug %} "
-                                       class="btn btn-primary">Купити</a>
+                                       class="btn btn-primary">Дивитися</a>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
-                {% else %}
-                    <div class="alert alert-danger" role="alert">
-                        <h4 class="alert-heading">Упс... Щось пішло не так(((</h4>
-                        <p>Нажаль Ваш запит не дав результату,перевірте чи вірно написан запит.</p>
-                        <hr>
-                        <p class="mb-0">Ви шукали: {{ request.GET.search }}</p>
-                    </div>
-                {% endif %}
-                <div aria-label="..." style="display: flex; justify-content: center" class="mb-3">
-                    <ul class="pagination d-flex">
-                        {% if page_obj.has_previous %}
-                            <li class="page-item">
-                            {% if search_status %}
-                                <a class="page-link"
-                                   href="?search={{ request.GET.search }}&page={{ page_obj.previous_page_number }}">Попередня</a>
-                            {% else %}
-                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Попередня</a>
-                            {% endif %}
-                        {% endif %}
-                        </li>
-                        {% for p in paginator.page_range %}
-                            <li class="page-item">
-                                {% if search_status %}
-                                    <a class="page-link" href="?search={{ request.GET.search }}&page={{ p }}">{{ p }}</a>
-                                {% else %}
-                                    <a class="page-link" href="?page={{ p }}">{{ p }}</a>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                        {% if page_obj.has_next %}
-                            <li class="page-item">
+                    <div aria-label="..." style="display: flex; justify-content: center" class="mb-3">
+                        <ul class="pagination d-flex">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
                                 {% if search_status %}
                                     <a class="page-link"
-                                       href="?search={{ request.GET.search }}&page={{ page_obj.next_page_number }}">Наступна</a>
+                                       href="?page={{ page_obj.previous_page_number }}">Попередня</a>
                                 {% else %}
-                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Наступна</a>
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Попередня</a>
                                 {% endif %}
+                            {% endif %}
                             </li>
-                        {% endif %}
-                    </ul>
-                </div>
+                            {% for p in paginator.page_range %}
+                                <li class="page-item">
+                                    {% if search_status %}
+                                        <a class="page-link"
+                                           href="?page={{ p }}">{{ p }}</a>
+                                    {% else %}
+                                        <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    {% if search_status %}
+                                        <a class="page-link"
+                                           href="?page={{ page_obj.next_page_number }}">Наступна</a>
+                                    {% else %}
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Наступна</a>
+                                    {% endif %}
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    {% if not search_status %}
-        <article>
-            <p class="text-break">
-                Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of
-                English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a
-                convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg
-                typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and
-                philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately
-                render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem
-                ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't
-                contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic
-                the typographic appearence of European languages, as are digraphs not to be found in the original.
+    <article>
+        <p class="text-break">
+            Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of
+            English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a
+            convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg
+            typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and
+            philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately
+            render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem
+            ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't
+            contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic
+            the typographic appearence of European languages, as are digraphs not to be found in the original.
 
-                In a professional context it often happens that private or corporate clients corder a publication to be
-                made and presented with the actual content still not being ready. Think of a news blog that's filled
-                with content hourly on the day of going live. However, reviewers tend to be distracted by comprehensible
-                content, say, a random text copied from a newspaper or the internet. The are likely to focus on the
-                text, disregarding the layout and its elements. Besides, random text risks to be unintendedly humorous
-                or offensive, an unacceptable risk in corporate environments. Lorem ipsum and its many variants have
-                been employed since the early 1960ies, and quite likely since the sixteenth century.
-            </p>
-            <p class="text-break">
-                Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of
-                English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a
-                convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg
-                typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and
-                philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately
-                render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem
-                ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't
-                contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic
-                the typographic appearence of European languages, as are digraphs not to be found in the original.
+            In a professional context it often happens that private or corporate clients corder a publication to be
+            made and presented with the actual content still not being ready. Think of a news blog that's filled
+            with content hourly on the day of going live. However, reviewers tend to be distracted by comprehensible
+            content, say, a random text copied from a newspaper or the internet. The are likely to focus on the
+            text, disregarding the layout and its elements. Besides, random text risks to be unintendedly humorous
+            or offensive, an unacceptable risk in corporate environments. Lorem ipsum and its many variants have
+            been employed since the early 1960ies, and quite likely since the sixteenth century.
+        </p>
+        <p class="text-break">
+            Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of
+            English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a
+            convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg
+            typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and
+            philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately
+            render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem
+            ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't
+            contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic
+            the typographic appearence of European languages, as are digraphs not to be found in the original.
 
-                In a professional context it often happens that private or corporate clients corder a publication to be
-                made and presented with the actual content still not being ready. Think of a news blog that's filled
-                with content hourly on the day of going live. However, reviewers tend to be distracted by comprehensible
-                content, say, a random text copied from a newspaper or the internet. The are likely to focus on the
-                text, disregarding the layout and its elements. Besides, random text risks to be unintendedly humorous
-                or offensive, an unacceptable risk in corporate environments. Lorem ipsum and its many variants have
-                been employed since the early 1960ies, and quite likely since the sixteenth century.
-            </p>
-        </article>
-    {% endif %}
+            In a professional context it often happens that private or corporate clients corder a publication to be
+            made and presented with the actual content still not being ready. Think of a news blog that's filled
+            with content hourly on the day of going live. However, reviewers tend to be distracted by comprehensible
+            content, say, a random text copied from a newspaper or the internet. The are likely to focus on the
+            text, disregarding the layout and its elements. Besides, random text risks to be unintendedly humorous
+            or offensive, an unacceptable risk in corporate environments. Lorem ipsum and its many variants have
+            been employed since the early 1960ies, and quite likely since the sixteenth century.
+        </p>
+    </article>
 {% endblock %}

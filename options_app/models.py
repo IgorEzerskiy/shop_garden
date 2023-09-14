@@ -4,7 +4,16 @@ from shop_main_app.models import Category
 from shop_main_app.validators import ImageValidator
 
 
-# Create your models here.
+class ShippingAndBilling(models.Model):
+    delivery_info = models.TextField()
+    payments = models.TextField()
+    extra_context = models.TextField()
+
+
+class ReturnPolicy(models.Model):
+    main_info = models.TextField(null=True, blank=True)
+    extra_context = models.TextField()
+
 
 class Footer(models.Model):
     company_name = models.CharField()

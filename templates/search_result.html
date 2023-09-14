@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block content %}
-    <div class="row" style="margin-top: 15px">
+    <div class="row" style="margin-top: 15px;">
         <div class="col-md-3" style="margin-bottom: 15px;">
             <ul class="list-group">
                 <li class="list-group-item list-group-item-action active">Категорії</li>
@@ -23,14 +23,17 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="container text-center">
-                {% for category in category_list %}
-                    {% if category.slug == slug %}
-                        <h2 class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">Товари в категорії
-                            "{{ category.name }}"</h2>
+                <div class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">
+                    <h2>Результати пошуку</h2>
+                    {% if object_list %}
+                        <p>Ви шукали: {{ request.GET.search }}</p>
+                        <a href={% url 'main' %}>На головну</a>
+                    {% else %}
+                        <a href={% url 'main' %}>На головну</a>
                     {% endif %}
-                {% endfor %}
+                </div>
                 {% if object_list %}
                     <div class="row">
                     {% for product in object_list %}
@@ -41,34 +44,38 @@
                                     <h5 class="card-title">{{ product.title }}</h5>
                                     <p class="card-text">{{ product.description }}</p>
                                     <a href="{% url 'product_details' product.slug %} "
-                                       class="btn btn-primary">Купити</a>
+                                       class="btn btn-primary">Дивитися</a>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
                 {% else %}
                     <div class="alert alert-danger" role="alert">
-                        <h4 class="alert-heading">Упс... Нажаль ця категорія порожня(((</h4>
+                        <h4 class="alert-heading">Упс... Щось пішло не так(((</h4>
+                        <p>Нажаль Ваш запит не дав результату,перевірте чи вірно написан запит.</p>
                         <hr>
+                        <p class="mb-0">Ви шукали: {{ request.GET.search }}</p>
                     </div>
                 {% endif %}
                 <div aria-label="..." style="display: flex; justify-content: center" class="mb-3">
                     <ul class="pagination d-flex">
                         {% if page_obj.has_previous %}
                             <li class="page-item">
-                            {% if search_status %}
-                                <a class="page-link"
-                                   href="?page={{ page_obj.previous_page_number }}">Попередня</a>
-                            {% else %}
-                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Попередня</a>
-                            {% endif %}
+                                {% if search_status %}
+                                    <a class="page-link"
+                                       href="?page={{ page_obj.previous_page_number }}">Попередня</a>
+                                {% else %}
+                                    <a class="page-link"
+                                       href="?page={{ page_obj.previous_page_number }}">Попередня</a>
+                                {% endif %}
+                            </li>
                         {% endif %}
-                        </li>
+
                         {% for p in paginator.page_range %}
                             <li class="page-item">
                                 {% if search_status %}
                                     <a class="page-link"
-                                       href="?page={{ p }}">{{ p }}</a>
+                                       href="?&page={{ p }}">{{ p }}</a>
                                 {% else %}
                                     <a class="page-link" href="?page={{ p }}">{{ p }}</a>
                                 {% endif %}

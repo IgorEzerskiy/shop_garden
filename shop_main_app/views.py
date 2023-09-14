@@ -13,6 +13,15 @@ class PopularProductListView(ListView):
                      }
     paginate_by = 3
 
+
+class SearchListView(ListView):
+    template_name = 'search_result.html'
+    queryset = Product.objects.all()
+    extra_context = {'category_list': Category.objects.all(),
+                     'footer_info': Footer.objects.all().first()
+                     }
+    paginate_by = 3
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -38,6 +47,12 @@ class CategoryListView(ListView):
                      'footer_info': Footer.objects.all().first()
                      }
     paginate_by = 3
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['slug'] = self.kwargs['slug']
+
+        return context
 
     def get_queryset(self):
         queryset = super().get_queryset()

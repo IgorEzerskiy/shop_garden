@@ -20,12 +20,10 @@ class Footer(models.Model):
     short_description = models.TextField(max_length=550)
     email = models.EmailField()
     phones = models.TextField()
-    facebook = models.CharField()
-    instagram = models.CharField()
-    viber = models.CharField()
-    telegram = models.CharField()
-    delivery_info = models.TextField()
-    return_conditions = models.TextField()
+    facebook = models.CharField(blank=True, null=True)
+    instagram = models.CharField(blank=True, null=True)
+    viber = models.CharField(blank=True, null=True)
+    telegram = models.CharField(blank=True, null=True)
 
     class Meta:
         verbose_name = 'Футтер'

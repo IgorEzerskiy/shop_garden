@@ -32,8 +32,4 @@ class PostAdmin(admin.ModelAdmin):
         model = Product
 
 
-@admin.register(ProductImage)
-class ProductImageAdmin(admin.ModelAdmin):
-    pass
-
 

@@ -18,4 +18,12 @@ class AuthorAdmin(admin.ModelAdmin):
         return False
 
 
-admin.site.register(Carousel)
+@admin.register(Carousel)
+class AuthorAdmin(admin.ModelAdmin):
+
+    # This will help you to disbale add functionality
+    def has_add_permission(self, request):
+        if Carousel.objects.all().count() >= 5:
+            return False
+        return True
+

@@ -2,6 +2,10 @@ from django.contrib import admin
 from shop_main_app.models import Category, Measure, Product, ProductImage
 from django.contrib.auth.models import Group
 
+admin.site.index_title = 'Магазин'
+admin.site.site_header = 'Адміністрація сайту шлангів'
+admin.site.site_title = 'Менеджмент сайту'
+
 # unregistered models
 admin.site.unregister(Group)
 

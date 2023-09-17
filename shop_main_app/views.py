@@ -64,7 +64,9 @@ class CategoryListView(ListView):
 class ProductDetailView(DetailView):
     queryset = Product.objects.all()
     template_name = 'product_details.html'
-    extra_context = {'category_list': Category.objects.all()}
+    extra_context = {'category_list': Category.objects.all(),
+                     'footer_info': Footer.objects.all().first()
+                     }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

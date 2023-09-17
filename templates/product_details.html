@@ -76,9 +76,9 @@
                         <div class="block">
                             <button class="shadow btn custom-btn">Додати до кошика</button>
                         </div>
-                        <div class="block quantity" style="margin-left: 15px">
-                            <input type="number" class="form-control" id="cart_quantity" value="1" min="0" max="5"
-                                   placeholder="Enter email" name="cart_quantity">
+                        <div class="block quantity" style="margin-left: 15px; width: 115px">
+                            <input type="number" class="form-control" id="cart_quantity" value="1" min="0" max="{{ object.quantity }}"
+                                   placeholder="Кількість" name="cart_quantity">
                         </div>
                         <div class="block">
                             <p class="new-price text-bold mb-1" style="margin-left: 15px">

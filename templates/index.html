@@ -61,10 +61,6 @@
                     <!-- Button trigger modal -->
                     <a class="btn btn-light nav-link" href="#" data-bs-toggle="modal"
                        data-bs-target="#staticBackdrop" role="button">Контактна інформація</a>
-                    <!-- <button type="button" class="btn btn-light nav-link" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
-                        Контактна інформація
-                    </button> -->
 
                     <!-- Modal -->
                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -77,11 +73,34 @@
                                             aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    ...
+                                    <p>Ми у соціальних мережах:</p>
+                                    <div>
+                                        <a href="{{ footer_info.facebook }}" target="_blank" class="me-4 text-reset">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                        <a href="{{ footer_info.instagram }}" target="_blank" class="me-4 text-reset">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                        <a href="{{ footer_info.telegram }}" target="_blank" class="me-4 text-reset">
+                                            <i class="fab fa-telegram"></i>
+                                        </a>
+                                        <a href="{{ footer_info.viber }}" target="_blank" class="me-4 text-reset">
+                                            <i class="fab fa-viber"></i>
+                                        </a>
+                                    </div>
+                                    <hr class="dropdown-divider" style="margin-top: 15px; margin-bottom: 15px">
+                                    <p>Години роботи: 9:00 - 18:00</p>
+                                    <p><i class="fas fa-phone me-3"></i>{{ footer_info.phones }}</p>
+                                    <hr class="dropdown-divider" style="margin-top: 15px; margin-bottom: 15px">
+                                    <p>Поштова скринька:</p>
+                                    <p>
+                                        <i class="fas fa-envelope me-3"></i>
+                                        {{ footer_info.email }}
+                                    </p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close
+                                            data-bs-dismiss="modal">Закрити
                                     </button>
                                 </div>
                             </div>

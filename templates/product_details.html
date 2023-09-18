@@ -1,7 +1,6 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
-
     <div class="container my-5">
         <div class="row">
             <div class="col-md-5">
@@ -62,10 +61,9 @@
                     </div>
                     {% if price_with_discount %}
                         <div class="price-area my-4">
-                            <p class="old-price mb-1">
                             <h4 class="new-price text-bold mb-1">{{ price_with_discount }} ₴</h4>
                             <del>{{ object.price }} ₴</del>
-                            <span class="old-price-discount text-danger">(ЗНИЖКА {{ object.discount }}%)</span></p>
+                            <span class="old-price-discount text-danger">(ЗНИЖКА {{ object.discount }}%)</span>
                         </div>
                     {% else %}
                         <div class="price-area my-4">
@@ -77,7 +75,8 @@
                             <button class="shadow btn custom-btn">Додати до кошика</button>
                         </div>
                         <div class="block quantity" style="margin-left: 15px; width: 115px">
-                            <input type="number" class="form-control" id="cart_quantity" value="1" min="0" max="{{ object.quantity }}"
+                            <input type="number" class="form-control" id="cart_quantity" value="1" min="0"
+                                   max="{{ object.quantity }}"
                                    placeholder="Кількість" name="cart_quantity">
                         </div>
                         <div class="block">

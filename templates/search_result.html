@@ -63,7 +63,7 @@
                             <li class="page-item">
                                 {% if search_status %}
                                     <a class="page-link"
-                                       href="?search={{ request.GET.search }}&?page={{ page_obj.previous_page_number }}">Попередня</a>
+                                       href="?search={{ request.GET.search }}&page={{ page_obj.previous_page_number }}">Попередня</a>
                                 {% else %}
                                     <a class="page-link"
                                        href="?page={{ page_obj.previous_page_number }}">Попередня</a>
@@ -75,7 +75,7 @@
                             <li class="page-item">
                                 {% if search_status %}
                                     <a class="page-link"
-                                       href="?search={{ request.GET.search }}&?&page={{ p }}">{{ p }}</a>
+                                       href="?search={{ request.GET.search }}&page={{ p }}">{{ p }}</a>
                                 {% else %}
                                     <a class="page-link" href="?page={{ p }}">{{ p }}</a>
                                 {% endif %}
@@ -85,7 +85,7 @@
                             <li class="page-item">
                                 {% if search_status %}
                                     <a class="page-link"
-                                       href="?search={{ request.GET.search }}&?page={{ page_obj.next_page_number }}">Наступна</a>
+                                       href="?search={{ request.GET.search }}&page={{ page_obj.next_page_number }}">Наступна</a>
                                 {% else %}
                                     <a class="page-link" href="?page={{ page_obj.next_page_number }}">Наступна</a>
                                 {% endif %}

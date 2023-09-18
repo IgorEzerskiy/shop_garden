@@ -79,7 +79,10 @@ class Product(models.Model):
         related_name='products',
         verbose_name='Категорія'
     )
-    index = models.BooleanField(default=True)
+    index = models.BooleanField(
+        default=True,
+        verbose_name='Відбраження на сайті'
+    )
     discount = models.PositiveIntegerField(
         default=0,
         verbose_name='Знижка'

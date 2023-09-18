@@ -7,19 +7,13 @@ from shop_main_app.models import Product, Category
 class PopularProductListView(ListView):
     template_name = 'main_page.html'
     queryset = Product.objects.all()
-    extra_context = {'category_list': Category.objects.all(),
-                     'footer_info': Footer.objects.all().first(),
-                     'carousel_items': Carousel.objects.filter(is_active=True)
-                     }
+    extra_context = {'carousel_items': Carousel.objects.filter(is_active=True)}
     paginate_by = 3
 
 
 class SearchListView(ListView):
     template_name = 'search_result.html'
     queryset = Product.objects.all()
-    extra_context = {'category_list': Category.objects.all(),
-                     'footer_info': Footer.objects.all().first()
-                     }
     paginate_by = 3
 
     def get_context_data(self, **kwargs):
@@ -43,9 +37,6 @@ class SearchListView(ListView):
 class CategoryListView(ListView):
     template_name = 'category_details.html'
     queryset = Product.objects.all()
-    extra_context = {'category_list': Category.objects.all(),
-                     'footer_info': Footer.objects.all().first()
-                     }
     paginate_by = 3
 
     def get_context_data(self, **kwargs):
@@ -64,9 +55,6 @@ class CategoryListView(ListView):
 class ProductDetailView(DetailView):
     queryset = Product.objects.all()
     template_name = 'product_details.html'
-    extra_context = {'category_list': Category.objects.all(),
-                     'footer_info': Footer.objects.all().first()
-                     }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -27,8 +27,7 @@
             <div class="container text-center">
                 {% for category in category_list %}
                     {% if category.slug == slug %}
-                        <h2 class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">Товари в категорії
-                            "{{ category.name }}"</h2>
+                        <h2 class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">{{ category.name }}</h2>
                     {% endif %}
                 {% endfor %}
                 {% if object_list %}

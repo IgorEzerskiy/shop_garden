@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView
 
 from options_app.models import Footer, Carousel
 from shop_main_app.models import Product, Category
+from django.db.models import Max, Min
 
 
 class PopularProductListView(ListView):
@@ -48,7 +49,16 @@ class CategoryListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(category__slug=self.kwargs['slug'])
+        min_price = self.request.GET.get('min') if self.request.GET.get('min') else queryset.aggregate(Min('price'))['price__min']
+        max_price = self.request.GET.get('max') if self.request.GET.get('max') else queryset.aggregate(Max('price'))['price__max']
+        order_by = self.request.GET.get('sort') if self.request.GET.get('sort') else 'price'
 
+        queryset = queryset.filter(price__gte=min_price, price__lte=max_price).order_by(order_by)
+
+        # self.extra_context['min_filter_value'] = min_price
+        # self.extra_context['max_filter_value'] = max_price
+
+        self.extra_context = {'min_filter_value': int(min_price), 'max_filter_value': int(max_price)}
         return queryset
 
 

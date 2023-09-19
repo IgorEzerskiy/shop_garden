@@ -37,35 +37,50 @@
                             <div class="wrapper">
                                 <div class="price-input">
                                     <div class="field">
-                                        <span>Min</span>
-                                        <input type="number" value="300" class="min-input"/>
+                                        <span>З</span>
+                                        <label>
+                                            <input type="number" value="{{ min_filter_value }}" class="min-input"/>
+                                        </label>
                                     </div>
                                     <div class="seperator">-</div>
                                     <div class="field">
-                                        <span>Max</span>
-                                        <input type="number" value="3500" class="max-input"/>
+                                        <span>По</span>
+                                        <label>
+                                            <input type="number" value="{{ max_filter_value }}" class="max-input"/>
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="slider">
                                     <div class="progress"></div>
                                 </div>
                                 <div class="range-input">
-                                    <input name="min" type="range" min="0" max="10000" value="300" class="min-range"/>
-                                    <input
-                                            type="range"
-                                            min="0"
-                                            max="10000"
-                                            value="3500"
-                                            class="max-range"
-                                            name="max"
-                                    />
+                                    <label>
+                                        <input
+                                                name="min"
+                                                type="range"
+                                                min="{{ min_range_value }}"
+                                                max="{{ max_range_value }}"
+                                                value="{{ min_filter_value }}"
+                                                class="min-range"
+                                        />
+                                    </label>
+                                    <label>
+                                        <input
+                                                type="range"
+                                                min="{{ min_range_value }}"
+                                                max="{{ max_range_value }}"
+                                                value="{{ max_filter_value }}"
+                                                class="max-range"
+                                                name="max"
+                                        />
+                                    </label>
                                 </div>
                             </div>
                         </div>
                         <div style="text-align: right">
                             <select class="form-select" aria-label="Default select example" name='sort'>
-                                <option value="-price">С початку дешеві</option>
-                                <option selected value="price">С початку дорожчі</option>
+                                <option value="price">С початку дешеві</option>
+                                <option selected value="-price">С початку дорожчі</option>
                             </select>
                             <button class="btn btn-outline-success" type="submit" style="margin-top: 15px">Виконати
                             </button>
@@ -82,6 +97,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ product.title }}</h5>
                                 <p class="card-text">{{ product.description }}</p>
+                                <p class="card-text">{{ product.price }} grn </p>
                                 <a href="{% url 'product_details' product.slug %} "
                                    class="btn btn-primary">Купити</a>
                             </div>
@@ -115,6 +131,5 @@
             </div>
             </div>
         </div>
-    </div>
     </div>
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends 'index.html' %}
+{% load url_transform %}
 
 {% block content %}
     <div class="row" style="margin-top: 15px">
@@ -63,8 +64,8 @@
                         </div>
                         <div style="text-align: right">
                             <select class="form-select" aria-label="Default select example" name='sort'>
-                                <option value="min-max">С початку дешеві</option>
-                                <option selected value="max-min">С початку дорожчі</option>
+                                <option value="-price">С початку дешеві</option>
+                                <option selected value="price">С початку дорожчі</option>
                             </select>
                             <button class="btn btn-outline-success" type="submit" style="margin-top: 15px">Виконати
                             </button>
@@ -97,43 +98,19 @@
                 <ul class="pagination d-flex">
                     {% if page_obj.has_previous %}
                         <li class="page-item">
-                        {% if '?page='|add:page_obj.number in request.META.QUERY_STRING %}
-                            <a class="page-link"
-                               href="?page={{ page_obj.previous_page_number }}">Попередня</a>
-                        {% else %}
-                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Попередня</a>
-                        {% endif %}
+                            <a class="page-link" href="?{% query_transform page=page_obj.previous_page_number %}">Попередня</a>
                     {% endif %}
                     </li>
                     {% for p in paginator.page_range %}
                         <li class="page-item">
-                            {% if search_status %}
-                                <a class="page-link"
-                                   href="?page={{ p }}">{{ p }}</a>
-                            {% else %}
-                                <a class="page-link" href="?page={{ p }}">{{ p }}</a>
-                            {% endif %}
+                                <a class="page-link" href="?{% query_transform page=p %}">{{ p }}</a>
                         </li>
                     {% endfor %}
                     {% if page_obj.has_next %}
                         <li class="page-item">
-                            {% if search_status %}
-                                <a class="page-link"
-                                   href="?page={{ page_obj.next_page_number }}">Наступна</a>
-                            {% else %}
-                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Наступна</a>
-                            {% endif %}
+                                <a class="page-link" href="?{% query_transform page=page_obj.next_page_number %}">Наступна</a>
                         </li>
                     {% endif %}
-                    {% with '&page='|add:1 as d %}
-                        <p>d: {{ d }}</p>
-                        {% if '&page='|add:page_obj.number in request.META.QUERY_STRING %}
-
-                            <br>
-                            <p>q: {{ request.META.QUERY_STRING }}</p>
-
-                        {% endif %}
-                    {% endwith %}
                 </ul>
             </div>
             </div>

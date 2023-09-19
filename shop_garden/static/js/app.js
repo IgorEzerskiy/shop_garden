@@ -15,9 +15,11 @@ priceInputs.forEach((input) => {
       if (e.target.className === "min-input") {
         rangeInputs[0].value = minPrice;
         range.style.left = (minPrice / rangeInputs[0].max) * 100 + "%";
+        console.log(range.style.left = (minPrice / rangeInputs[0].max) * 100 + "%")
       } else {
         rangeInputs[1].value = maxPrice;
         range.style.right = 100 - (maxPrice / rangeInputs[1].max) * 100 + "%";
+        console.log(range.style.right = 100 - (maxPrice / rangeInputs[1].max) * 100 + "%")
       }
     }
   });

@@ -27,22 +27,19 @@ else {
 
 priceInputs.forEach((input) => {
   input.addEventListener("input", (e) => {
+
     let minPrice = priceInputs[0].value === '' ? 0: parseInt(priceInputs[0].value)
 
-
     let maxPrice = parseInt(priceInputs[1].value);
-
 
 
     if ( minPrice >=rangeInputs[0].min && maxPrice - minPrice >= priceGap && maxPrice <= rangeInputs[1].max) {
       if (e.target.className === "min-input") {
         rangeInputs[0].value = minPrice;
         range.style.left = ((100 * (minPrice - rangeInputs[0].min)) / full_scale) + "%";
-         console.log(range.style.left)
       } else {
         rangeInputs[1].value = maxPrice;
         range.style.right = ((100 * (rangeInputs[1].max - maxPrice)) / full_scale)+ "%";
-        console.log(range.style.left)
       }
     }
     else {
@@ -54,6 +51,7 @@ priceInputs.forEach((input) => {
     }
   });
 });
+
 
 rangeInputs.forEach((input) => {
   input.addEventListener("input", (e) => {

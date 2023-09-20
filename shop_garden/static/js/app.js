@@ -52,7 +52,7 @@ priceInputs.forEach((input) => {
   });
 });
 
-е6н
+
 rangeInputs.forEach((input) => {
   input.addEventListener("input", (e) => {
     let minVal = parseInt(rangeInputs[0].value);

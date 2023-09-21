@@ -22,23 +22,15 @@
                 {% for carousel_item in carousel_items %}
                     {% if forloop.counter == 1 %}
                         <div class="carousel-item active">
-                            <img src="{{ carousel_item.image.url }}" class="d-block w-100 rounded"
-                                 alt="Wild Landscape"/>
-                            <div class="carousel-caption d-sm-block shadow p-3 mb-5 bg-body-tertiary rounded">
-                                <h5>{{ carousel_item.category.name }}</h5>
-                                <p>{{ carousel_item.category.description }}</p>
-                                <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
-                            </div>
+                            <a href="{% url 'category_list' carousel_item.category.slug %}"><img
+                                    src="{{ carousel_item.image.url }}" class="d-block w-100 rounded"
+                                    alt="Wild Landscape"/></a>
                         </div>
                     {% else %}
                         <div class="carousel-item">
-                            <img src="{{ carousel_item.image.url }}" class="d-block w-100 rounded"
-                                 alt="Wild Landscape"/>
-                            <div class="carousel-caption d-sm-block shadow p-3 mb-5 bg-body-tertiary rounded">
-                                <h5>{{ carousel_item.category.name }}</h5>
-                                <p>{{ carousel_item.category.description }}</p>
-                                <a class="btn btn-success" href="#" role="button">Покажи категорію</a>
-                            </div>
+                            <a href="{% url 'category_list' carousel_item.category.slug %}"> <img
+                                    src="{{ carousel_item.image.url }}" class="d-block w-100 rounded"
+                                    alt="Wild Landscape"/></a>
                         </div>
                     {% endif %}
                 {% endfor %}

@@ -117,17 +117,19 @@
                     </div>
                 </li>
             </ul>
-            <form class="d-flex" role="search" action="{% url 'search' %}" style="margin-right: 10px">
+            <form class="d-flex search_form" role="search" action="{% url 'search' %}">
                 <input class="form-control me-2" type="search" placeholder="Пошук" aria-label="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">Пошук</button>
             </form>
-            <a type="button" href="{% url 'cart:cart_detail' %}" class="btn btn-primary">
-                Кошик <span class="badge text-bg-secondary">4</span>
-            </a>
+            <div class="bucket">
+                <a type="button" href="{% url 'cart:cart_detail' %}" class="btn btn-primary">
+                    Кошик <span class="badge text-bg-secondary">4</span>
+                </a>
+            </div>
         </div>
     </div>
 </nav>
-<main style="padding-left: 25px; padding-right: 25px;">
+<main style="">
     {% block content %}
     {% endblock %}
 </main>

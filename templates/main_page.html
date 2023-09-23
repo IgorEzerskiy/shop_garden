@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="container" style="margin-bottom: 25px;">
+    <div class="container" style="margin-bottom: 25px; margin-top: 25px">
         <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-mdb-ride="carousel">
             <div class="carousel-indicators">
                 {% for carousel_item in carousel_items %}
@@ -81,6 +81,18 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ product.title }}</h5>
                                     <p class="card-text">{{ product.description }}</p>
+                                    {% if product.get_price_with_discount != product.price %}
+                                        <div class="price-area my-4">
+                                            <h4 class="new-price text-bold mb-1">{{ product.get_price_with_discount }}
+                                                ₴</h4>
+                                            <del>{{ product.price }} ₴</del>
+                                            <span class="old-price-discount text-danger">(ЗНИЖКА {{ product.discount }}%)</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="price-area my-4">
+                                            <h5 class="new-price text-bold mb-1">{{ product.price }} ₴</h5>
+                                        </div>
+                                    {% endif %}
                                     <a href="{% url 'product_details' product.slug %} "
                                        class="btn btn-primary">Дивитися</a>
                                 </div>

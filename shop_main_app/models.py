@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from shop_main_app.transliterator import transliterate_ua_to_en
 from random import randint
 from shop_main_app.validators import ImageValidator
+from decimal import Decimal
 
 # Create your models here.
 
@@ -105,6 +106,9 @@ class Product(models.Model):
 
     def __str__(self):
         return f'Товар {self.title}'
+
+    def get_price_with_discount(self):
+        return round(self.price - ((self.discount / Decimal(100)) * self.price), 2)
 
 
 class ProductImage(models.Model):

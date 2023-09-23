@@ -59,9 +59,6 @@ class CategoryListView(ListView):
 
         queryset = queryset.filter(price__gte=min_price, price__lte=max_price).order_by(order_by)
 
-        # self.extra_context['min_filter_value'] = min_price
-        # self.extra_context['max_filter_value'] = max_price
-
         self.extra_context = {'min_filter_value': int(min_price),
                               'max_filter_value': int(max_price),
                               'min_range_value': int(min_range_value),

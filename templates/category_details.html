@@ -31,65 +31,73 @@
                         <h2 class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">{{ category.name }}</h2>
                     {% endif %}
                 {% endfor %}
-                <div style="display: flex;">
-                    <form style="display: flex; justify-content: space-between; width: 100%" class="filters_form">
-                        <div>
-                            <div class="wrapper">
-                                <div class="price-input">
-                                    <div class="field">
-                                        {#                                        <span>З</span>#}
-                                        <label>
-                                            <input type="number" value="{{ min_filter_value }}" class="min-input"/>
-                                        </label>
+                {% if object_list|length > 1 %}
+                    <div style="display: flex;">
+                        <form style="display: flex; justify-content: space-between; width: 100%" class="filters_form">
+                            <div>
+                                <div class="wrapper">
+                                    <div class="price-input">
+                                        <div class="field">
+                                            {#                                        <span>З</span>#}
+                                            <label>
+                                                <input type="number" value="{{ min_filter_value }}" class="min-input"/>
+                                            </label>
+                                        </div>
+                                        <div class="seperator">—</div>
+                                        <div class="field">
+                                            {#                                        <span>По</span>#}
+                                            <label>
+                                                <input type="number" value="{{ max_filter_value }}" class="max-input"/>
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="seperator">—</div>
-                                    <div class="field">
-                                        {#                                        <span>По</span>#}
-                                        <label>
-                                            <input type="number" value="{{ max_filter_value }}" class="max-input"/>
-                                        </label>
+                                    <div class="slider">
+                                        <div class="progress"></div>
                                     </div>
-                                </div>
-                                <div class="slider">
-                                    <div class="progress"></div>
-                                </div>
-                                <div class="range-input">
-                                    <input
-                                            name="min"
-                                            type="range"
-                                            min="{{ min_range_value }}"
-                                            max="{{ max_range_value }}"
-                                            value="{{ min_filter_value }}"
-                                            class="min-range"
-                                    />
-                                    <input
-                                            type="range"
-                                            min="{{ min_range_value }}"
-                                            max="{{ max_range_value }}"
-                                            value="{{ max_filter_value }}"
-                                            class="max-range"
-                                            name="max"
-                                    />
+                                    <div class="range-input">
+                                        <input
+                                                name="min"
+                                                type="range"
+                                                min="{{ min_range_value }}"
+                                                max="{{ max_range_value }}"
+                                                value="{{ min_filter_value }}"
+                                                class="min-range"
+                                        />
+                                        <input
+                                                type="range"
+                                                min="{{ min_range_value }}"
+                                                max="{{ max_range_value }}"
+                                                value="{{ max_filter_value }}"
+                                                class="max-range"
+                                                name="max"
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div style="" class="sort">
-                            <select class="form-select" aria-label="Default select example" name='sort'>
-                                <option value="price">С початку дешеві</option>
-                                <option selected value="-price">С початку дорожчі</option>
-                            </select>
-                            <button class="btn btn-outline-success" type="submit" style="margin-top: 15px">Виконати
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                            <div style="" class="sort">
+                                <select class="form-select" aria-label="Default select example" name='sort'>
+                                    <option value="price">С початку дешеві</option>
+                                    <option selected value="-price">С початку дорожчі</option>
+                                </select>
+                                <button class="btn btn-outline-success" type="submit" style="margin-top: 15px">Виконати
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                {% endif %}
             </div>
             {% if object_list %}
                 <div class="row">
                 {% for product in object_list %}
                     <div class="col">
                         <div class="card" style="width: 18rem; margin-bottom: 15px;">
-                            <img src="{{ product.images.all.0.image.url }}" class="card-img-top" alt="...">
+                            <a href="{% url 'product_details' product.slug %} ">
+                                <img src="{{ product.images.all.0.image.url }}" class="card-img-top" alt="..."
+                                        {% if not product.availability %}
+                                     style="filter: grayscale(1)"
+                                        {% endif %}
+                                >
+                            </a>
                             <div class="card-body">
                                 <h5 class="card-title">{{ product.title }}</h5>
                                 <p class="card-text">{{ product.description }}</p>
@@ -105,8 +113,12 @@
                                         <h5 class="new-price text-bold mb-1">{{ product.price }} ₴</h5>
                                     </div>
                                 {% endif %}
-                                <a href="{% url 'product_details' product.slug %} "
-                                   class="btn btn-primary">Купити</a>
+                                {% if product.availability %}
+                                    <a href="{% url 'product_details' product.slug %} "
+                                       class="btn btn-primary">Купити</a>
+                                {% else %}
+                                    <p>Немає в наявності</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

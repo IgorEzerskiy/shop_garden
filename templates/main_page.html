@@ -77,7 +77,13 @@
                     {% for product in object_list %}
                         <div class="col">
                             <div class="card" style="width: 18rem; margin-bottom: 15px;">
-                                <img src="{{ product.images.all.0.image.url }}" class="card-img-top" alt="...">
+                                <a href="{% url 'product_details' product.slug %} ">
+                                    <img src="{{ product.images.all.0.image.url }}" class="card-img-top" alt="..."
+                                         {% if not product.availability %}
+                                            style="filter: grayscale(1)"
+                                         {% endif %}
+                                    >
+                                </a>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ product.title }}</h5>
                                     <p class="card-text">{{ product.description }}</p>
@@ -93,8 +99,9 @@
                                             <h5 class="new-price text-bold mb-1">{{ product.price }} ₴</h5>
                                         </div>
                                     {% endif %}
-                                    <a href="{% url 'product_details' product.slug %} "
-                                       class="btn btn-primary">Дивитися</a>
+                                    {% if not product.availability %}
+                                        <p>Немає в наявності</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

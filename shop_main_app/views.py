@@ -50,20 +50,22 @@ class CategoryListView(ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(category__slug=self.kwargs['slug'])
 
-        min_range_value = queryset.aggregate(Min('price'))['price__min']
-        max_range_value = queryset.aggregate(Max('price'))['price__max']
+        if queryset:
+            range_values = queryset.aggregate(Min('price'), Max('price'))
 
-        min_price = self.request.GET.get('min') if self.request.GET.get('min') else min_range_value
-        max_price = self.request.GET.get('max') if self.request.GET.get('max') else max_range_value
-        order_by = self.request.GET.get('sort') if self.request.GET.get('sort') else '-price'
+            min_price = self.request.GET.get('min') if self.request.GET.get('min') else range_values['price__min']
+            max_price = self.request.GET.get('max') if self.request.GET.get('max') else range_values['price__max']
 
-        queryset = queryset.filter(price__gte=min_price, price__lte=max_price).order_by(order_by)
+            order_by = self.request.GET.get('sort') if self.request.GET.get('sort') else '-price'
 
-        self.extra_context = {'min_filter_value': int(min_price),
-                              'max_filter_value': int(max_price),
-                              'min_range_value': int(min_range_value),
-                              'max_range_value': int(max_range_value)
-                              }
+            queryset = queryset.filter(price__gte=min_price, price__lte=max_price).order_by('-availability', order_by)
+
+            self.extra_context = {'min_filter_value': int(min_price),
+                                  'max_filter_value': int(max_price),
+                                  'min_range_value': int(range_values['price__min']),
+                                  'max_range_value': int(range_values['price__max'])
+                                  }
+
         return queryset
 
 

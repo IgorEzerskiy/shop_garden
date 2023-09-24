@@ -12,7 +12,7 @@ let maxVal = parseInt(rangeInputs[1].value);
 
 
 if (full_scale === 0){
-     rangeInputs[1].max = maxVal + 1
+    rangeInputs[1].max = maxVal + 1
     rangeInputs[1].value = maxVal + 1
     range.style.left = 0 +"%";
     range.style.right = 0 + "%";

@@ -1,4 +1,5 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -78,11 +79,17 @@
                         <div class="col">
                             <div class="card" style="width: 18rem; margin-bottom: 15px;">
                                 <a href="{% url 'product_details' product.slug %} ">
-                                    <img src="{{ product.images.all.0.image.url }}" class="card-img-top" alt="..."
-                                         {% if not product.availability %}
-                                            style="filter: grayscale(1)"
-                                         {% endif %}
-                                    >
+                                    {% if product.images.all.0.image.url %}
+                                        <img src="{{ product.images.all.0.image.url }}" class="card-img-top" alt="..."
+                                                {% if not product.availability %}
+                                             style="filter: grayscale(1)"
+                                                {% endif %}
+                                        >
+                                    {% else %}
+                                        <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
+                                             class="card-img-top" alt="..."
+                                        >
+                                    {% endif %}
                                 </a>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ product.title }}</h5>

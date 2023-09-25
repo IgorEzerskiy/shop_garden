@@ -76,42 +76,45 @@
                 <h2 class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">Популярні товари</h2>
                 <div class="row">
                     {% for product in object_list %}
-                        <div class="col">
-                            <div class="card" style="width: 18rem; margin-bottom: 15px;">
-                                <a href="{% url 'product_details' product.slug %} ">
-                                    {% if product.images.all.0.image.url %}
-                                        <img src="{{ product.images.all.0.image.url }}" class="card-img-top" alt="..."
-                                                {% if not product.availability %}
-                                             style="filter: grayscale(1)"
-                                                {% endif %}
-                                        >
-                                    {% else %}
-                                        <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
-                                             class="card-img-top" alt="..."
-                                        >
-                                    {% endif %}
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ product.title }}</h5>
-                                    <p class="card-text">{{ product.description }}</p>
-                                    {% if product.get_price_with_discount != product.price %}
-                                        <div class="price-area my-4">
-                                            <h4 class="new-price text-bold mb-1">{{ product.get_price_with_discount }}
-                                                ₴</h4>
-                                            <del>{{ product.price }} ₴</del>
-                                            <span class="old-price-discount text-danger">(ЗНИЖКА {{ product.discount }}%)</span>
-                                        </div>
-                                    {% else %}
-                                        <div class="price-area my-4">
-                                            <h5 class="new-price text-bold mb-1">{{ product.price }} ₴</h5>
-                                        </div>
-                                    {% endif %}
-                                    {% if not product.availability %}
-                                        <p>Немає в наявності</p>
-                                    {% endif %}
+                        {% if product.index %}
+                            <div class="col">
+                                <div class="card" style="width: 18rem; margin-bottom: 15px;">
+                                    <a href="{% url 'product_details' product.slug %} ">
+                                        {% if product.images.all.0.image.url %}
+                                            <img src="{{ product.images.all.0.image.url }}" class="card-img-top"
+                                                 alt="..."
+                                                    {% if not product.availability %}
+                                                 style="filter: grayscale(1)"
+                                                    {% endif %}
+                                            >
+                                        {% else %}
+                                            <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
+                                                 class="card-img-top" alt="..."
+                                            >
+                                        {% endif %}
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.title }}</h5>
+                                        <p class="card-text">{{ product.description }}</p>
+                                        {% if product.get_price_with_discount != product.price %}
+                                            <div class="price-area my-4">
+                                                <h4 class="new-price text-bold mb-1">{{ product.get_price_with_discount }}
+                                                    ₴</h4>
+                                                <del>{{ product.price }} ₴</del>
+                                                <span class="old-price-discount text-danger">(ЗНИЖКА {{ product.discount }}%)</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="price-area my-4">
+                                                <h5 class="new-price text-bold mb-1">{{ product.price }} ₴</h5>
+                                            </div>
+                                        {% endif %}
+                                        {% if not product.availability %}
+                                            <p>Немає в наявності</p>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endif %}
                     {% endfor %}
                     <div aria-label="..." style="display: flex; justify-content: center" class="mb-3">
                         <ul class="pagination d-flex">

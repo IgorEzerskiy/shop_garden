@@ -3,6 +3,7 @@
 {% block content %}
     {% if object.index %}
         <div class="container my-5">
+
             <div class="row">
                 <div class="col-md-5">
                     <div class="category text-bold" style="margin-bottom: 15px">
@@ -181,6 +182,17 @@
                 <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-filter"></i></span> <b>Доставка</b></p>
                 <p class="text-secondary">Нова пошта</p>
                 <p class="text-secondary">Укр пошта</p>
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex align-items-center justify-content-center" style="height: 500px">
+            <div class="text-center">
+                {#                    <h1 class="display-1 fw-bold">404</h1>#}
+                <p class="fs-3"><span class="text-danger">Ой!</span> Товар не знайдено.</p>
+                <p class="lead">
+                    Товар який ви шукаєте відсутній.
+                </p>
+                <a href="{% url 'main' %}" class="btn btn-primary">На головну</a>
             </div>
         </div>
     {% endif %}

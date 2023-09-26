@@ -82,4 +82,3 @@ class ProductDetailView(DetailView):
             context['price_with_discount'] = new_price
 
         return context
-

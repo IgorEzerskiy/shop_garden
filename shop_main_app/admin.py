@@ -29,7 +29,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class PostAdmin(admin.ModelAdmin):
     inlines = [ProductImageAdmin]
-    list_display = ['title', 'price', 'quantity', 'availability']
+    list_display = ['title', 'price', 'quantity', 'availability', 'index']
     readonly_fields = ('slug',)
 
     class Meta:

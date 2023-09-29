@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 
+from cart_app.forms import CartAddProductForm
 from options_app.models import Footer, Carousel
 from shop_main_app.models import Product, Category
 from django.db.models import Max, Min
@@ -72,6 +73,7 @@ class CategoryListView(ListView):
 class ProductDetailView(DetailView):
     queryset = Product.objects.all()
     template_name = 'product_details.html'
+    extra_context = {'form': CartAddProductForm()}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

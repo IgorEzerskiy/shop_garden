@@ -51,6 +51,8 @@ class Order(models.Model):
 
     class Meta:
         ordering = ['-created', 'confirmed']
+        verbose_name = 'Замовлення'
+        verbose_name_plural = 'Замовлення'
 
     def __str__(self):
         return f'Замовлення {self.id}'
@@ -76,6 +78,10 @@ class OrderItem(models.Model):
         verbose_name='Ціна'
     )
     quantity = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товари'
 
     def __str__(self):
         return str(self.id)

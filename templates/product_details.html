@@ -88,101 +88,102 @@
                         {% endif %}
                         {% if object.availability %}
                             <div class="buttons d-flex my-5">
-                                <div class="block">
-                                    <button class="shadow btn custom-btn">Додати до кошика</button>
-                                </div>
-                                <div class="block quantity" style="margin-left: 15px; width: 115px">
-                                    <input type="number" class="form-control" id="cart_quantity" value="1" min="0"
-                                           max="{{ object.quantity }}"
-                                           placeholder="Кількість" name="cart_quantity">
-                                </div>
-                                <div class="block" style="margin-left: 5px">
-                                    <p>
-                                        {{ object.measure }}
-                                    </p>
-                                </div>
-                                <div class="block">
-                                    <p class="new-price text-bold mb-1" style="margin-left: 15px">
-                                        Залишок: {{ object.quantity }}</p>
-                                </div>
+                                <form method="POST" action="{% url 'cart:cart_add' object.id %}">
+                                    <div class="block">
+                                        <button type="submit" class="shadow btn custom-btn">Додати до кошика</button>
+                                    </div>
+                                    <div class="block quantity" style="margin-left: 15px; width: 115px">
+                                        {% csrf_token %}
+                                        {{ form }}
+                                </form>
+                            </div>
+                            <div class="block" style="margin-left: 5px">
+                                <p>
+                                    {{ object.measure }}
+                                </p>
+                            </div>
+                            <div class="block">
+                                <p class="new-price text-bold mb-1" style="margin-left: 15px">
+                                    Залишок: {{ object.quantity }}</p>
+                            </div>
                             </div>
                         {% else %}
                             <p>Немає в наявності</p>
                         {% endif %}
+                </div>
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                    aria-controls="panelsStayOpen-collapseOne">
+                                Інформація про товар
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                {{ object.description }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="accordion" id="accordionPanelsStayOpenExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                        aria-controls="panelsStayOpen-collapseOne">
-                                    Інформація про товар
-                                </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-                                <div class="accordion-body">
-                                    {{ object.description }}
-                                </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                    aria-controls="panelsStayOpen-collapseTwo">
+                                Характеристики
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                {{ object.characteristics }}
                             </div>
                         </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-                                        aria-controls="panelsStayOpen-collapseTwo">
-                                    Характеристики
-                                </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    {{ object.characteristics }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                                        aria-controls="panelsStayOpen-collapseThree">
-                                    Знижка від постачальника
-                                </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    {% if object.supplier_discount %}
-                                        <div class="accordion-body">
-                                            {{ object.supplier_discount }}
-                                        </div>
-                                    {% else %}
-                                        <div class="accordion-body">
-                                            Нажаль на цей товар знижка від постачальника не доступна.
-                                        </div>
-                                    {% endif %}
-                                </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                    aria-controls="panelsStayOpen-collapseThree">
+                                Знижка від постачальника
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                {% if object.supplier_discount %}
+                                    <div class="accordion-body">
+                                        {{ object.supplier_discount }}
+                                    </div>
+                                {% else %}
+                                    <div class="accordion-body">
+                                        Нажаль на цей товар знижка від постачальника не доступна.
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row questions bg-light p-3" style="margin-top: 15px">
-                <div class="col-md-1 icon">
-                    <i class="fa-brands fa-rocketchat questions-icon"></i>
-                </div>
-                <div class="col-md-11 text">
-                    Є питання стосовно доставки чи товару? Не зволікай, телефонуй нам просто зараз!
-                </div>
+        </div>
+        <div class="row questions bg-light p-3" style="margin-top: 15px">
+            <div class="col-md-1 icon">
+                <i class="fa-brands fa-rocketchat questions-icon"></i>
             </div>
+            <div class="col-md-11 text">
+                Є питання стосовно доставки чи товару? Не зволікай, телефонуй нам просто зараз!
+            </div>
+        </div>
 
-            <div class="delivery my-4">
-                <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-truck"></i></span> <b>Відправляєм товар
-                    протягом 3х днів з моменту замолвення</b></p>
-                <p class="text-secondary">Замовляй просто зараз! На нашому сайті все необхідне для саду та дому.</p>
-            </div>
-            <div class="delivery-options my-4">
-                <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-filter"></i></span> <b>Доставка</b></p>
-                <p class="text-secondary">Нова пошта</p>
-                <p class="text-secondary">Укр пошта</p>
-            </div>
+        <div class="delivery my-4">
+            <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-truck"></i></span> <b>Відправляєм товар
+                протягом 3х днів з моменту замолвення</b></p>
+            <p class="text-secondary">Замовляй просто зараз! На нашому сайті все необхідне для саду та дому.</p>
+        </div>
+        <div class="delivery-options my-4">
+            <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-filter"></i></span> <b>Доставка</b></p>
+            <p class="text-secondary">Нова пошта</p>
+            <p class="text-secondary">Укр пошта</p>
+        </div>
         </div>
     {% else %}
         <div class="d-flex align-items-center justify-content-center" style="height: 500px">

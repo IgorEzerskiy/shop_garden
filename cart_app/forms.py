@@ -1,12 +1,18 @@
 from django import forms
+from django.forms import IntegerField, NumberInput
 
-PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 21)]
 
 
 class CartAddProductForm(forms.Form):
-    quantity = forms.TypedChoiceField(
-        choices=PRODUCT_QUANTITY_CHOICES,
-        coerce=int)
+    quantity = IntegerField(widget=NumberInput(attrs={'type': 'number',
+                                                      'class': 'form-control',
+                                                      'value': '0',
+                                                      'id': 'cart_quantity',
+                                                      'min': '0',
+                                                      'max': '15',
+                                                      'placeholder': 'Кількість',
+                                                      'name': 'cart_quantity',
+                                                      }), label='')
 
     override = forms.BooleanField(required=False,
                                   initial=False,

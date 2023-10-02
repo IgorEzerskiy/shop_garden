@@ -5,7 +5,7 @@ from django.forms import IntegerField, NumberInput
 
 class CartAddProductForm(forms.Form):
     quantity = IntegerField(widget=NumberInput(attrs={'type': 'number',
-                                                      'class': 'form-control',
+                                                      'class': 'form-control-height-lg',
                                                       'value': '0',
                                                       'id': 'cart_quantity',
                                                       'min': '0',

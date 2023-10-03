@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.views.decorators.http import require_POST
+
+from orders.forms import OrderCreateForm
 from shop_main_app.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
@@ -34,4 +36,4 @@ def cart_detail(request):
         item['update_quantity_form'] = CartAddProductForm(initial={
             'quantity': item['quantity'],
             'override': True})
-    return render(request, 'cart_details.html', {'cart': cart})
+    return render(request, 'cart_details.html', {'cart': cart, 'order_form': OrderCreateForm()})

@@ -1,5 +1,5 @@
 from django.forms import ModelForm, ValidationError
-from orders.models import OrderItem
+from orders.models import OrderItem, Order
 
 
 class OrderItemModelForm(ModelForm):
@@ -25,3 +25,19 @@ class OrderItemModelForm(ModelForm):
             instance.save()
 
         return instance
+
+
+class OrderCreateForm(ModelForm):
+
+    class Meta:
+        model = Order
+        fields = ['first_name', 'last_name', 'email', 'phone', 'city', 'warehouse']
+
+    def __init__(self, *args, **kwargs):
+        super(OrderCreateForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control'})
+        self.fields['phone'].widget.attrs.update({'class': 'form-control'})
+        self.fields['city'].widget.attrs.update({'class': 'form-control'})
+        self.fields['warehouse'].widget.attrs.update({'class': 'form-control'})

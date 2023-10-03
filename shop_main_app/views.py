@@ -12,6 +12,11 @@ class PopularProductListView(ListView):
     extra_context = {'carousel_items': Carousel.objects.filter(is_active=True)}
     paginate_by = 3
 
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(index=True)
+
+        return queryset
+
 
 class SearchListView(ListView):
     template_name = 'search_result.html'
@@ -49,15 +54,15 @@ class CategoryListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(category__slug=self.kwargs['slug'])
+        queryset = queryset.filter(category__slug=self.kwargs['slug'], index=True)
 
         if queryset:
             range_values = queryset.aggregate(Min('price'), Max('price'))
 
-            min_price = self.request.GET.get('min') if self.request.GET.get('min') else range_values['price__min']
-            max_price = self.request.GET.get('max') if self.request.GET.get('max') else range_values['price__max']
+            min_price = self.request.GET.get('min', range_values['price__min'])
+            max_price = self.request.GET.get('max', range_values['price__max'])
 
-            order_by = self.request.GET.get('sort') if self.request.GET.get('sort') else '-price'
+            order_by = self.request.GET.get('sort', '-price')
 
             queryset = queryset.filter(price__gte=min_price, price__lte=max_price).order_by('-availability', order_by)
 

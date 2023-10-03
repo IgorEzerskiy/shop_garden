@@ -91,20 +91,22 @@
                                 <div class="buttons d-flex my-5">
 
                                     <div class="block me-2">
-                                        <button type="submit" class="shadow btn custom-btn">Додати до кошика</button>
+                                        <button type="submit" class="shadow btn btn-warning custom-btn">Додати до
+                                            кошика
+                                        </button>
                                     </div>
-                                    <div class="block  ms-1 me-1"  >
+                                    <div class="block  ms-1 me-1">
                                         {% csrf_token %}
                                         {{ form }}
 
                                     </div>
-                                    <div class="block ms-1 me-1" >
+                                    <div class="block ms-1 me-1">
                                         <p>
                                             {{ object.measure }}
                                         </p>
                                     </div>
                                     <div class="block ms-1 me-1">
-                                        <p class="new-price text-bold mb-1 ms-3" >
+                                        <p class="new-price text-bold mb-1 ms-3">
                                             Залишок: {{ object.quantity }}</p>
                                     </div>
                                 </div>

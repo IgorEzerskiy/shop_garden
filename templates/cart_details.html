@@ -113,54 +113,58 @@
                                     <div class="card   rounded-3">
                                         <div class="card-body">
                                             <h5 class="card-title mb-3">Оформити замовлення</h5>
+                                            <form method="post" action="{% url 'order_create' %}">
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <p class="mb-0">Ім'я</p>
+                                                        <div class="form-outline">
+                                                            {{ order_form.first_name }}
+                                                        </div>
+                                                    </div>
 
-                                            <div class="row">
-                                                <div class="mb-3">
-                                                    <p class="mb-0">Ім'я</p>
-                                                    <div class="form-outline">
-                                                        {{ order_form.first_name }}
+                                                    <div class="mb-3">
+                                                        <p class="mb-0">Прізвище</p>
+                                                        <div class="form-outline">
+                                                            {{ order_form.last_name }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class=" mb-3">
+                                                        <p class="mb-0">Електронна пошта</p>
+                                                        <div class="form-outline">
+                                                            {{ order_form.email }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class=" col-6 mb-3">
+                                                        <p class="mb-0">Телефон</p>
+                                                        <div class="form-outline">
+                                                            {{ order_form.phone }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class=" col-6 mb-3">
+                                                        <p class="mb-0">Населений пункт</p>
+                                                        <div class="form-outline">
+                                                            {{ order_form.city }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class=" col-6 mb-3">
+                                                        <p class="mb-0">Відділення</p>
+                                                        <div class="form-outline">
+                                                            {{ order_form.warehouse }}
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <p class="mb-0">Прізвище</p>
-                                                    <div class="form-outline">
-                                                        {{ order_form.last_name }}
-                                                    </div>
+                                                <div class="float-end">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-success shadow-0 border">
+                                                        Оформити
+                                                    </button>
                                                 </div>
-
-                                                <div class=" mb-3">
-                                                    <p class="mb-0">Електронна пошта</p>
-                                                    <div class="form-outline">
-                                                        {{ order_form.email }}
-                                                    </div>
-                                                </div>
-
-                                                <div class=" col-6 mb-3">
-                                                    <p class="mb-0">Телефон</p>
-                                                    <div class="form-outline">
-                                                        {{ order_form.phone }}
-                                                    </div>
-                                                </div>
-
-                                                <div class=" col-6 mb-3">
-                                                    <p class="mb-0">Населений пункт</p>
-                                                    <div class="form-outline">
-                                                        {{ order_form.city }}
-                                                    </div>
-                                                </div>
-
-                                                <div class=" col-6 mb-3">
-                                                    <p class="mb-0">Відділення</p>
-                                                    <div class="form-outline">
-                                                        {{ order_form.warehouse }}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="float-end">
-                                                <button class="btn btn-success shadow-0 border">Оформити</button>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

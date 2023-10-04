@@ -13,8 +13,9 @@ admin.site.unregister(Group)
 admin.site.register(Measure)
 
 
-class ProductImageAdmin(admin.StackedInline):
+class ProductImageAdmin(admin.TabularInline):
     model = ProductImage
+    extra = 0
 
 
 @admin.register(Category)

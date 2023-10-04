@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% load url_transform %}
 {% load static %}
+{% load custom_length %}
 
 {% block content %}
     <div class="row" style="margin-top: 15px">
@@ -19,7 +20,7 @@
                             </a>
                         </div>
                         <div>
-                            <span class="badge bg-primary rounded-pill">{{ category.products.all|length }} </span>
+                            <span class="badge bg-primary rounded-pill">{{ category.products.all|custom_length }} </span>
                         </div>
                     </li>
                 {% endfor %}

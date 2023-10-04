@@ -109,7 +109,7 @@
                                 </a>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ product.title }}</h5>
-                                    <p class="card-text">{{ product.description }}</p>
+{#                                    <p class="card-text">{{ product.description }}</p>#}
                                     {% if product.get_price_with_discount != product.price %}
                                         <div class="price-area my-4">
                                             <h4 class="new-price text-bold mb-1">{{ product.get_price_with_discount }}
@@ -123,10 +123,13 @@
                                         </div>
                                     {% endif %}
                                     {% if product.availability %}
+                                        <div class="text-success text-end" style="margin-bottom: 15px">В наявності</div>
                                         <a href="{% url 'product_details' product.slug %} "
                                            class="btn btn-primary">Купити</a>
                                     {% else %}
                                         <p>Немає в наявності</p>
+                                        <a href="{% url 'product_details' product.slug %} "
+                                           class="btn btn-primary">Дивитись</a>
                                     {% endif %}
                                 </div>
                             </div>

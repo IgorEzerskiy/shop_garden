@@ -123,11 +123,11 @@
                                         </div>
                                     {% endif %}
                                     {% if product.availability %}
-                                        <div class="text-success text-end" style="margin-bottom: 15px">В наявності</div>
+                                        <div class="text-success text-end" style="margin-bottom: 15px"> <span>&check; В наявності</span></div>
                                         <a href="{% url 'product_details' product.slug %} "
                                            class="btn btn-primary">Купити</a>
                                     {% else %}
-                                        <p>Немає в наявності</p>
+                                       <span>&#10008; Немає в наявності</span>
                                         <a href="{% url 'product_details' product.slug %} "
                                            class="btn btn-primary">Дивитись</a>
                                     {% endif %}

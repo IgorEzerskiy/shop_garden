@@ -110,9 +110,12 @@
                                             </div>
                                         {% endif %}
                                         {% if not product.availability %}
-                                            <div class="text-danger text-end" style="margin-bottom: 15px">Немає в наявності</div>
+                                            <div class="text-danger text-end" style="margin-bottom: 15px"><span>&#10008; Немає в наявності</span>
+                                            </div>
                                         {% else %}
-                                            <div class="text-success text-end" style="margin-bottom: 15px">В наявності</div>
+                                            <div class="text-success text-end" style="margin-bottom: 15px">
+                                                <span>&check; В наявності</span>
+                                            </div>
                                         {% endif %}
                                         <a class="btn btn-primary" href="{% url 'product_details' product.slug %}"
                                            role="button">Дивитись</a>

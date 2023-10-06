@@ -2,14 +2,12 @@ from django import forms
 from django.forms import IntegerField, NumberInput
 
 
-
 class CartAddProductForm(forms.Form):
     quantity = IntegerField(widget=NumberInput(attrs={'type': 'number',
                                                       'class': 'form-control-height-lg',
                                                       'value': '0',
                                                       'id': 'cart_quantity',
                                                       'min': '0',
-                                                      'max': '15',
                                                       'placeholder': 'Кількість',
                                                       'name': 'cart_quantity',
                                                       }), label='')
@@ -17,3 +15,7 @@ class CartAddProductForm(forms.Form):
     override = forms.BooleanField(required=False,
                                   initial=False,
                                   widget=forms.HiddenInput)
+    #
+    # def __init__(self, *args, **kwargs):
+    #     super(CartAddProductForm, self).__init__(*args, **kwargs)
+    #     self.fields['quantity'].widget.attrs.update({'max': f'{self.}'})

@@ -88,4 +88,6 @@ class ProductDetailView(DetailView):
             new_price = price - (discount * price) / 100
             context['price_with_discount'] = new_price
 
+        context['form'].fields['quantity'].widget.attrs.update({'max': f'{self.object.quantity}'})
+
         return context

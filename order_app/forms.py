@@ -1,5 +1,5 @@
 from django.forms import ModelForm, ValidationError
-from orders.models import OrderItem, Order
+from order_app.models import OrderItem, Order
 
 
 class OrderItemModelForm(ModelForm):

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.views.decorators.http import require_POST
 
-from orders.forms import OrderCreateForm
+from order_app.forms import OrderCreateForm
 from shop_main_app.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm

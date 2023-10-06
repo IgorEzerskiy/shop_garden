@@ -1,7 +1,7 @@
 from django.contrib import admin
-from orders.forms import OrderItemModelForm
-from orders.formset import OrderItemInlineFormSet
-from orders.models import Order, OrderItem
+from order_app.forms import OrderItemModelForm
+from order_app.formset import OrderItemInlineFormSet
+from order_app.models import Order, OrderItem
 
 
 class OrderItemAdmin(admin.TabularInline):

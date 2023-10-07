@@ -11,6 +11,7 @@ def order_create(request):
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
+          if not len(cart) == 0:
             with atomic():
                 order = form.save()
                 for item in cart:
@@ -24,5 +25,13 @@ def order_create(request):
                                              price=item['price'],
                                              quantity=item['quantity'])
                 cart.clear()
-            messages.success(request, f"Ваше замовлення успішно створено. Номер вашого замовлення {order.id}")
-            return redirect('/')
+                messages.success(request, f"Ваше замовлення успішно створено. Номер вашого замовлення {order.id}")
+                return redirect('/')
+           else:
+                messages.error(request, f"Ваше замовлення не може бути сформовано, оскільки кошик порожній.")
+                return redirect('/cart/')
+              
+        else:
+            messages.error(request, f"Помилка в оформленні замовлення. "
+                                    f"Будьласка, перевірте правильність вказанних Вами даних.")
+            return redirect('/cart/')

@@ -127,7 +127,7 @@
                                         <a href="{% url 'product_details' product.slug %} "
                                            class="btn btn-primary">Купити</a>
                                     {% else %}
-                                       <span>&#10008; Немає в наявності</span>
+                                       <div class="text-danger text-end" style="margin-bottom: 15px"><span>&#10008; Немає в наявності</span></div>
                                         <a href="{% url 'product_details' product.slug %} "
                                            class="btn btn-primary">Дивитись</a>
                                     {% endif %}

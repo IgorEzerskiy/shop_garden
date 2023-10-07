@@ -6,6 +6,7 @@ from orders.forms import OrderCreateForm
 from shop_main_app.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
+from django.contrib import messages
 
 
 @require_POST
@@ -16,9 +17,14 @@ def cart_add(request, product_id):
     form = CartAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
-        cart.add(product=product,
-                 quantity=cd['quantity'],
-                 override_quantity=cd['override'])
+        if not product.quantity < cd['quantity']:
+            cart.add(product=product,
+                     quantity=cd['quantity'],
+                     override_quantity=cd['override'])
+        else:
+            messages.error(request, f"Ви вказали кількість({cd['quantity']}) товару більшу ніж є на складі.")
+            form.add_error('quantity', 'SOSI')
+            return redirect(f'/product/{product.slug}')
         return redirect('cart:cart_detail')
 
 

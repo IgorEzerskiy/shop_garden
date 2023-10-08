@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.text import slugify
 from shop_main_app.transliterator import transliterate_ua_to_en
@@ -5,7 +6,9 @@ from random import randint
 from shop_main_app.validators import ImageValidator
 from decimal import Decimal
 
-# Create your models here.
+
+class User(AbstractUser):
+    pass
 
 
 class Measure(models.Model):

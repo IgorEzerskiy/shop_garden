@@ -86,8 +86,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'verceldb',
         'USER': 'default',
-        'PASSWORD': 'F7vjEMLZrD9a',
-        'HOST': 'ep-spring-meadow-79242303-pooler.eu-central-1.postgres.vercel-storage.com',
+        'PASSWORD': 'zndbJVSW5PX7',
+        'HOST': 'ep-icy-pine-83113336-pooler.eu-central-1.postgres.vercel-storage.com',
         'PORT': '5432',
     }
 }
@@ -141,3 +141,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'shop_garden/media')
+
+AUTH_USER_MODEL = 'shop_main_app.User'

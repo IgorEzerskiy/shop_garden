@@ -1,11 +1,41 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.text import slugify
 from shop_main_app.transliterator import transliterate_ua_to_en
 from random import randint
 from shop_main_app.validators import ImageValidator
 from decimal import Decimal
+from phonenumber_field.modelfields import PhoneNumberField
+from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
+
+class User(AbstractUser):
+    username = models.CharField(
+        _("username"),
+        max_length=150,
+        unique=True,
+        null=True,
+        blank=True
+    )
+    first_name = models.CharField(
+        _("first name"),
+        max_length=150
+    )
+    last_name = models.CharField(
+        _("last name"),
+        max_length=150
+    )
+    email = models.EmailField(
+        _("email address"),
+        unique=True
+    )
+    phone = PhoneNumberField(
+        unique=True,
+        verbose_name='Телефон'
+    )
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
 
 class Measure(models.Model):

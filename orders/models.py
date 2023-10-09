@@ -1,11 +1,17 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-from shop_main_app.models import Product
+from shop_main_app.models import Product, User
 
 # Create your models here.
 
 
 class Order(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.DO_NOTHING,
+        related_name='orders',
+        verbose_name='Корситувач'
+    )
     first_name = models.CharField(
         max_length=50,
         verbose_name="Ім'я"

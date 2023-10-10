@@ -1,9 +1,23 @@
-from django.views.generic import ListView, DetailView
+from django.contrib.auth.views import LoginView
+from django.views.generic import ListView, DetailView, CreateView
 
 from cart_app.forms import CartAddProductForm
 from options_app.models import Footer, Carousel
+from shop_main_app.forms import UserLoginForm, UserCreateForm
 from shop_main_app.models import Product, Category
 from django.db.models import Max, Min
+
+
+class UserLoginView(LoginView):
+    template_name = 'login.html'
+    next_page = '/'
+    form_class = UserLoginForm
+
+
+class UserCreateView(CreateView):
+    template_name = 'registration.html'
+    form_class = UserCreateForm
+    success_url = '/login'
 
 
 class PopularProductListView(ListView):

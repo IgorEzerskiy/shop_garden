@@ -30,7 +30,6 @@ class User(AbstractUser):
         unique=True
     )
     phone = PhoneNumberField(
-        unique=True,
         verbose_name='Телефон'
     )
 

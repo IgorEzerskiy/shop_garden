@@ -5,153 +5,170 @@
 
 
 .wrapper {
-  width:300px;
-  background-color: #fff;
-  padding: 10px 30px 15px 20px;
-  border-radius: 10px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    background-color: #fff;
+    padding: 10px 30px 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
 .wrapper header h2 {
-  font-size: 24px;
-  font-weight: 600;
+    font-size: 24px;
+    font-weight: 600;
 }
 
 .wrapper header p {
-  font-size: 15px;
-  margin-top: 5px;
+    font-size: 15px;
+    margin-top: 5px;
 }
 
 .wrapper .price-input {
-  display: flex;
-  width: 100%;
-  margin: 15px 0 20px;
+    display: flex;
+    width: 100%;
+    margin: 15px 0 20px;
 }
 
 .wrapper .price-input .field {
-  display: flex;
-  width: 100%;
-  height: 30px;
-  align-items: center;
+    display: flex;
+    width: 100%;
+    height: 30px;
+    align-items: center;
 }
 
 .wrapper .price-input .field span {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 .price-input input {
-  width: 100%;
-  height: 100%;
-  outline: none;
-  border: 1px solid #999;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 18px;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: 1px solid #999;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
 
 }
 
 .price-input input::-webkit-outer-spin-button,
 .price-input input::-webkit-inner-spin-button {
-  display: none;
+    display: none;
 }
 
 .wrapper .seperator {
-  width: 130px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 19px;
+    width: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
 }
 
 .wrapper .slider {
-  height: 5px;
-  position: relative;
-  background-color: #ddd;
-  border-radius: 5px;
+    height: 5px;
+    position: relative;
+    background-color: #ddd;
+    border-radius: 5px;
 }
 
 .wrapper .progress {
-  position: absolute;
-  height: 100%;
-  left: 5%;
-  right: 65%;
-  background-color: #4070f4;
-  border-radius: 5px;
+    position: absolute;
+    height: 100%;
+    left: 5%;
+    right: 65%;
+    background-color: #4070f4;
+    border-radius: 5px;
 }
 
 .wrapper .range-input {
-  position: relative;
+    position: relative;
 }
 
 .wrapper .range-input input {
-  position: absolute;
-  width: 100%;
-  height: 5px;
-  top: -5px;
-  pointer-events: none;
-  background: none;
-  appearance: none;
-  accent-color: #4070f4;
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    top: -5px;
+    pointer-events: none;
+    background: none;
+    appearance: none;
+    accent-color: #4070f4;
 }
 
 .wrapper .range-input input::-webkit-slider-thumb {
-  height: 15px;
-  width: 15px;
-  background-color: #4070f4;
-  border-radius: 50%;
-  pointer-events: auto;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+    height: 15px;
+    width: 15px;
+    background-color: #4070f4;
+    border-radius: 50%;
+    pointer-events: auto;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }
 
 .search_form {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
 .cut-text {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 160px;
-  height: 1.2em;
-  white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 160px;
+    height: 1.2em;
+    white-space: nowrap;
+}
+
+.profile-img {
+    margin-left: 15px;
 }
 
 @media (min-width: 1025px) {
-.h-custom {
-height: 100vh !important;
+    .h-custom {
+        height: 100vh !important;
+    }
 }
+
+.profile-img {
+    margin-left: 0;
 }
 
 .sort {
-  text-align: right;
+    text-align: right;
 }
 
 main {
-  padding-left: 25px;
-  padding-right: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
 /*filter-form*/
-@media (max-width: 768px){
-  .filters_form {
-    flex-direction: column;
-  }
-  .sort {
-    text-align: center;
-    margin-top: 15px;
-  }
-  .wrapper {
-    width: 100%;
-  }
-  .bucket {
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    margin-top: 15px;
-  }
-  .bucket button {
-    width: 50px;
-  }
-  .search_form {
-    margin: 0;
-  }
+@media (max-width: 768px) {
+    .filters_form {
+        flex-direction: column;
+    }
+
+    .sort {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .wrapper {
+        width: 100%;
+    }
+
+    .bucket {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+    .bucket button {
+        width: 50px;
+    }
+
+    .search_form {
+        margin: 0;
+    }
+
+    .profile-img {
+        margin-left: 0;
+    }
 }

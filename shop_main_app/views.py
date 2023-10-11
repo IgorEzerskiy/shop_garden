@@ -1,4 +1,5 @@
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import ListView, DetailView, CreateView
 
 from cart_app.forms import CartAddProductForm
@@ -18,6 +19,11 @@ class UserCreateView(CreateView):
     template_name = 'registration.html'
     form_class = UserCreateForm
     success_url = '/login'
+
+
+class UserLogoutView(LogoutView):
+    http_method_names = ['post']
+    next_page = '/'
 
 
 class PopularProductListView(ListView):

@@ -119,6 +119,23 @@
     margin-left: 15px;
 }
 
+.ex-button {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.bucket {
+    margin-right: 15px;
+}
+
+.login {
+    margin-left: 15px;
+}
+
 @media (min-width: 1025px) {
     .h-custom {
         height: 100vh !important;
@@ -136,6 +153,10 @@
 main {
     padding-left: 25px;
     padding-right: 25px;
+}
+
+.login {
+    margin-left: 0;
 }
 
 /*filter-form*/
@@ -160,7 +181,7 @@ main {
         margin-top: 15px;
     }
 
-    .bucket button {
+    .bucket a {
         width: 50px;
     }
 
@@ -169,6 +190,10 @@ main {
     }
 
     .profile-img {
+        margin-left: 0;
+    }
+
+    .login {
         margin-left: 0;
     }
 }

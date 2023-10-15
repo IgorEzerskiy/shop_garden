@@ -2,17 +2,18 @@ from django.db import models
 
 from shop_main_app.models import Category
 from shop_main_app.validators import ImageValidator
+from tinymce.models import HTMLField
 
 
 class ShippingAndBilling(models.Model):
-    delivery_info = models.TextField()
-    payments = models.TextField()
-    extra_context = models.TextField()
+    delivery_info = HTMLField()
+    payments = HTMLField()
+    extra_context = HTMLField()
 
 
 class ReturnPolicy(models.Model):
-    main_info = models.TextField(null=True, blank=True)
-    extra_context = models.TextField()
+    main_info = HTMLField(null=True, blank=True)
+    extra_context = HTMLField()
 
 
 class Footer(models.Model):

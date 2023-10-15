@@ -7,6 +7,7 @@ from shop_main_app.validators import ImageValidator
 from decimal import Decimal
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
+from tinymce.models import HTMLField
 
 
 class User(AbstractUser):
@@ -53,8 +54,11 @@ class Category(models.Model):
         max_length=50,
         verbose_name='Назва'
     )
-    slug = models.SlugField(unique=True)
-    description = models.TextField(
+    slug = models.SlugField(
+        unique=True,
+        verbose_name='Слаг'
+    )
+    description = HTMLField(
         max_length=550,
         verbose_name='Опис'
     )
@@ -83,9 +87,12 @@ class Product(models.Model):
         max_length=256,
         verbose_name='Назва'
     )
-    slug = models.SlugField(unique=True)
-    description = models.TextField(verbose_name='Опис')
-    characteristics = models.TextField(verbose_name='Характеристики')
+    slug = models.SlugField(
+        unique=True,
+        verbose_name='Слаг'
+    )
+    description = HTMLField(verbose_name='Опис')
+    characteristics = HTMLField(verbose_name='Характеристики')
     quantity = models.IntegerField(verbose_name='К-сть')
     price = models.DecimalField(
         max_digits=10,
@@ -122,6 +129,14 @@ class Product(models.Model):
         null=True,
         blank=True,
         verbose_name='Знижка від постачальника'
+    )
+    number_of_purchases = models.PositiveIntegerField(
+        default=0,
+        verbose_name='Кількість покупок товару'
+    )
+    add_to_popular = models.BooleanField(
+        default=False,
+        verbose_name='Додати до популярного'
     )
 
     class Meta:

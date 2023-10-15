@@ -19,33 +19,46 @@
             <div class="tab-pane fade show active" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
                 <form method="post">
                     {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <ul>
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                     <!-- Name input -->
                     <div class="form-outline mb-4">
                         {{ form.first_name }}
                         <label class="form-label" for="firstName">{{ form.first_name.label }}</label>
+                        {{ form.first_name.errors }}
                     </div>
 
                     <div class="form-outline mb-4">
                         {{ form.last_name }}
                         <label class="form-label" for="lastName">{{ form.last_name.label }}</label>
+                        {{ form.last_name.errors }}
                     </div>
 
                     <!-- Email input -->
                     <div class="form-outline mb-4">
                         {{ form.email }}
                         <label class="form-label" for="registerEmail">{{ form.email.label }}</label>
+                        {{ form.email.errors }}
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-4">
                         {{ form.password1 }}
                         <label class="form-label" for="registerPassword">{{ form.password1.label }}</label>
+                        {{ form.password1.errors }}
                     </div>
 
                     <!-- Repeat Password input -->
                     <div class="form-outline mb-4">
                         {{ form.password2 }}
                         <label class="form-label" for="registerRepeatPassword">{{ form.password2.label }}</label>
+                        {{ form.password2.errors }}
                     </div>
 
 

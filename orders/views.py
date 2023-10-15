@@ -17,6 +17,8 @@ def order_create(request):
                     for item in cart:
                         product_item = item['product']
                         product_item.quantity = product_item.quantity - item['quantity']
+                        product_item.number_of_purchases += 1
+
                         if not product_item.quantity:
                             product_item.availability = False
                         product_item.save()

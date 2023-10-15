@@ -3,15 +3,6 @@
 /* Google Fonts(Poppins) */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
-
-.wrapper {
-    width: 300px;
-    background-color: #fff;
-    padding: 10px 30px 15px 20px;
-    border-radius: 10px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-}
-
 .wrapper header h2 {
     font-size: 24px;
     font-weight: 600;

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'options_app',
     'cart_app',
     'orders',
-    'phonenumber_field'
+    'phonenumber_field',
+    'tinymce',
 ]
 
 MIDDLEWARE = [

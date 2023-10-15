@@ -7,6 +7,7 @@ from shop_main_app.validators import ImageValidator
 from decimal import Decimal
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
+from tinymce.models import HTMLField
 
 
 class User(AbstractUser):
@@ -54,7 +55,7 @@ class Category(models.Model):
         verbose_name='Назва'
     )
     slug = models.SlugField(unique=True)
-    description = models.TextField(
+    description = HTMLField(
         max_length=550,
         verbose_name='Опис'
     )
@@ -84,8 +85,8 @@ class Product(models.Model):
         verbose_name='Назва'
     )
     slug = models.SlugField(unique=True)
-    description = models.TextField(verbose_name='Опис')
-    characteristics = models.TextField(verbose_name='Характеристики')
+    description = HTMLField(verbose_name='Опис')
+    characteristics = HTMLField(verbose_name='Характеристики')
     quantity = models.IntegerField(verbose_name='К-сть')
     price = models.DecimalField(
         max_digits=10,

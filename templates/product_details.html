@@ -126,7 +126,7 @@
                             </h2>
                             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
-                                    {{ object.description }}
+                                    {{ object.description|safe }}
                                 </div>
                             </div>
                         </div>
@@ -140,7 +140,7 @@
                             </h2>
                             <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                                 <div class="accordion-body">
-                                    {{ object.characteristics }}
+                                    {{ object.characteristics|safe }}
                                 </div>
                             </div>
                         </div>

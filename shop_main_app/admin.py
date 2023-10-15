@@ -37,8 +37,8 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class PostAdmin(admin.ModelAdmin):
     inlines = [ProductImageAdmin]
-    list_display = ['title', 'price', 'quantity', 'availability', 'index', 'images', ]
-    readonly_fields = ('slug',)
+    list_display = ['title', 'price', 'quantity', 'availability', 'index', 'number_of_purchases', 'images', ]
+    readonly_fields = ('slug', 'number_of_purchases')
 
     class Meta:
         model = Product

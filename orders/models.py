@@ -10,7 +10,9 @@ class Order(models.Model):
         User,
         on_delete=models.DO_NOTHING,
         related_name='orders',
-        verbose_name='Корситувач'
+        verbose_name='Корситувач',
+        null=True,
+        blank=True
     )
     first_name = models.CharField(
         max_length=50,

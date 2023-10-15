@@ -28,16 +28,26 @@
             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
                 <form method="post">
                     {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <ul>
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                     <!-- Email input -->
                     <div class="form-outline mb-4">
                         {{ form.username }}
                         <label class="form-label" for="loginName">{{ form.password.label }}</label>
+                        {{ form.username.errors }}
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-4">
                         {{ form.password }}
                         <label class="form-label" for="loginPassword">{{ form.password.label }}</label>
+                        {{ form.password.errors }}
                     </div>
 
                     <!-- Submit button -->

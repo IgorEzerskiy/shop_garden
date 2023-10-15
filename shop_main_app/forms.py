@@ -34,7 +34,7 @@ class UserCreateForm(UserCreationForm):
         first_name = self.cleaned_data.get('first_name')
 
         if not first_name.isalpha():
-            raise forms.ValidationError('Only letter')
+            raise forms.ValidationError("Ім'я може мати лише букви.")
 
         return first_name
 
@@ -42,6 +42,6 @@ class UserCreateForm(UserCreationForm):
         last_name = self.cleaned_data.get('last_name')
 
         if not last_name.isalpha():
-            raise forms.ValidationError('Only letter')
+            raise forms.ValidationError('Прізвище може мати лише букви.')
 
         return last_name

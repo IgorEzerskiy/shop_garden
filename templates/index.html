@@ -35,7 +35,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-inline" id="nav-ul">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'main' %}  ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
@@ -159,7 +159,7 @@
                 </a>
             </div>
             {% if request.user.is_authenticated == False %}
-                <a class="btn btn-success ms-2" href="{% url 'login' %}" role="button">Увійти</a>
+                <a class="btn btn-success ms-2" href="{% url 'login' %}" role="button" id="nav-login">Увійти</a>
             {% else %}
                 <!-- Avatar -->
                 <div class="dropdown">
@@ -228,7 +228,7 @@
         </div>
     </div>
 </nav>
-<main style="">
+<main>
     <div style="margin-top: 15px; width: 500px; height: auto;">
         {% for message in messages %}
             {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
@@ -252,7 +252,7 @@
     {% endblock %}
 </main>
 <!-- Footer -->
-<footer class="text-center text-lg-start bg-light text-muted ">
+<footer class="text-center text-lg-start bg-light text-muted">
     <!-- Section: Social media -->
     <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
         <!-- Left -->
@@ -360,6 +360,7 @@
 <!-- MDB -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 <script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/add_special_class.js' %}"></script>
 </body>
 
 </html>

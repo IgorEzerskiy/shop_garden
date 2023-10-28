@@ -3,7 +3,7 @@ function addOrRemoveClass() {
     const targetElement = document.getElementById('nav-ul');
     const loginBTN = document.getElementById('nav-login')
     const screenWidth = window.innerWidth;
-
+    
     if (screenWidth < 1200) {
         // Add the CSS class if the screen width is less than 1200 pixels
         targetElement.classList.add('list-group-horizontal');

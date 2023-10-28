@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -45,3 +47,18 @@ class UserCreateForm(UserCreationForm):
             raise forms.ValidationError('Прізвище може мати лише букви.')
 
         return last_name
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        pattern = r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+        if re.match(pattern, email):
+            try:
+                user = User.objects.get(email=email)
+
+                if user:
+                    raise forms.ValidationError('Користувач з такою поштою вже існує.')
+            except User.DoesNotExist:
+                pass
+             
+        return email

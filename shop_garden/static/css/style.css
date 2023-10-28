@@ -3,6 +3,24 @@
 /* Google Fonts(Poppins) */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    margin: auto 0;
+}
+
+.wrapper {
+    width: 300px;
+    background-color: #fff;
+    padding: 10px 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
 .wrapper header h2 {
     font-size: 24px;
     font-weight: 600;
@@ -127,9 +145,42 @@
     margin-left: 15px;
 }
 
-@media (min-width: 1025px) {
-    .h-custom {
-        height: 100vh !important;
+.auth-form {
+    margin-top: 25px;
+    width: 600px;
+}
+
+.nav-margin > li:not(:first-child) {
+    margin-left: 25px;
+}
+
+.nav-margin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.margin-zero {
+    margin-left: 0px;
+}
+
+@media (max-width: 1200px) {
+    /*.h-custom {*/
+    /*    height: 100vh !important;*/
+    /*}*/
+    .bucket {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+    .bucket a {
+        width: 50px;
+    }
+
+    .margin-zero {
+        margin-left: 0;
     }
 }
 
@@ -149,6 +200,7 @@ main {
 .login {
     margin-left: 0;
 }
+
 
 /*filter-form*/
 @media (max-width: 768px) {
@@ -186,5 +238,19 @@ main {
 
     .login {
         margin-left: 0;
+    }
+
+    .nav-inline {
+        display: flex;
+    }
+
+    .nav-inline > li {
+        list-style-type: none;
+    }
+
+    .auth-form {
+        margin-top: 25px;
+        margin-bottom: 25px;
+        width: auto;
     }
 }

@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from cart_app.forms import CartAddProductForm
 from options_app.models import Footer, Carousel
 from shop_main_app.forms import UserLoginForm, UserCreateForm
-from shop_main_app.models import Product, Category
+from shop_main_app.models import Product, Category, User
 from django.db.models import Max, Min
 
 
@@ -116,3 +116,8 @@ class ProductDetailView(DetailView):
         context['form'].fields['quantity'].widget.attrs.update({'max': f'{self.object.quantity}'})
 
         return context
+
+
+class ProfileInfoDetailsView(DetailView):
+    template_name = 'profile_page.html'
+    queryset = User.objects.all()

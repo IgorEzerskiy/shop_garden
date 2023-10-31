@@ -35,7 +35,12 @@ class PopularProductListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(index=True)
 
-        return queryset
+        popular_by_purchases = queryset.order_by('-number_of_purchases')[:1]
+        popylar_by_add_to_popular_field = queryset.filter(add_to_popular=True)
+
+        mixed_queryset = popylar_by_add_to_popular_field | popular_by_purchases
+
+        return mixed_queryset
 
 
 class SearchListView(ListView):

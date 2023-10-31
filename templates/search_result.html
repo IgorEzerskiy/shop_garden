@@ -1,4 +1,5 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block content %}
     <div class="row" style="margin-top: 15px;">
@@ -37,17 +38,53 @@
                 {% if object_list %}
                     <div class="row">
                     {% for product in object_list %}
-                        <div class="col">
-                            <div class="card" style="width: 18rem; margin-bottom: 15px;">
-                                <img src="{{ product.images.all.0.image.url }}" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ product.title }}</h5>
-                                    <p class="card-text">{{ product.description }}</p>
-                                    <a href="{% url 'product_details' product.slug %} "
-                                       class="btn btn-primary">Дивитися</a>
+                        {% if product.index %}
+                            <div class="col">
+                                <div class="card" style="width: 18rem; margin-bottom: 15px;">
+                                    <a href="{% url 'product_details' product.slug %} ">
+                                        {% if product.images.all.0.image.url %}
+                                            <img src="{{ product.images.all.0.image.url }}" class="card-img-top"
+                                                 alt="..."
+                                                    {% if not product.availability %}
+                                                 style="filter: grayscale(1)"
+                                                    {% endif %}
+                                            >
+                                        {% else %}
+                                            <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
+                                                 class="card-img-top" alt="..."
+                                            >
+                                        {% endif %}
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.title }}</h5>
+                                        {#                                    <p class="card-text">{{ product.description }}</p>#}
+                                        {% if product.get_price_with_discount != product.price %}
+                                            <div class="price-area my-4">
+                                                <h4 class="new-price text-bold mb-1">{{ product.get_price_with_discount }}
+                                                    ₴</h4>
+                                                <del>{{ product.price }} ₴</del>
+                                                <span class="old-price-discount text-danger">(ЗНИЖКА {{ product.discount }}%)</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="price-area my-4">
+                                                <h5 class="new-price text-bold mb-1">{{ product.price }} ₴</h5>
+                                            </div>
+                                        {% endif %}
+                                        {% if product.availability %}
+                                            <div class="text-success text-end" style="margin-bottom: 15px"><span>&check; В наявності</span>
+                                            </div>
+                                            <a href="{% url 'product_details' product.slug %} "
+                                               class="btn btn-primary">Купити</a>
+                                        {% else %}
+                                            <div class="text-danger text-end" style="margin-bottom: 15px"><span>&#10008; Немає в наявності</span>
+                                            </div>
+                                            <a href="{% url 'product_details' product.slug %} "
+                                               class="btn btn-primary">Дивитись</a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endif %}
                     {% endfor %}
                 {% else %}
                     <div class="alert alert-danger" role="alert">

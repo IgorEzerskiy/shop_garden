@@ -1,10 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.contrib import messages
 
 from cart_app.forms import CartAddProductForm
 from options_app.models import Footer, Carousel
-from shop_main_app.forms import UserLoginForm, UserCreateForm
+from shop_main_app.forms import UserLoginForm, UserCreateForm, UserUpdateForm
 from shop_main_app.models import Product, Category, User
 from django.db.models import Max, Min
 
@@ -121,3 +123,26 @@ class ProductDetailView(DetailView):
 class ProfileInfoDetailsView(DetailView):
     template_name = 'profile_page.html'
     queryset = User.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_update_form'] = UserUpdateForm(instance=self.object)
+
+        return context
+
+
+class ProfileUpdateView(UpdateView):
+    queryset = User.objects.all()
+    success_url = '/'
+
+    def get_success_url(self):
+        url = super().get_success_url()
+        return url + f'profile/{self.request.user.id}'
+
+    def get_form(self, form_class=None):
+        form = UserUpdateForm(self.request.POST, instance=self.request.user)
+        return form
+
+    def form_invalid(self, form):
+        messages.error(self.request, form.errors)
+        return redirect(self.get_success_url())

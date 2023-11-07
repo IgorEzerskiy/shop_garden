@@ -140,7 +140,7 @@ class UserPasswordChangeForm(forms.ModelForm):
             self.add_error(None, "Error")
             messages.error(
                 self.request,
-                "Invalid current password"
+                "Невірно вказаний поточний пароль"
             )
 
         return current_password
@@ -152,7 +152,7 @@ class UserPasswordChangeForm(forms.ModelForm):
             self.add_error(None, "Error")
             messages.error(
                 self.request,
-                "Invalid new password"
+                "Новий пароль не коректний"
             )
 
         return password
@@ -165,7 +165,7 @@ class UserPasswordChangeForm(forms.ModelForm):
             self.add_error(None, "Error")
             messages.error(
                 self.request,
-                "Password unconfirmed"
+                "Пароль не підтвердженно"
             )
 
         return confirm_password

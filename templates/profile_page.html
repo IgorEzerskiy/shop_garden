@@ -4,9 +4,9 @@
 
 {% block content %}
     <section style="">
-        <div class="container py-5">
+        <div class="container-fluid py-5">
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="card mb-4">
                         <div class="card-body text-center">
                             {#                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"#}
@@ -98,7 +98,7 @@
                     </div>
 
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <div class="card mb-4">
                         <div class="card-body">
                             <!-- Tabs navs -->
@@ -129,6 +129,10 @@
                                             <th scope="col">Номер</th>
                                             <th scope="col">Дата створення</th>
                                             <th scope="col">Сума замовлення</th>
+                                            <th scope="col">Підтвердженно</th>
+                                            <th scope="col">Надіслано</th>
+                                            <th scope="col">Сплачено</th>
+                                            <th scope="col">Відмінено</th>
                                             <th scope="col">Дії</th>
                                         </tr>
                                         </thead>
@@ -137,6 +141,10 @@
                                             <th scope="row">1</th>
                                             <td>Sit</td>
                                             <td>Amet</td>
+                                            <td><i class="fas fa-check text-success"></i></td>
+                                            <td><i class="fas fa-xmark text-danger"></i></td>
+                                            <td><i class="fas fa-check text-success"></i></td>
+                                            <td><i class="fas fa-xmark text-danger"></i></td>
                                             <td>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-outline-success btn-floating show-more-btn"

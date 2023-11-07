@@ -2,6 +2,8 @@ import re
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.hashers import make_password
+from django.contrib import messages
 
 from shop_main_app.models import User
 
@@ -13,6 +15,46 @@ class UserLoginForm(AuthenticationForm):
         super(UserLoginForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({'class': 'form-control', 'id': 'loginName'})
         self.fields['password'].widget.attrs.update({'class': 'form-control', 'id': 'loginPassword'})
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            'phone',
+            'city',
+            'warehouse'
+        )
+
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['username'].widget.attrs.update({'class': 'form-control'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control'})
+        self.fields['phone'].widget.attrs.update({'class': 'form-control'})
+        self.fields['city'].widget.attrs.update({'class': 'form-control'})
+        self.fields['warehouse'].widget.attrs.update({'class': 'form-control'})
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+
+        if not first_name.isalpha():
+            raise forms.ValidationError("Ім'я може мати лише букви.")
+
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+
+        if not last_name.isalpha():
+            raise forms.ValidationError('Прізвище може мати лише букви.')
+
+        return last_name
 
 
 class UserCreateForm(UserCreationForm):
@@ -62,3 +104,73 @@ class UserCreateForm(UserCreationForm):
                 pass
              
         return email
+
+
+class UserPasswordChangeForm(forms.ModelForm):
+    current_password = forms.CharField(
+        max_length=128,
+        widget=forms.PasswordInput()
+    )
+    confirm_password = forms.CharField(
+        max_length=128,
+        widget=forms.PasswordInput()
+    )
+    password = forms.CharField(
+        max_length=128,
+        widget=forms.PasswordInput()
+    )
+
+    class Meta:
+        model = User
+        fields = ['password']
+
+    def __init__(self, *args, **kwargs):
+        if 'request' in kwargs:
+            self.request = kwargs.pop('request')
+
+        super(UserPasswordChangeForm, self).__init__(*args, **kwargs)
+        self.fields['password'].widget.attrs.update({'class': 'form-control', 'type': 'password'})
+        self.fields['current_password'].widget.attrs.update({'class': 'form-control'})
+        self.fields['confirm_password'].widget.attrs.update({'class': 'form-control'})
+
+    def clean_current_password(self):
+        current_password = self.cleaned_data.get('current_password')
+
+        if not self.request.user.check_password(current_password):
+            self.add_error(None, "Error")
+            messages.error(
+                self.request,
+                "Невірно вказаний поточний пароль"
+            )
+
+        return current_password
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+
+        if password is None or len(password) < 8 or len(password) > 20 or ' ' in password:
+            self.add_error(None, "Error")
+            messages.error(
+                self.request,
+                "Новий пароль не коректний"
+            )
+
+        return password
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+
+        if confirm_password != password:
+            self.add_error(None, "Error")
+            messages.error(
+                self.request,
+                "Пароль не підтвердженно"
+            )
+
+        return confirm_password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = make_password(cleaned_data.get('password'))
+        cleaned_data['password'] = password

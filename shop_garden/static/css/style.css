@@ -253,4 +253,7 @@ main {
         margin-bottom: 25px;
         width: auto;
     }
+    .show-more-btn{
+        margin-bottom: 15px;
+    }
 }

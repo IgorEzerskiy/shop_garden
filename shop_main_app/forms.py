@@ -38,6 +38,23 @@ class UserUpdateForm(forms.ModelForm):
         self.fields['city'].widget.attrs.update({'class': 'form-control'})
         self.fields['warehouse'].widget.attrs.update({'class': 'form-control'})
 
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+
+        if not first_name.isalpha():
+            raise forms.ValidationError("Ім'я може мати лише букви.")
+
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+
+        if not last_name.isalpha():
+            raise forms.ValidationError('Прізвище може мати лише букви.')
+
+        return last_name
+
+
 class UserCreateForm(UserCreationForm):
     class Meta:
         model = User

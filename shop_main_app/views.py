@@ -143,6 +143,9 @@ class ProfileUpdateView(UpdateView):
         form = UserUpdateForm(self.request.POST, instance=self.request.user)
         return form
 
+    def form_valid(self, form):
+        messages.success(self.request, 'Особиста інформація користувача оновлена успішно.')
+
     def form_invalid(self, form):
         messages.error(self.request, form.errors)
         return redirect(self.get_success_url())

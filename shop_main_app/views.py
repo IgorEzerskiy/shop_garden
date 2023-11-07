@@ -6,7 +6,7 @@ from django.contrib import messages
 
 from cart_app.forms import CartAddProductForm
 from options_app.models import Footer, Carousel
-from shop_main_app.forms import UserLoginForm, UserCreateForm, UserUpdateForm
+from shop_main_app.forms import UserLoginForm, UserCreateForm, UserUpdateForm, UserPasswordChangeForm
 from shop_main_app.models import Product, Category, User
 from django.db.models import Max, Min
 
@@ -127,6 +127,7 @@ class ProfileInfoDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_update_form'] = UserUpdateForm(instance=self.object)
+        context['user_password_change_form'] = UserPasswordChangeForm()
 
         return context
 
@@ -137,15 +138,55 @@ class ProfileUpdateView(UpdateView):
 
     def get_success_url(self):
         url = super().get_success_url()
+
         return url + f'profile/{self.request.user.id}'
 
     def get_form(self, form_class=None):
-        form = UserUpdateForm(self.request.POST, instance=self.request.user)
+        form = UserUpdateForm(self.request.POST,
+                              instance=self.request.user
+                              )
+
         return form
 
     def form_valid(self, form):
-        messages.success(self.request, 'Особиста інформація користувача оновлена успішно.')
+        messages.success(self.request,
+                         'Особиста інформація користувача оновлена успішно.'
+                         )
+        return super().form_valid(form=form)
+
+    def form_invalid(self, form):
+        messages.error(self.request,
+                       form.errors
+                       )
+
+        return redirect(self.get_success_url())
+
+
+class UserUpdatePasswordView(UpdateView):
+    queryset = User.objects.all()
+    success_url = '/login/'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"request": self.request})
+
+        return kwargs
+
+    def get_error_url(self):
+        return f'/profile/{self.request.user.id}'
+
+    def get_form(self, form_class=None):
+        form = UserPasswordChangeForm(**self.get_form_kwargs())
+
+        return form
+
+    def form_valid(self, form):
+        messages.success(self.request,
+                         'Пароль користувача оновлено успішно.'
+                         )
+        return super().form_valid(form=form)
 
     def form_invalid(self, form):
         messages.error(self.request, form.errors)
-        return redirect(self.get_success_url())
+
+        return redirect(self.get_error_url())

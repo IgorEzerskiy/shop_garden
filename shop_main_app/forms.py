@@ -2,6 +2,8 @@ import re
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.hashers import make_password
+from django.contrib import messages
 
 from shop_main_app.models import User
 
@@ -102,3 +104,73 @@ class UserCreateForm(UserCreationForm):
                 pass
              
         return email
+
+
+class UserPasswordChangeForm(forms.ModelForm):
+    current_password = forms.CharField(
+        max_length=128,
+        widget=forms.PasswordInput()
+    )
+    confirm_password = forms.CharField(
+        max_length=128,
+        widget=forms.PasswordInput()
+    )
+    password = forms.CharField(
+        max_length=128,
+        widget=forms.PasswordInput()
+    )
+
+    class Meta:
+        model = User
+        fields = ['password']
+
+    def __init__(self, *args, **kwargs):
+        if 'request' in kwargs:
+            self.request = kwargs.pop('request')
+
+        super(UserPasswordChangeForm, self).__init__(*args, **kwargs)
+        self.fields['password'].widget.attrs.update({'class': 'form-control', 'type': 'password'})
+        self.fields['current_password'].widget.attrs.update({'class': 'form-control'})
+        self.fields['confirm_password'].widget.attrs.update({'class': 'form-control'})
+
+    def clean_current_password(self):
+        current_password = self.cleaned_data.get('current_password')
+
+        if not self.request.user.check_password(current_password):
+            self.add_error(None, "Error")
+            messages.error(
+                self.request,
+                "Invalid current password"
+            )
+
+        return current_password
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+
+        if password is None or len(password) < 8 or len(password) > 20 or ' ' in password:
+            self.add_error(None, "Error")
+            messages.error(
+                self.request,
+                "Invalid new password"
+            )
+
+        return password
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+
+        if confirm_password != password:
+            self.add_error(None, "Error")
+            messages.error(
+                self.request,
+                "Password unconfirmed"
+            )
+
+        return confirm_password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = make_password(cleaned_data.get('password'))
+        cleaned_data['password'] = password

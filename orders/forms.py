@@ -31,7 +31,13 @@ class OrderCreateForm(ModelForm):
 
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'email', 'phone', 'city', 'warehouse']
+        fields = ['first_name',
+                  'last_name',
+                  'email',
+                  'phone',
+                  'city',
+                  'warehouse',
+                  'user']
 
     def __init__(self, *args, **kwargs):
         super(OrderCreateForm, self).__init__(*args, **kwargs)

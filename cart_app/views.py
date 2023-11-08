@@ -23,7 +23,7 @@ def cart_add(request, product_id):
                      override_quantity=cd['override'])
         else:
             messages.error(request, f"Ви вказали кількість({cd['quantity']}) товару більшу ніж є на складі.")
-            form.add_error('quantity', 'SOSI')
+            form.add_error('quantity', 'error')
             return redirect(f'/product/{product.slug}')
         return redirect('cart:cart_detail')
 
@@ -38,8 +38,12 @@ def cart_remove(request, product_id):
 
 def cart_detail(request):
     cart = Cart(request)
+    instance = None
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(initial={
             'quantity': item['quantity'],
             'override': True})
-    return render(request, 'cart_details.html', {'cart': cart, 'order_form': OrderCreateForm()})
+    if request.user.is_authenticated:
+        instance = request.user
+
+    return render(request, 'cart_details.html', {'cart': cart, 'order_form': OrderCreateForm(instance=instance)})

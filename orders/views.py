@@ -16,7 +16,11 @@ def order_create(request):
         if form.is_valid():
             if not len(cart) == 0:
                 with atomic():
-                    order = form.save()
+                    order = form.save(commit=False)
+                    if request.user.is_authenticated:
+                        order.user = request.user
+                    order.save()
+
                     for item in cart:
                         product_item = item['product']
                         product_item.quantity = product_item.quantity - item['quantity']

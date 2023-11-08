@@ -4,9 +4,9 @@
 
 {% block content %}
     <section style="">
-        <div class="container-fluid py-5">
+        <div class="container py-5">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
                             {#                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"#}
@@ -98,7 +98,7 @@
                     </div>
 
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-8">
                     <div class="card mb-4">
                         <div class="card-body">
                             <!-- Tabs navs -->
@@ -129,64 +129,155 @@
                                             <th scope="col">Номер</th>
                                             <th scope="col">Дата створення</th>
                                             <th scope="col">Сума замовлення</th>
-                                            <th scope="col">Підтвердженно</th>
-                                            <th scope="col">Надіслано</th>
-                                            <th scope="col">Сплачено</th>
-                                            <th scope="col">Відмінено</th>
                                             <th scope="col">Дії</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Sit</td>
-                                            <td>Amet</td>
-                                            <td><i class="fas fa-check text-success"></i></td>
-                                            <td><i class="fas fa-xmark text-danger"></i></td>
-                                            <td><i class="fas fa-check text-success"></i></td>
-                                            <td><i class="fas fa-xmark text-danger"></i></td>
-                                            <td>
-                                                <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-outline-success btn-floating show-more-btn"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal">
-                                                    <i class="far fa-eye"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-primary btn-floating">
-                                                    <i class="fas fa-download"></i>
-                                                </button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">
-                                                                    Modal title</h1>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                ...
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Close
-                                                                </button>
-                                                                <button type="button" class="btn btn-primary">Save
-                                                                    changes
-                                                                </button>
+                                        {% for order in request.user.orders.all %}
+                                            <tr>
+                                                <th scope="row">{{ order.id }}</th>
+                                                <td>{{ order.created }}</td>
+                                                <td>{{ order.get_total_cost }}</td>
+                                                <td>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button"
+                                                            class="btn btn-outline-success btn-floating show-more-btn"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal{{ order.id }}">
+                                                        <i class="far fa-eye"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary btn-floating">
+                                                        <i class="fas fa-download"></i>
+                                                    </button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal{{ order.id }}"
+                                                         tabindex="-1"
+                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-xl">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                                        Замовлення №{{ order.id }}</h1>
+                                                                    <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <h3>Товари</h3>
+                                                                    <div class="table-responsive-sm">
+                                                                        <table class="table align-middle mb-0 bg-white">
+                                                                            <thead class="bg-light">
+                                                                            <tr>
+                                                                                <th>Картинка</th>
+                                                                                <th>Товар</th>
+                                                                                <th>Кількість</th>
+                                                                                <th>Ціна</th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            {% for item in order.items.all %}
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <img src="{% if item.product.images.all.0.image %}
+                                                                            {{ item.product.images.all.0.image.url }}
+                                                                            {% else %}
+                                                                            {% static 'not_available_icons/no-image-icon-23485.png' %}
+                                                                            {% endif %}"
+                                                                                             class="img-fluid rounded-3"
+                                                                                             alt="Shopping item"
+                                                                                             style="width: 65px;">
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="ms-3">
+                                                                                            <h5>{{ item.product.title }}</h5>
+                                                                                            <p class="small mb-0">
+                                                                                                Категорія:
+                                                                                                {% for category in  item.product.category.all %}
+                                                                                                    {{ category.name }}
+                                                                                                {% endfor %}
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        {{ item.quantity }} {{ item.product.measure.name }}
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        {{ item.get_cost }} грн.
+                                                                                    </td>
+                                                                                </tr>
+                                                                            {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <h3 style="margin-top: 15px">Статуси виконання
+                                                                        замовлення</h3>
+                                                                    <div class="table-responsive-sm">
+                                                                        <table class="table align-middle mb-0 bg-white">
+                                                                            <thead class="bg-light">
+                                                                            <tr>
+                                                                                <th scope="col">Підтвердженно</th>
+                                                                                <th scope="col">Надіслано</th>
+                                                                                <th scope="col">Сплачено</th>
+                                                                                <th scope="col">Відмінено</th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    {% if order.confirmed %}
+                                                                                        <i class="fas fa-check text-success"></i>
+                                                                                    {% else %}
+                                                                                        <i class="fas fa-xmark text-danger"></i>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {% if order.sent %}
+                                                                                        <i class="fas fa-check text-success"></i>
+                                                                                    {% else %}
+                                                                                        <i class="fas fa-xmark text-danger"></i>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {% if order.paid %}
+                                                                                        <i class="fas fa-check text-success"></i>
+                                                                                    {% else %}
+                                                                                        <i class="fas fa-xmark text-danger"></i>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {% if order.declined %}
+                                                                                        <i class="fas fa-check text-success"></i>
+                                                                                    {% else %}
+                                                                                        <i class="fas fa-xmark text-danger"></i>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <figure style="margin-top: 15px">
+                                                                        <blockquote class="blockquote">
+                                                                            <p>Загальна сума замовлення: {{ order.get_total_cost }} грн.</p>
+                                                                        </blockquote>
+                                                                        <figcaption class="blockquote-footer">
+                                                                            {{ order.created }}
+                                                                        </figcaption>
+                                                                    </figure>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Закрити
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
-
                                 {% comment %}update user form{% endcomment %}
                                 <div class="tab-pane fade" id="ex-with-icons-tabs-3" role="tabpanel"
                                      aria-labelledby="ex-with-icons-tab-3">

@@ -23,9 +23,10 @@ class UserCreateView(CreateView):
     success_url = '/login'
 
 
-class UserLogoutView(LogoutView):
+class UserLogoutView(LoginRequiredMixin, LogoutView):
     http_method_names = ['post']
     next_page = '/'
+    login_url = '/login'
 
 
 class PopularProductListView(ListView):
@@ -120,9 +121,10 @@ class ProductDetailView(DetailView):
         return context
 
 
-class ProfileInfoDetailsView(DetailView):
+class ProfileInfoDetailsView(LoginRequiredMixin, DetailView):
     template_name = 'profile_page.html'
     queryset = User.objects.all()
+    login_url = '/login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -132,9 +134,10 @@ class ProfileInfoDetailsView(DetailView):
         return context
 
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     queryset = User.objects.all()
     success_url = '/'
+    login_url = '/login'
 
     def get_success_url(self):
         url = super().get_success_url()
@@ -162,9 +165,10 @@ class ProfileUpdateView(UpdateView):
         return redirect(self.get_success_url())
 
 
-class UserUpdatePasswordView(UpdateView):
+class UserUpdatePasswordView(LoginRequiredMixin, UpdateView):
     queryset = User.objects.all()
     success_url = '/login/'
+    login_url = '/login'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

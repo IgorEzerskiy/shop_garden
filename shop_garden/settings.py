@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from shop_main_app.telegram_bot import InfoBot
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,3 +147,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'shop_garden/media')
 
 AUTH_USER_MODEL = 'shop_main_app.User'
+
+# Telegram bot
+
+TELEGRAM_BOT_API_TOKEN = '6893681676:AAFGz_EfMEzHx1MvrYA9tO7fLaAlCB1Eenk'
+CHANEL_ID = '-1002069101926'
+
+# async single tone telegram bot
+
+INFO_BOT = InfoBot(api_token=TELEGRAM_BOT_API_TOKEN,
+                   chanel_id=CHANEL_ID)

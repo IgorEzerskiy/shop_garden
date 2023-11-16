@@ -1,10 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.contrib import messages
 
 from cart_app.forms import CartAddProductForm
 from options_app.models import Footer, Carousel
-from shop_main_app.forms import UserLoginForm, UserCreateForm
+from shop_main_app.forms import UserLoginForm, UserCreateForm, UserUpdateForm, UserPasswordChangeForm
 from shop_main_app.models import Product, Category, User
 from django.db.models import Max, Min
 
@@ -21,9 +23,10 @@ class UserCreateView(CreateView):
     success_url = '/login'
 
 
-class UserLogoutView(LogoutView):
+class UserLogoutView(LoginRequiredMixin, LogoutView):
     http_method_names = ['post']
     next_page = '/'
+    login_url = '/login'
 
 
 class PopularProductListView(ListView):
@@ -118,6 +121,76 @@ class ProductDetailView(DetailView):
         return context
 
 
-class ProfileInfoDetailsView(DetailView):
+class ProfileInfoDetailsView(LoginRequiredMixin, DetailView):
     template_name = 'profile_page.html'
     queryset = User.objects.all()
+    login_url = '/login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_update_form'] = UserUpdateForm(instance=self.object)
+        context['user_password_change_form'] = UserPasswordChangeForm()
+
+        return context
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    queryset = User.objects.all()
+    success_url = '/'
+    login_url = '/login'
+
+    def get_success_url(self):
+        url = super().get_success_url()
+
+        return url + f'profile/{self.request.user.id}'
+
+    def get_form(self, form_class=None):
+        form = UserUpdateForm(self.request.POST,
+                              instance=self.request.user
+                              )
+
+        return form
+
+    def form_valid(self, form):
+        messages.success(self.request,
+                         'Особиста інформація користувача оновлена успішно.'
+                         )
+        return super().form_valid(form=form)
+
+    def form_invalid(self, form):
+        messages.error(self.request,
+                       form.errors
+                       )
+
+        return redirect(self.get_success_url())
+
+
+class UserUpdatePasswordView(LoginRequiredMixin, UpdateView):
+    queryset = User.objects.all()
+    success_url = '/login/'
+    login_url = '/login'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"request": self.request})
+
+        return kwargs
+
+    def get_error_url(self):
+        return f'/profile/{self.request.user.id}'
+
+    def get_form(self, form_class=None):
+        form = UserPasswordChangeForm(**self.get_form_kwargs())
+
+        return form
+
+    def form_valid(self, form):
+        messages.success(self.request,
+                         'Пароль користувача оновлено успішно.'
+                         )
+        return super().form_valid(form=form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, form.errors)
+
+        return redirect(self.get_error_url())

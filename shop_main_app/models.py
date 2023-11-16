@@ -18,6 +18,18 @@ class User(AbstractUser):
         null=True,
         blank=True
     )
+    city = models.CharField(
+        max_length=100,
+        verbose_name='Місто доставки',
+        null=True,
+        blank=True
+    )
+    warehouse = models.CharField(
+        max_length=150,
+        verbose_name='Відділення',
+        null=True,
+        blank=True
+    )
     first_name = models.CharField(
         _("first name"),
         max_length=150

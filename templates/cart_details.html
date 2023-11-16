@@ -23,7 +23,7 @@
                                 <div id="product-container">
                                     {% for item in cart %}
                                         {% with product=item.product %}
-                                            <div class="card mb-3 mb-lg-0">
+                                            <div class="card" style="margin-bottom: 15px" id="cart">
                                                 <div class="card-body">
                                                     <div class="d-flex justify-content-between">
                                                         <div class="d-flex flex-row align-items-center">
@@ -153,7 +153,7 @@
                                                 </div>
 
                                                 <div class=" col-6 mb-3">
-                                                    <p class="mb-0">Відділення</p>
+                                                    <p class="mb-0">Адеса відділення Нової Пошти</p>
                                                     <div class="form-outline">
                                                         {{ order_form.warehouse }}
                                                     </div>

@@ -89,27 +89,32 @@
                 {% endif %}
             </div>
             {% if object_list %}
-                <div class="row">
+                <div class="container">
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="card-container">
                 {% for product in object_list %}
                     {% if product.index %}
                         <div class="col">
-                            <div class="card" style="width: 18rem; margin-bottom: 15px;">
+                            <div class="card" style="width: auto; margin-bottom: 15px;">
                                 <a href="{% url 'product_details' product.slug %} ">
-                                    {% if product.images.all.0.image.url %}
-                                        <img src="{{ product.images.all.0.image.url }}" class="card-img-top" alt="..."
-                                                {% if not product.availability %}
-                                             style="filter: grayscale(1)"
-                                                {% endif %}
-                                        >
-                                    {% else %}
-                                        <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
-                                             class="card-img-top" alt="..."
-                                        >
-                                    {% endif %}
+                                    <div class=" bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                        {% if product.images.all.0.image.url %}
+                                            <img src="{{ product.images.all.0.image.url }}" class="card-img-top"
+                                                 alt="..."
+                                                    {% if not product.availability %}
+                                                 style="filter: grayscale(1)"
+                                                    {% endif %}
+                                            >
+                                        {% else %}
+                                            <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
+                                                 class="card-img-top" alt="..."
+                                            >
+                                        {% endif %}
+                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                    </div>
                                 </a>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ product.title }}</h5>
-{#                                    <p class="card-text">{{ product.description }}</p>#}
+                                    {#                                    <p class="card-text">{{ product.description }}</p>#}
                                     {% if product.get_price_with_discount != product.price %}
                                         <div class="price-area my-4">
                                             <h4 class="new-price text-bold mb-1">{{ product.get_price_with_discount }}
@@ -123,11 +128,18 @@
                                         </div>
                                     {% endif %}
                                     {% if product.availability %}
-                                        <div class="text-success text-end" style="margin-bottom: 15px"> <span>&check; В наявності</span></div>
+                                        <div class="text-success text-end" style="margin-bottom: 15px"><span>&check; В наявності</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="text-danger text-end" style="margin-bottom: 15px"><span>&#10008; Немає в наявності</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer text-center">
+                                    {% if product.availability %}
                                         <a href="{% url 'product_details' product.slug %} "
                                            class="btn btn-primary">Купити</a>
                                     {% else %}
-                                       <div class="text-danger text-end" style="margin-bottom: 15px"><span>&#10008; Немає в наявності</span></div>
                                         <a href="{% url 'product_details' product.slug %} "
                                            class="btn btn-primary">Дивитись</a>
                                     {% endif %}
@@ -142,6 +154,7 @@
                     <hr>
                 </div>
             {% endif %}
+            </div>
             <div aria-label="..." style="display: flex; justify-content: center" class="mb-3">
                 <ul class="pagination d-flex">
                     {% if page_obj.has_previous %}

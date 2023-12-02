@@ -1,6 +1,7 @@
 from django.urls import path
 from shop_main_app.views import PopularProductListView, ProductDetailView, CategoryListView, SearchListView, \
     UserLoginView, UserCreateView, UserLogoutView, ProfileInfoDetailsView, ProfileUpdateView, UserUpdatePasswordView
+from shop_main_app.pdf_converter_views import render_pdf_view
 
 urlpatterns = [
     path('', PopularProductListView.as_view(), name='main'),
@@ -12,5 +13,6 @@ urlpatterns = [
     path('logout/', UserLogoutView.as_view(), name='logout'),
     path('profile/<int:pk>', ProfileInfoDetailsView.as_view(), name='profile_details'),
     path('profile-update/<int:pk>', ProfileUpdateView.as_view(), name='profile_update'),
-    path('user-update-password/<int:pk>', UserUpdatePasswordView.as_view(), name='update_password')
+    path('user-update-password/<int:pk>', UserUpdatePasswordView.as_view(), name='update_password'),
+    path('render-invoice/', render_pdf_view, name='render_invoice')
 ]

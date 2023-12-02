@@ -136,6 +136,7 @@ CART_SESSION_ID = 'cart'
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'shop_garden/static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "shop_garden/static")]
 
 # Default primary key field type

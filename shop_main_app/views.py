@@ -47,7 +47,7 @@ class PopularProductListView(ListView):
 
         mixed_queryset = popylar_by_add_to_popular_field | popular_by_purchases
 
-        return mixed_queryset
+        return mixed_queryset.prefetch_related('images')
 
 
 class SearchListView(ListView):
@@ -104,7 +104,7 @@ class CategoryListView(ListView):
                                   'max_range_value': int(range_values['price__max'])
                                   }
 
-        return queryset
+        return queryset.prefetch_related('images')
 
 
 class ProductDetailView(DetailView):

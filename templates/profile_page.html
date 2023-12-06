@@ -133,7 +133,7 @@
                                         </tr>
                                         </thead>
                                         <tbody id="orders">
-                                        {% for order in request.user.orders.all %}
+                                        {% for order in orders %}
                                             <tr>
                                                 <th scope="row">{{ order.id }}</th>
                                                 <td>{{ order.created }}</td>
@@ -148,9 +148,7 @@
                                                             <i class="far fa-eye"></i>
                                                         </button>
                                                         <div style="margin-left: 5px">
-                                                            <form method="get" action="{% url 'render_invoice' %}">
-                                                                <input name="order" value="{{ order.id }}"
-                                                                       type="hidden">
+                                                            <form method="get" action="{% url 'render_invoice' order.id %}">
                                                                 <button type="submit"
                                                                         class="btn btn-primary btn-floating">
                                                                     <i class="fas fa-download"></i>

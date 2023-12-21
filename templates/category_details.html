@@ -1,0 +1,189 @@
+{% extends 'index.html' %}
+{% load url_transform %}
+{% load static %}
+{% load custom_length %}
+
+{% block content %}
+    <div class="row" style="margin-top: 15px">
+        <div class="col-md-3" style="margin-bottom: 15px;">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-action active">Категорії</li>
+                {% for category in category_list %}
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
+                        style="text-align: left">
+                        <div style="display: flex; justify-content: space-between;">
+                            <a href="{% url 'category_list' category.slug %}">
+                                <img style="width: 30px; height: 30px;"
+                                     src="{{ category.image.url }}">
+                                <a href="{% url 'category_list' category.slug %}"
+                                   style="margin-bottom: 0px; font-size: 20px; margin-left: 25px;">{{ category.name }}</a>
+                            </a>
+                        </div>
+                        <div>
+                            <span class="badge bg-primary rounded-pill">{{ category.products.all|custom_length }} </span>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <div style="margin-bottom: 15px">
+                {% for category in category_list %}
+                    {% if category.slug == slug %}
+                        <h2 class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">{{ category.name }}</h2>
+                    {% endif %}
+                {% endfor %}
+                {% if object_list|length > 1 %}
+                    <div style="display: flex;">
+                        <form style="display: flex; justify-content: space-between; width: 100%" class="filters_form">
+                            <div>
+                                <div class="wrapper">
+                                    <div class="price-input">
+                                        <div class="field">
+                                            {#                                        <span>З</span>#}
+                                            <label>
+                                                <input type="number" value="{{ min_filter_value }}" class="min-input"/>
+                                            </label>
+                                        </div>
+                                        <div class="seperator">—</div>
+                                        <div class="field">
+                                            {#                                        <span>По</span>#}
+                                            <label>
+                                                <input type="number" value="{{ max_filter_value }}" class="max-input"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="slider">
+                                        <div class="progress"></div>
+                                    </div>
+                                    <div class="range-input">
+                                        <input
+                                                name="min"
+                                                type="range"
+                                                min="{{ min_range_value }}"
+                                                max="{{ max_range_value }}"
+                                                value="{{ min_filter_value }}"
+                                                class="min-range"
+                                        />
+                                        <input
+                                                type="range"
+                                                min="{{ min_range_value }}"
+                                                max="{{ max_range_value }}"
+                                                value="{{ max_filter_value }}"
+                                                class="max-range"
+                                                name="max"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="" class="sort">
+                                <select class="form-select" aria-label="Default select example" name='sort'>
+                                    <option value="price">С початку дешеві</option>
+                                    <option selected value="-price">С початку дорожчі</option>
+                                </select>
+                                <button class="btn btn-outline-success" type="submit" style="margin-top: 15px">Виконати
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+            {% if object_list %}
+                <div class="container">
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="card-container">
+                {% for product in object_list %}
+                    {% if product.index %}
+                        <div class="col">
+                            <div class="card" style="width: auto; margin-bottom: 15px;">
+                                <a href="{% url 'product_details' product.slug %} ">
+                                    <div class=" bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                        {% if product.images.all.0.image.url %}
+                                            <img src="{{ product.images.all.0.image.url }}" class="card-img-top"
+                                                 alt="..."
+                                                    {% if not product.availability %}
+                                                 style="filter: grayscale(1)"
+                                                    {% endif %}
+                                            >
+                                        {% else %}
+                                            <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
+                                                 class="card-img-top" alt="..."
+                                            >
+                                        {% endif %}
+                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.title }}</h5>
+                                    {#                                    <p class="card-text">{{ product.description }}</p>#}
+                                    {% if product.get_price_with_discount != product.price %}
+                                        <div class="price-area my-4">
+                                            <h4 class="new-price text-bold mb-1">{{ product.get_price_with_discount }}
+                                                ₴</h4>
+                                            <del>{{ product.price }} ₴</del>
+                                            <span class="old-price-discount text-danger">(ЗНИЖКА {{ product.discount }}%)</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="price-area my-4">
+                                            <h5 class="new-price text-bold mb-1">{{ product.price }} ₴</h5>
+                                        </div>
+                                    {% endif %}
+                                    {% if product.availability %}
+                                        <div class="text-success text-end" style="margin-bottom: 15px"><span>&check; В наявності</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="text-danger text-end" style="margin-bottom: 15px"><span>&#10008; Немає в наявності</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer text-center">
+                                    {% if product.availability %}
+                                        <a href="{% url 'product_details' product.slug %} "
+                                           class="btn btn-primary">Купити</a>
+                                    {% else %}
+                                        <a href="{% url 'product_details' product.slug %} "
+                                           class="btn btn-primary">Дивитись</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Упс... Нажаль ця категорія порожня(((</h4>
+                    <hr>
+                </div>
+            {% endif %}
+            </div>
+            <div aria-label="..." style="display: flex; justify-content: center" class="mb-3">
+                <ul class="pagination d-flex">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                        <a class="page-link"
+                           href="?{% query_transform page=page_obj.previous_page_number %}">Попередня</a>
+                    {% endif %}
+                    </li>
+                    {% for p in paginator.page_range %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% query_transform page=p %}">{{ p }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?{% query_transform page=page_obj.next_page_number %}">Наступна</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            </div>
+        </div>
+    </div>
+    <article>
+        {% for category in category_list %}
+            {% if category.slug == slug %}
+                {{ category.description|safe }}
+            {% endif %}
+        {% endfor %}
+    </article>
+{% endblock %}

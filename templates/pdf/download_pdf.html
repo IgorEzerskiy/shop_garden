@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="UA">
+
+<head>
+    <title>Замовлення №{{ order.id }}</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!--css file-->
+    <style type="text/css">
+        body {
+            font-family: "Roboto", sans-serif;
+            font-size: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table tr td {
+            padding: 0;
+        }
+
+        table tr td:last-child {
+            text-align: right;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .large {
+            font-size: 1.75em;
+        }
+
+        .total {
+            font-weight: bold;
+            color: #fb7578;
+        }
+
+        .logo-container {
+            margin: 20px 0 70px 0;
+        }
+
+        .invoice-info-container {
+            font-size: 0.875em;
+        }
+
+        .invoice-info-container td {
+            padding: 4px 0;
+        }
+
+        .client-name {
+            font-size: 1.5em;
+            vertical-align: top;
+        }
+
+        .line-items-container {
+            margin: 70px 0;
+            font-size: 0.875em;
+        }
+
+        .line-items-container th {
+            text-align: left;
+            color: #999;
+            border-bottom: 2px solid #ddd;
+            padding: 10px 0 15px 0;
+            font-size: 0.75em;
+            text-transform: uppercase;
+        }
+
+        .line-items-container th:last-child {
+            text-align: right;
+        }
+
+        .line-items-container td {
+            padding: 15px 0;
+        }
+
+        .line-items-container tbody tr:first-child td {
+            padding-top: 25px;
+        }
+
+        .line-items-container.has-bottom-border tbody tr:last-child td {
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .line-items-container.has-bottom-border {
+            margin-bottom: 0;
+        }
+
+        .line-items-container th.heading-quantity {
+            width: 50px;
+        }
+
+        .line-items-container th.heading-price {
+            text-align: right;
+            width: 100px;
+        }
+
+        .line-items-container th.heading-subtotal {
+            width: 100px;
+        }
+
+        .heading-description {
+            margin-left: 15px;
+        }
+
+        .payment-info {
+            width: 38%;
+            font-size: 0.75em;
+            line-height: 1.5;
+        }
+
+        .footer {
+            margin-top: 20px;
+        }
+
+        .footer-thanks {
+            font-size: 1.125em;
+        }
+
+        .footer-thanks img {
+            display: inline-block;
+            position: relative;
+            top: 1px;
+            width: 16px;
+            margin-right: 4px;
+        }
+
+        .footer-info {
+            float: right;
+            margin-top: 5px;
+            font-size: 0.75em;
+            color: #ccc;
+        }
+
+        .footer-info span {
+            padding: 0 5px;
+            color: black;
+        }
+
+        .footer-info span:last-child {
+            padding-right: 0;
+        }
+
+        .page-container {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="page-container">
+    Page
+    <span class="page"></span>
+    of
+    <span class="pages"></span>
+</div>
+
+{#<div class="logo-container">#}
+{#    <img#}
+{#            style="height: 18px"#}
+{#            src="https://app.useanvil.com/img/email-logo-black.png"#}
+{#    >#}
+{#</div>#}
+
+<table class="invoice-info-container">
+    <tr>
+        <td rowspan="2" class="client-name">
+            {{ order.user.first_name }} {{ order.user.last_name }}
+        </td>
+        <td>
+            {{ options.company_name }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Дата замовлення: <strong>{{ order.created }}</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Номер замовлення: <strong>{{ order.id }}</strong>
+        </td>
+        <td>
+            {{ options.email }}
+        </td>
+    </tr>
+</table>
+
+
+<table class="line-items-container">
+    <thead>
+    <tr>
+        <th class="heading-quantity">Кіл-ть</th>
+        <th class="heading-description" style="margin-left: 15px">Назва</th>
+        <th class="heading-price">Ціна за одиницю</th>
+        <th class="heading-subtotal">Сума</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in order.items.all %}
+        <tr>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.product.title }}</td>
+            <td class="right">{{ item.price }} грн.</td>
+            <td class="bold">{{ item.get_cost }} грн.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<table class="line-items-container has-bottom-border">
+    <thead>
+    <tr>
+        <th>Загальна ціна</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="large total">{{ order.get_total_cost }} грн.</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

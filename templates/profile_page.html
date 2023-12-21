@@ -1,0 +1,368 @@
+{% extends "index.html" %}
+{% load static %}
+{% load filters %}
+
+{% block content %}
+    <section style="">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            {#                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"#}
+                            {#                                 alt="avatar"#}
+                            {#                                 class="rounded-circle img-fluid" style="width: 150px;">#}
+                            <div class="row mt-4">
+                                <div class="col-sm-6">
+                                    <p class="mb-0">Прізвище та ім'я</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-muted mb-0">{{ request.user.first_name|replace_data_if_value_none }} {{ request.user.last_name|replace_data_if_value_none }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row mt-4">
+                                <div class="col-sm-6">
+                                    <p class="mb-0">Нікнейм</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-muted mb-0">{{ request.user.username|replace_data_if_value_none }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="mb-0">Електронна пошта</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-muted mb-0">{{ request.user.email|replace_data_if_value_none }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="mb-0">Телефон</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-muted mb-0">{{ request.user.phone|replace_data_if_value_none }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="mb-0">Населений пункт</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-muted mb-0">{{ request.user.city|replace_data_if_value_none }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="mb-0">Адреса відділення НП</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-muted mb-0">{{ request.user.warehouse|replace_data_if_value_none }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% comment %}change password form{% endcomment %}
+                    <div class="card mb-4 mb-lg-0">
+                        <div class="card-body p-0">
+                            <form method="post" action="{% url 'update_password' object.id %}"
+                                  enctype="multipart/form-data">
+                                <!-- current password input -->
+                                <div class="form-outline mb-3">
+                                    {{ user_password_change_form.current_password }}
+                                    <label class="form-label" for="currentPassword">Поточний пароль</label>
+                                </div>
+
+                                <!-- new password input -->
+                                <div class="form-outline mb-3">
+                                    {{ user_password_change_form.password }}
+                                    <label class="form-label" for="newPassword">Новий пароль</label>
+                                </div>
+
+                                <div class="form-outline mb-3">
+                                    {{ user_password_change_form.confirm_password }}
+                                    <label class="form-label" for="newPassword">Підтвердіть пароль</label>
+                                </div>
+
+                                {% csrf_token %}
+                                <!-- Submit button -->
+                                <button type="submit" class="btn btn-danger btn-block">Змінити пароль</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <!-- Tabs navs -->
+                            <ul class="nav nav-tabs mb-3" id="ex-with-icons" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="ex-with-icons-tab-1" data-mdb-toggle="tab"
+                                       href="#ex-with-icons-tabs-1" role="tab"
+                                       aria-controls="ex-with-icons-tabs-1" aria-selected="true"><i
+                                            class="fas fa-chart-pie fa-fw me-2"></i>Мої замовлення</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="ex-with-icons-tab-3" data-mdb-toggle="tab"
+                                       href="#ex-with-icons-tabs-3" role="tab"
+                                       aria-controls="ex-with-icons-tabs-3" aria-selected="false"><i
+                                            class="fas fa-cogs fa-fw me-2"></i>Оновити контактні дані</a>
+                                </li>
+                            </ul>
+                            <!-- Tabs navs -->
+
+                            <!-- Tabs content -->
+                            <div class="tab-content" id="ex-with-icons-content">
+                                <div class="tab-pane fade show active table-responsive-sm" id="ex-with-icons-tabs-1"
+                                     role="tabpanel"
+                                     aria-labelledby="ex-with-icons-tab-1">
+                                    <table class="table align-middle">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Номер</th>
+                                            <th scope="col">Дата створення</th>
+                                            <th scope="col">Сума замовлення</th>
+                                            <th scope="col">Дії</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="orders">
+                                        {% for order in orders %}
+                                            <tr>
+                                                <th scope="row">{{ order.id }}</th>
+                                                <td>{{ order.created }}</td>
+                                                <td>{{ order.get_total_cost }}</td>
+                                                <td>
+                                                    <!-- Button trigger modal -->
+                                                    <div style="display: flex">
+                                                        <button type="button"
+                                                                class="btn btn-outline-success btn-floating show-more-btn"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal{{ order.id }}">
+                                                            <i class="far fa-eye"></i>
+                                                        </button>
+                                                        <div style="margin-left: 5px">
+                                                            <form method="get" action="{% url 'render_invoice' order.id %}">
+                                                                <button type="submit"
+                                                                        class="btn btn-primary btn-floating">
+                                                                    <i class="fas fa-download"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal{{ order.id }}"
+                                                         tabindex="-1"
+                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-xl">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                                        Замовлення №{{ order.id }}</h1>
+                                                                    <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <h3>Товари</h3>
+                                                                    <div class="table-responsive-sm">
+                                                                        <table class="table align-middle mb-0 bg-white">
+                                                                            <thead class="bg-light">
+                                                                            <tr>
+                                                                                <th>Картинка</th>
+                                                                                <th>Товар</th>
+                                                                                <th>Кількість</th>
+                                                                                <th>Ціна</th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            {% for item in order.items.all %}
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <img src="{% if item.product.images.all.0.image %}
+                                                                            {{ item.product.images.all.0.image.url }}
+                                                                            {% else %}
+                                                                            {% static 'not_available_icons/no-image-icon-23485.png' %}
+                                                                            {% endif %}"
+                                                                                             class="img-fluid rounded-3"
+                                                                                             alt="Shopping item"
+                                                                                             style="width: 65px;">
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="ms-3">
+                                                                                            <h5>{{ item.product.title }}</h5>
+                                                                                            <p class="small mb-0">
+                                                                                                Категорія:
+                                                                                                {% for category in  item.product.category.all %}
+                                                                                                    {{ category.name }}
+                                                                                                {% endfor %}
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        {{ item.quantity }} {{ item.product.measure.name }}
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        {{ item.get_cost }} грн.
+                                                                                    </td>
+                                                                                </tr>
+                                                                            {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <h3 style="margin-top: 15px">Статуси виконання
+                                                                        замовлення</h3>
+                                                                    <div class="table-responsive-sm">
+                                                                        <table class="table align-middle mb-0 bg-white">
+                                                                            <thead class="bg-light">
+                                                                            <tr>
+                                                                                <th scope="col">Підтвердженно</th>
+                                                                                <th scope="col">Надіслано</th>
+                                                                                <th scope="col">Сплачено</th>
+                                                                                <th scope="col">Відмінено</th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    {% if order.confirmed %}
+                                                                                        <i class="fas fa-check text-success"></i>
+                                                                                    {% else %}
+                                                                                        <i class="fas fa-xmark text-danger"></i>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {% if order.sent %}
+                                                                                        <i class="fas fa-check text-success"></i>
+                                                                                    {% else %}
+                                                                                        <i class="fas fa-xmark text-danger"></i>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {% if order.paid %}
+                                                                                        <i class="fas fa-check text-success"></i>
+                                                                                    {% else %}
+                                                                                        <i class="fas fa-xmark text-danger"></i>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {% if order.declined %}
+                                                                                        <i class="fas fa-check text-success"></i>
+                                                                                    {% else %}
+                                                                                        <i class="fas fa-xmark text-danger"></i>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <figure style="margin-top: 15px">
+                                                                        <blockquote class="blockquote">
+                                                                            <p>Загальна сума
+                                                                                замовлення: {{ order.get_total_cost }}
+                                                                                грн.</p>
+                                                                        </blockquote>
+                                                                        <figcaption class="blockquote-footer">
+                                                                            {{ order.created }}
+                                                                        </figcaption>
+                                                                    </figure>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Закрити
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div style="width: 100%; text-align: center">
+                                        <button type="button"
+                                                class="btn btn-outline-success btn-floating show-more-btn"
+                                                id="show-more-btn" data-paginator="" data-action="more">
+                                            <i class="fas fa-angles-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                {% comment %}update user form{% endcomment %}
+                                <div class="tab-pane fade" id="ex-with-icons-tabs-3" role="tabpanel"
+                                     aria-labelledby="ex-with-icons-tab-3">
+                                    <form method="post" action="{% url 'profile_update' object.id %}"
+                                          enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="mb-3">
+                                                <p class="mb-0">Ім'я</p>
+                                                <div class="form-outline">
+                                                    {{ user_update_form.first_name }}
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <p class="mb-0">Прізвище</p>
+                                                <div class="form-outline">
+                                                    {{ user_update_form.last_name }}
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <p class="mb-0">Нікнейм</p>
+                                                <div class="form-outline">
+                                                    {{ user_update_form.username }}
+                                                </div>
+                                            </div>
+
+                                            <div class=" mb-3">
+                                                <p class="mb-0">Електронна пошта</p>
+                                                <div class="form-outline">
+                                                    {{ user_update_form.email }}
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-6 mb-3">
+                                                <p class="mb-0">Телефон</p>
+                                                <div class="form-outline">
+                                                    {{ user_update_form.phone }}
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-6 mb-3">
+                                                <p class="mb-0">Населений пункт</p>
+                                                <div class="form-outline">
+                                                    {{ user_update_form.city }}
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-6 mb-3">
+                                                <p class="mb-0">Адеса відділення Нової Пошти</p>
+                                                <div class="form-outline">
+                                                    {{ user_update_form.warehouse }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="float-end">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-warning shadow-0 border">
+                                                Оновити
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

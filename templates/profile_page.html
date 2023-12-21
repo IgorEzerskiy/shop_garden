@@ -132,23 +132,30 @@
                                             <th scope="col">Дії</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
-                                        {% for order in request.user.orders.all %}
+                                        <tbody id="orders">
+                                        {% for order in orders %}
                                             <tr>
                                                 <th scope="row">{{ order.id }}</th>
                                                 <td>{{ order.created }}</td>
                                                 <td>{{ order.get_total_cost }}</td>
                                                 <td>
                                                     <!-- Button trigger modal -->
-                                                    <button type="button"
-                                                            class="btn btn-outline-success btn-floating show-more-btn"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal{{ order.id }}">
-                                                        <i class="far fa-eye"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary btn-floating">
-                                                        <i class="fas fa-download"></i>
-                                                    </button>
+                                                    <div style="display: flex">
+                                                        <button type="button"
+                                                                class="btn btn-outline-success btn-floating show-more-btn"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal{{ order.id }}">
+                                                            <i class="far fa-eye"></i>
+                                                        </button>
+                                                        <div style="margin-left: 5px">
+                                                            <form method="get" action="{% url 'render_invoice' order.id %}">
+                                                                <button type="submit"
+                                                                        class="btn btn-primary btn-floating">
+                                                                    <i class="fas fa-download"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="exampleModal{{ order.id }}"
                                                          tabindex="-1"
@@ -257,7 +264,9 @@
                                                                     </div>
                                                                     <figure style="margin-top: 15px">
                                                                         <blockquote class="blockquote">
-                                                                            <p>Загальна сума замовлення: {{ order.get_total_cost }} грн.</p>
+                                                                            <p>Загальна сума
+                                                                                замовлення: {{ order.get_total_cost }}
+                                                                                грн.</p>
                                                                         </blockquote>
                                                                         <figcaption class="blockquote-footer">
                                                                             {{ order.created }}
@@ -277,6 +286,13 @@
                                         {% endfor %}
                                         </tbody>
                                     </table>
+                                    <div style="width: 100%; text-align: center">
+                                        <button type="button"
+                                                class="btn btn-outline-success btn-floating show-more-btn"
+                                                id="show-more-btn" data-paginator="" data-action="more">
+                                            <i class="fas fa-angles-down"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 {% comment %}update user form{% endcomment %}
                                 <div class="tab-pane fade" id="ex-with-icons-tabs-3" role="tabpanel"

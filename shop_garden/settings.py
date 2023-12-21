@@ -13,6 +13,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from shop_main_app.telegram_bot import InfoBot
+import environ
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,13 +26,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-j*xllw^v!)qlj(%8z!o27x4ml%mj=owzmeaw1n3*rl*o2zw%@='
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+INTERNAL_IPS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +48,7 @@ INSTALLED_APPS = [
     'orders',
     'phonenumber_field',
     'tinymce',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'shop_garden.urls'
@@ -86,11 +93,11 @@ WSGI_APPLICATION = 'shop_garden.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'verceldb',
-        'USER': 'default',
-        'PASSWORD': 'zndbJVSW5PX7',
-        'HOST': 'ep-icy-pine-83113336-pooler.eu-central-1.postgres.vercel-storage.com',
-        'PORT': '5432',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
@@ -136,6 +143,7 @@ CART_SESSION_ID = 'cart'
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'shop_garden/static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "shop_garden/static")]
 
 # Default primary key field type
@@ -150,8 +158,8 @@ AUTH_USER_MODEL = 'shop_main_app.User'
 
 # Telegram bot
 
-TELEGRAM_BOT_API_TOKEN = '6893681676:AAFGz_EfMEzHx1MvrYA9tO7fLaAlCB1Eenk'
-CHANEL_ID = '-1002069101926'
+TELEGRAM_BOT_API_TOKEN = env('TELEGRAM_API_TOKEN')
+CHANEL_ID = env('TELEGRAM_CHANEL_ID')
 
 # async single tone telegram bot
 

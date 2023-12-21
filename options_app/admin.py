@@ -10,8 +10,8 @@ from options_app.models import Footer, Carousel
 class AuthorAdmin(admin.ModelAdmin):
 
     # This will help you to disbale add functionality
-    def has_add_permission(self, request):
-        return False
+    # def has_add_permission(self, request):
+    #     return False
 
     # This will help you to disable delete functionality
     def has_delete_permission(self, request, obj=None):

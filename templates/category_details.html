@@ -179,4 +179,11 @@
             </div>
         </div>
     </div>
+    <article>
+        {% for category in category_list %}
+            {% if category.slug == slug %}
+                {{ category.description|safe }}
+            {% endif %}
+        {% endfor %}
+    </article>
 {% endblock %}

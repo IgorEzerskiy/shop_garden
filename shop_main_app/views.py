@@ -1,14 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib import messages
 
 from cart_app.forms import CartAddProductForm
 from options_app.models import Footer, Carousel
+from orders.models import Order
 from shop_main_app.forms import UserLoginForm, UserCreateForm, UserUpdateForm, UserPasswordChangeForm
 from shop_main_app.models import Product, Category, User
 from django.db.models import Max, Min
+
+from shop_main_app.pdf_converter import render_from_html_to_pdf
 
 
 class UserLoginView(LoginView):
@@ -43,7 +47,7 @@ class PopularProductListView(ListView):
 
         mixed_queryset = popylar_by_add_to_popular_field | popular_by_purchases
 
-        return mixed_queryset
+        return mixed_queryset.prefetch_related('images')
 
 
 class SearchListView(ListView):
@@ -100,7 +104,7 @@ class CategoryListView(ListView):
                                   'max_range_value': int(range_values['price__max'])
                                   }
 
-        return queryset
+        return queryset.prefetch_related('images')
 
 
 class ProductDetailView(DetailView):
@@ -130,6 +134,12 @@ class ProfileInfoDetailsView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['user_update_form'] = UserUpdateForm(instance=self.object)
         context['user_password_change_form'] = UserPasswordChangeForm()
+        context['orders'] = Order.objects.prefetch_related('items',
+                                                           'items__product',
+                                                           'items__product__images',
+                                                           'items__product__measure',
+                                                           'items__product__category'
+                                                           )
 
         return context
 
@@ -194,3 +204,31 @@ class UserUpdatePasswordView(LoginRequiredMixin, UpdateView):
         messages.error(self.request, form.errors)
 
         return redirect(self.get_error_url())
+
+
+class GeneratePDFView(DetailView):
+    queryset = Order.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['options'] = Footer.objects.first()
+
+        return context
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+
+        if request.user.is_authenticated:
+            if self.object.user == request.user:
+                template_path = 'pdf/download_pdf.html'
+                context['order'] = self.object
+
+                pdf_data = render_from_html_to_pdf(context=context, template_path=template_path)
+
+                response = HttpResponse(pdf_data, content_type='application/pdf')
+                response[
+                    'Content-Disposition'] = f'attachment; filename="order_{self.object.user.first_name}_{self.object.user.last_name}_{self.object.id}.pdf"'
+
+                return response
+        return HttpResponseNotFound('err')

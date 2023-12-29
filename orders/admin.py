@@ -1,7 +1,13 @@
 from django.contrib import admin
+from django.db import transaction
+from django.db.models import QuerySet
+
 from orders.forms import OrderItemModelForm
 from orders.formset import OrderItemInlineFormSet
 from orders.models import Order, OrderItem
+from django.contrib import messages
+
+from shop_main_app.models import Product
 
 
 class OrderItemAdmin(admin.TabularInline):
@@ -28,6 +34,28 @@ class OrderAdmin(admin.ModelAdmin):
                     'paid',
                     'declined'
                     ]
+    actions = ('delete_orders', )
+    admin.site.disable_action('delete_selected')
 
     class Meta:
         model = Order
+
+    @admin.action(description='Видалити обрані замовлення')
+    def delete_orders(self, request, queryset: QuerySet):
+        with transaction.atomic():
+            for obj in queryset:
+                for order_item in obj.items.all():
+
+                    # 1 method to increase quantity
+
+                    order_item.product.quantity += order_item.quantity
+                    order_item.product.save()
+
+                    # # 2 method to increase quantity
+
+                    # product = Product.objects.get(id=order_item.product.id)
+                    # product.quantity += order_item.quantity
+                    # product.save()
+
+            queryset.delete()
+        self.message_user(request, f"удален", messages.SUCCESS)

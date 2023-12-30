@@ -59,7 +59,7 @@ class OrderAdmin(admin.ModelAdmin):
                     # product.save()
 
             queryset.delete()
-        self.message_user(request, f"удален", messages.SUCCESS)
+        self.message_user(request, f"Успішне видалення", messages.SUCCESS)
 
     @admin.action(description='Статус "Підтвержено" ')
     def change_status_confirmed(self, request, queryset: QuerySet):
@@ -80,5 +80,4 @@ class OrderAdmin(admin.ModelAdmin):
     def change_status_declined(self, request, queryset: QuerySet):
         queryset.update(declined=True)
         self.message_user(request, f"Статус змінений", messages.SUCCESS)
-
-
+        

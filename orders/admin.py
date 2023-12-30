@@ -34,8 +34,9 @@ class OrderAdmin(admin.ModelAdmin):
                     'paid',
                     'declined'
                     ]
-    actions = ('delete_orders', )
-    admin.site.disable_action('delete_selected')
+    actions = ('delete_orders', 'change_status_confirmed', 'change_status_sent', 'change_status_paid',
+               'change_status_declined')
+    admin.site.disable_action('delete_selected', )
 
     class Meta:
         model = Order
@@ -59,3 +60,25 @@ class OrderAdmin(admin.ModelAdmin):
 
             queryset.delete()
         self.message_user(request, f"удален", messages.SUCCESS)
+
+    @admin.action(description='Статус "Підтвержено" ')
+    def change_status_confirmed(self, request, queryset: QuerySet):
+        queryset.update(confirmed=True)
+        self.message_user(request, f"Статус змінений", messages.SUCCESS)
+
+    @admin.action(description='Статус "Відправлено"')
+    def change_status_sent(self, request, queryset: QuerySet):
+        queryset.update(sent=True)
+        self.message_user(request, f"Статус змінений", messages.SUCCESS)
+
+    @admin.action(description='Статус "Оплачено"')
+    def change_status_paid(self, request, queryset: QuerySet):
+        queryset.update(paid=True)
+        self.message_user(request, f"Статус змінений", messages.SUCCESS)
+
+    @admin.action(description='Статус "Відмінено"')
+    def change_status_declined(self, request, queryset: QuerySet):
+        queryset.update(declined=True)
+        self.message_user(request, f"Статус змінений", messages.SUCCESS)
+
+

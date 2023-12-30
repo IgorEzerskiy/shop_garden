@@ -7,15 +7,13 @@ from orders.formset import OrderItemInlineFormSet
 from orders.models import Order, OrderItem
 from django.contrib import messages
 
-from shop_main_app.models import Product
-
 
 class OrderItemAdmin(admin.TabularInline):
     model = OrderItem
     extra = 0
     verbose_name = 'Товар'
     verbose_name_plural = 'Товари'
-    readonly_fields = ('price', )
+    readonly_fields = ('price',)
     form = OrderItemModelForm
     formset = OrderItemInlineFormSet
 
@@ -46,20 +44,13 @@ class OrderAdmin(admin.ModelAdmin):
         with transaction.atomic():
             for obj in queryset:
                 for order_item in obj.items.all():
-
-                    # 1 method to increase quantity
-
                     order_item.product.quantity += order_item.quantity
                     order_item.product.save()
-
-                    # # 2 method to increase quantity
-
-                    # product = Product.objects.get(id=order_item.product.id)
-                    # product.quantity += order_item.quantity
-                    # product.save()
-
             queryset.delete()
         self.message_user(request, f"Успішне видалення", messages.SUCCESS)
+
+    def delete_model(self, request, obj):
+        obj.delete()
 
     @admin.action(description='Статус "Підтвержено" ')
     def change_status_confirmed(self, request, queryset: QuerySet):
@@ -80,4 +71,3 @@ class OrderAdmin(admin.ModelAdmin):
     def change_status_declined(self, request, queryset: QuerySet):
         queryset.update(declined=True)
         self.message_user(request, f"Статус змінений", messages.SUCCESS)
-        

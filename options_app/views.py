@@ -8,12 +8,10 @@ from shop_main_app.models import Category
 class DeliveryInfoView(TemplateView):
     template_name = 'delivery_info.html'
     extra_context = {'category_list': Category.objects.all(),
-                     'footer_info': Footer.objects.first(),
                      }
 
 
 class ReturnPolicyView(TemplateView):
     template_name = 'return_conditions.html'
     extra_context = {'category_list': Category.objects.all(),
-                     'footer_info': Footer.objects.first(),
                      }

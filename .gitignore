@@ -2,3 +2,6 @@ venv
 .idea
 __pycache__/
 shop_garden/.env
+shop_garden/media_prod/carousel/**
+shop_garden/media_prod/category_images/**
+shop_garden/media_prod/product_images/**

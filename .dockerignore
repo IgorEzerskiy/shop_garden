@@ -1,0 +1,6 @@
+.git
+.gitignore
+venv
+.idea
+__pycache__/
+shop_garden/media

@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from shop_main_app.telegram_bot import InfoBot
 import environ
+import mimetypes
 
 # Initialise environment variables
 env = environ.Env()
@@ -165,3 +166,8 @@ CHANEL_ID = env('TELEGRAM_CHANEL_ID')
 
 INFO_BOT = InfoBot(api_token=TELEGRAM_BOT_API_TOKEN,
                    chanel_id=CHANEL_ID)
+mimetypes.add_type("application/javascript", ".js", True)
+
+DEBUG_TOOLBAR_CONFIG = {
+    "INTERCEPT_REDIRECTS": False,
+}

@@ -15,6 +15,7 @@ from pathlib import Path
 import os
 from shop_main_app.telegram_bot import InfoBot
 import environ
+import mimetypes
 
 # Initialise environment variables
 env = environ.Env()
@@ -207,3 +208,10 @@ if platform.system() == 'Windows':
     WKHTMLTOPDF_PATH = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 else:
     WKHTMLTOPDF_PATH = rf"{env('WKHTMLTOPDF_PATH')}"
+
+# Debug toolbar conf
+mimetypes.add_type("application/javascript", ".js", True)
+
+DEBUG_TOOLBAR_CONFIG = {
+    "INTERCEPT_REDIRECTS": False,
+}

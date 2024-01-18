@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from options_app.models import Footer, Carousel
+from options_app.models import Footer, Carousel, ShippingAndBilling, ReturnPolicy, AboutInfo
 
 
 # Register your models here.
@@ -9,7 +9,7 @@ from options_app.models import Footer, Carousel
 @admin.register(Footer)
 class AuthorAdmin(admin.ModelAdmin):
 
-    # This will help you to disbale add functionality
+    # This will help you to disable add functionality
     # def has_add_permission(self, request):
     #     return False
 
@@ -21,9 +21,39 @@ class AuthorAdmin(admin.ModelAdmin):
 @admin.register(Carousel)
 class AuthorAdmin(admin.ModelAdmin):
 
-    # This will help you to disbale add functionality
+    # This will help you to disable add functionality
     def has_add_permission(self, request):
         if Carousel.objects.all().count() >= 5:
+            return False
+        return True
+
+
+@admin.register(ShippingAndBilling)
+class AuthorAdmin(admin.ModelAdmin):
+
+    # This will help you to disable add functionality
+    def has_add_permission(self, request):
+        if ShippingAndBilling.objects.all().count() >= 1:
+            return False
+        return True
+
+
+@admin.register(ReturnPolicy)
+class AuthorAdmin(admin.ModelAdmin):
+
+    # This will help you to disable add functionality
+    def has_add_permission(self, request):
+        if ReturnPolicy.objects.all().count() >= 1:
+            return False
+        return True
+
+
+@admin.register(AboutInfo)
+class AuthorAdmin(admin.ModelAdmin):
+
+    # This will help you to disable add functionality
+    def has_add_permission(self, request):
+        if AboutInfo.objects.all().count() >= 1:
             return False
         return True
 

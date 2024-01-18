@@ -34,8 +34,8 @@ SECRET_KEY = env('SECRET_KEY')
 
 INTERNAL_IPS = ['127.0.0.1']
 
-DEBUG = env("DEBUG")
-# DEBUG = True
+# DEBUG = env("DEBUG")
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
 

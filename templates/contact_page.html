@@ -12,27 +12,40 @@
             </div>
         </div>
         <div style="width: 100%; display: flex; justify-content: center; margin-top: 20px; margin-bottom: 20px">
-            <form style="width: 40rem;">
+            <form style="width: 40rem;" method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <ul>
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
                 <!-- Name input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="text" id="form4Example1" class="form-control"/>
-                    <label class="form-label" for="form4Example1">Ім'я</label>
+                    {{ form.name }}
+                    <label class="form-label" for="name">Ім'я</label>
+                    {{ form.name.errors }}
                 </div>
 
                 <!-- Email input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="email" id="form4Example2" class="form-control"/>
-                    <label class="form-label" for="form4Example2">Електронна адреса</label>
+                    {{ form.email }}
+                    <label class="form-label" for="email">Електронна адреса</label>
+                    {{ form.email.errors }}
                 </div>
 
                 <!-- Message input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <textarea class="form-control" id="form4Example3" rows="4"></textarea>
-                    <label class="form-label" for="form4Example3">Повідомлення</label>
+                    {{ form.message }}
+                    <label class="form-label" for="message">Повідомлення</label>
+                    {{ form.message.errors }}
                 </div>
+                <p>Максимум 500 символів.</p>
 
                 <!-- Submit button -->
-                <button data-mdb-ripple-init type="button" class="btn btn-primary btn-block mb-4">Надіслати</button>
+                <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Надіслати</button>
             </form>
         </div>
     </article>

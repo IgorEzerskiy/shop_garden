@@ -1,8 +1,35 @@
 from django.db import models
-
+from django.utils.translation import gettext_lazy as _
 from shop_main_app.models import Category
 from shop_main_app.validators import ImageValidator
 from tinymce.models import HTMLField
+
+CONTACT_FROM_STATUS_CHOICES = (
+    (_("processed"), "ОБРОБЛЕНО"),
+    (_("awaits"), "ОЧІКУЄ")
+)
+
+
+class ContactForm(models.Model):
+    name = models.CharField(_("name"),
+                            max_length=40
+                            )
+    email = models.CharField(_("email address"))
+    message = models.TextField(verbose_name='Повідомлення',
+                               max_length=500
+                               )
+    status = models.CharField(verbose_name='Статус',
+                              max_length=9,
+                              choices=CONTACT_FROM_STATUS_CHOICES,
+                              default=_("awaits")
+                              )
+
+    class Meta:
+        verbose_name = 'Контактна форма'
+        verbose_name_plural = 'Запити з "контактної форми"'
+
+    def __str__(self):
+        return f'{self.name}/{self.email}'
 
 
 class ShippingAndBilling(models.Model):

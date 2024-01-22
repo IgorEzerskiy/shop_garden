@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from options_app.models import Footer, Carousel, ShippingAndBilling, ReturnPolicy, AboutInfo
+from options_app.models import Footer, Carousel, ShippingAndBilling, ReturnPolicy, AboutInfo, ContactForm
 
 
 # Register your models here.
@@ -57,3 +57,12 @@ class AuthorAdmin(admin.ModelAdmin):
             return False
         return True
 
+
+@admin.register(ContactForm)
+class AuthorAdmin(admin.ModelAdmin):
+    readonly_fields = ('name', 'email', 'message',)
+    list_display = ('name', 'email', 'status',)
+
+    # This will help you to disable add functionality
+    def has_add_permission(self, request):
+        return False

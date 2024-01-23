@@ -215,3 +215,10 @@ mimetypes.add_type("application/javascript", ".js", True)
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
+
+# email notification credentials
+
+SMTP_SERVER = env('SMTP_SERVER')
+SMTP_PORT = env('SMTP_PORT')
+USERNAME = env('USERNAME')
+PASSWORD = env('PASSWORD')

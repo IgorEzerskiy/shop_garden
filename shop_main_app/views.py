@@ -96,7 +96,12 @@ class CategoryListView(ListView):
 
             order_by = self.request.GET.get('sort', '-price')
 
-            queryset = queryset.filter(price__gte=min_price, price__lte=max_price).order_by('-availability', order_by)
+            if self.request.GET.get('discount'):
+                queryset = queryset.filter(price__gte=min_price, price__lte=max_price, discount__gte=1).order_by(
+                    '-availability', order_by)
+            else:
+                queryset = queryset.filter(price__gte=min_price, price__lte=max_price).order_by('-availability',
+                                                                                                order_by)
 
             self.extra_context = {'min_filter_value': int(min_price),
                                   'max_filter_value': int(max_price),

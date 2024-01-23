@@ -33,7 +33,8 @@ SECRET_KEY = env('SECRET_KEY')
 
 INTERNAL_IPS = ['127.0.0.1']
 
-DEBUG = env("DEBUG")
+# DEBUG = env("DEBUG")
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
 
@@ -209,3 +210,9 @@ DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
 
+# email notification credentials
+
+SMTP_SERVER = env('SMTP_SERVER')
+SMTP_PORT = env('SMTP_PORT')
+USERNAME = env('USERNAME')
+PASSWORD = env('PASSWORD')

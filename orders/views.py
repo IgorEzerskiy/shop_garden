@@ -80,7 +80,7 @@ def order_create(request):
                 })
 
                 # email notification
-                email_notific(message_info=order_info_for_email_notific, email_to=order.email)
+                email_notific(message_info=order_info_for_email_notific, email_to=order.email, mode='order')
 
                 messages.success(request, f"Ваше замовлення успішно створено. Номер вашого замовлення {order.id}")
                 return redirect('/')

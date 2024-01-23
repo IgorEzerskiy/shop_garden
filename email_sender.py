@@ -7,18 +7,24 @@ from jinja2 import Environment, FileSystemLoader
 from django.conf import settings
 
 
+templates_names = {
+    'order': 'email_notification.html',
+    'sign up': 'registration_notification.html'
+}
+
 class EmailMessage:
-    def __init__(self, from_email, to_email, subject, context):
+    def __init__(self, from_email, to_email, subject, context, mode):
         self.from_email = from_email
         self.to_email = to_email
         self.subject = subject
         self.context = context
+        self.mode = mode
 
     def build_message(self):
         current_directory = os.path.dirname(os.path.abspath(__file__))
         template_directory = os.path.join(current_directory, 'templates')
         env = Environment(loader=FileSystemLoader(template_directory))
-        template_name = 'email_notification.html'
+        template_name = templates_names[self.mode]
         template = env.get_template(template_name)
         context = self.context
         email_content = template.render(context)
@@ -63,13 +69,12 @@ class EmailSender(SMTPServer):
             self.disconnect()
 
 
-def email_notific(message_info: dict, email_to: str) -> None:
+def email_notific(message_info: dict, email_to: str, mode: str) -> None:
     sender = EmailSender()
 
-    message = EmailMessage(settings.USERNAME, email_to, 'Ваше замовлення', message_info)
+    message = EmailMessage(settings.USERNAME, email_to, 'Ваше замовлення', message_info, mode=mode)
     sender.send_email(message)
 
-
-# Пример использования
-if __name__ == "__main__":
-    email_notific()
+# # Пример использования
+# if __name__ == "__main__":
+#     email_notific()

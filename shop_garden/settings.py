@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import platform
 from pathlib import Path
 import os
 from shop_main_app.telegram_bot import InfoBot
@@ -166,12 +167,10 @@ CART_SESSION_ID = 'cart'
 
 if DEBUG is True:
     STATIC_URL = '/static/'
-    # STATIC_ROOT = os.path.join(BASE_DIR, 'shop_garden/static')
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "shop_garden/static")]
 else:
-    STATIC_URL = "/django_static/"
-    STATIC_ROOT = BASE_DIR / "django_static"
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "shop_garden/static")]
+    STATIC_URL = "/static_prod/"
+    STATIC_ROOT = BASE_DIR / "storage/static_prod"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -184,7 +183,7 @@ if DEBUG is True:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'shop_garden/media')
 else:
     MEDIA_URL = '/media_prod/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'shop_garden/media_prod')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'storage/media_prod')
 
 AUTH_USER_MODEL = 'shop_main_app.User'
 
@@ -202,6 +201,13 @@ INFO_BOT = InfoBot(api_token=TELEGRAM_BOT_API_TOKEN,
 
 CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+
+# WKHTMLTOPDF_PATH (https://wkhtmltopdf.org/downloads.html)
+
+if platform.system() == 'Windows':
+    WKHTMLTOPDF_PATH = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+else:
+    WKHTMLTOPDF_PATH = rf"{env('WKHTMLTOPDF_PATH')}"
 
 # Debug toolbar conf
 mimetypes.add_type("application/javascript", ".js", True)

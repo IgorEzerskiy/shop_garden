@@ -1,11 +1,11 @@
 from django.template.loader import get_template
 import pdfkit
+from shop_garden.settings import WKHTMLTOPDF_PATH
 
 
 def render_from_html_to_pdf(context, template_path):
     """https://wkhtmltopdf.org/downloads.html"""
-    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    config = pdfkit.configuration(wkhtmltopdf=WKHTMLTOPDF_PATH)
     template = get_template(template_path)
 
     html = template.render(context)

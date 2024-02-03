@@ -7,7 +7,7 @@ from orders.models import OrderItem
 from orders.forms import OrderCreateForm
 from cart_app.cart import Cart
 from email_sender import email_notific
-from shop_garden.settings import INFO_BOT
+from shop_garden.settings import INFO_BOT, DEBUG
 
 
 def order_create(request):
@@ -72,7 +72,7 @@ def order_create(request):
                 order_info_for_email_notific.update({
                     f'order_total_cost': order.get_total_cost(),
                     'order_id': order.id,
-                    'buyer_phone': order.phone,
+                    'buyer_phone': str(order.phone),
                     'buyer_f_l_name': order.first_name + ' ' + order.last_name,
                     'buyer_delivery_city': order.city,
                     'buyer_delivery_warehouse': order.warehouse,
@@ -80,7 +80,10 @@ def order_create(request):
                 })
 
                 # email notification
-                email_notific(message_info=order_info_for_email_notific, email_to=order.email, mode='order')
+                if order.email and not DEBUG:
+                    email_notific.delay(message_info=order_info_for_email_notific, email_to=order.email, mode='order')
+                else:
+                    email_notific(message_info=order_info_for_email_notific, email_to=order.email, mode='order')
 
                 messages.success(request, f"Ваше замовлення успішно створено. Номер вашого замовлення {order.id}")
                 return redirect('/')

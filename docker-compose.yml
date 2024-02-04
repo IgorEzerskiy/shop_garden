@@ -34,6 +34,8 @@ services:
       - app_net
     expose:
       - 8000
+    depends_on:
+      - db
   worker:
     restart: always
     build:
@@ -49,6 +51,7 @@ services:
     depends_on:
       - server
       - redis
+      - db
   redis:
     restart: unless-stopped
     image: redis:7.0.5-alpine

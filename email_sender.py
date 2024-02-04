@@ -3,6 +3,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from jinja2 import Environment, FileSystemLoader
+from celery import shared_task
 
 from django.conf import settings
 
@@ -11,6 +12,7 @@ templates_names = {
     'order': 'email_notification.html',
     'sign up': 'registration_notification.html'
 }
+
 
 class EmailMessage:
     def __init__(self, from_email, to_email, subject, context, mode):
@@ -69,6 +71,7 @@ class EmailSender(SMTPServer):
             self.disconnect()
 
 
+@shared_task
 def email_notific(message_info: dict, email_to: str, mode: str) -> None:
     sender = EmailSender()
 

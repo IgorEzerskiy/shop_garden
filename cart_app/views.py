@@ -46,4 +46,12 @@ def cart_detail(request):
     if request.user.is_authenticated:
         instance = request.user
 
-    return render(request, 'cart_details.html', {'cart': cart, 'order_form': OrderCreateForm(instance=instance)})
+    if cart.cart.values():
+        total_price = cart.get_total_price()
+    else:
+        total_price = 0
+
+    return render(request, 'cart_details.html', {'total_price': total_price,
+                                                 'cart': cart,
+                                                 'order_form': OrderCreateForm(instance=instance)}
+                  )

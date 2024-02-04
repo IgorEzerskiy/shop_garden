@@ -148,7 +148,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uk'
 LANGUAGES = [
     ('uk', 'Українська'),
     ('en', 'English'),
@@ -171,6 +171,7 @@ if DEBUG is True:
 else:
     STATIC_URL = "/static_prod/"
     STATIC_ROOT = BASE_DIR / "storage/static_prod"
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "shop_garden/static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

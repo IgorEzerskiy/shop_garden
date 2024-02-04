@@ -10,10 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import platform
 from pathlib import Path
 import os
 from shop_main_app.telegram_bot import InfoBot
 import environ
+import mimetypes
 
 # Initialise environment variables
 env = environ.Env()
@@ -29,10 +31,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+INTERNAL_IPS = ['127.0.0.1']
+
+# DEBUG = env("DEBUG")
 DEBUG = True
 
-ALLOWED_HOSTS = []
-INTERNAL_IPS = ['127.0.0.1']
+ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
+
+if env("ALLOWED_HOSTS") is not None:
+    try:
+        ALLOWED_HOSTS += env("ALLOWED_HOSTS").split(",")
+    except Exception as ex:
+        print("Cant set ALLOWED_HOSTS, using default instead" + '/n' + f'{ex}')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -90,16 +102,28 @@ WSGI_APPLICATION = 'shop_garden.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
+if DEBUG is True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env('DB_NAME'),
+            'USER': env('DB_USER'),
+            'PASSWORD': env('DB_PASSWORD'),
+            'HOST': env('DB_HOST'),
+            'PORT': env('DB_PORT'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env('POSTGRES_NAME'),
+            'USER': env('POSTGRES_USER'),
+            'PASSWORD': env('POSTGRES_PASSWORD'),
+            'HOST': env('POSTGRES_HOST'),
+            'PORT': env('POSTGRES_PORT'),
+        }
+    }
 
 AUTHENTICATION_BACKENDS = ['shop_main_app.backends.EmailBackend']
 
@@ -124,11 +148,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uk'
 LANGUAGES = [
     ('uk', 'Українська'),
     ('en', 'English'),
-    ('fr', 'French')
 ]
 
 TIME_ZONE = 'UTC'
@@ -139,20 +162,29 @@ USE_TZ = True
 
 CART_SESSION_ID = 'cart'
 
-# Static files (CSS, JavaScript, Images)
+# Static files (CSS, JavaScript, Images) for dev and prod environment
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'shop_garden/static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "shop_garden/static")]
+if DEBUG is True:
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "shop_garden/static")]
+else:
+    STATIC_URL = "/static_prod/"
+    STATIC_ROOT = BASE_DIR / "storage/static_prod"
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "shop_garden/static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'shop_garden/media')
+# Media files for dev and prod environment
+if DEBUG is True:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'shop_garden/media')
+else:
+    MEDIA_URL = '/media_prod/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'storage/media_prod')
 
 AUTH_USER_MODEL = 'shop_main_app.User'
 
@@ -165,3 +197,29 @@ CHANEL_ID = env('TELEGRAM_CHANEL_ID')
 
 INFO_BOT = InfoBot(api_token=TELEGRAM_BOT_API_TOKEN,
                    chanel_id=CHANEL_ID)
+
+# Celery/Redis
+
+CELERY_BROKER_URL = env("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+
+# WKHTMLTOPDF_PATH (https://wkhtmltopdf.org/downloads.html)
+
+if platform.system() == 'Windows':
+    WKHTMLTOPDF_PATH = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+else:
+    WKHTMLTOPDF_PATH = rf"{env('WKHTMLTOPDF_PATH')}"
+
+# Debug toolbar conf
+mimetypes.add_type("application/javascript", ".js", True)
+
+DEBUG_TOOLBAR_CONFIG = {
+    "INTERCEPT_REDIRECTS": False,
+}
+
+# email notification credentials
+
+SMTP_SERVER = env('SMTP_SERVER')
+SMTP_PORT = env('SMTP_PORT')
+SMTP_EMAIL_USERNAME = env('SMTP_EMAIL_USERNAME')
+SMTP_EMAIL_PASSWORD = env('SMTP_EMAIL_PASSWORD')

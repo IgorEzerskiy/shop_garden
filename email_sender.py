@@ -42,8 +42,8 @@ class SMTPServer:
     def __init__(self):
         self.smtp_server = settings.SMTP_SERVER
         self.smtp_port = settings.SMTP_PORT
-        self.username = settings.USERNAME
-        self.password = settings.PASSWORD
+        self.username = settings.SMTP_EMAIL_USERNAME
+        self.password = settings.SMTP_EMAIL_PASSWORD
         self.server = self.__connect()
 
     def __connect(self):
@@ -72,7 +72,7 @@ class EmailSender(SMTPServer):
 def email_notific(message_info: dict, email_to: str, mode: str) -> None:
     sender = EmailSender()
 
-    message = EmailMessage(settings.USERNAME, email_to, 'Ваше замовлення', message_info, mode=mode)
+    message = EmailMessage(settings.SMTP_EMAIL_USERNAME, email_to, 'Ваше замовлення', message_info, mode=mode)
     sender.send_email(message)
 
 # # Пример использования

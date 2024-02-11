@@ -97,6 +97,8 @@ TEMPLATES = [
     },
 ]
 
+PAGINATE_BY = 18
+
 WSGI_APPLICATION = 'shop_garden.wsgi.application'
 
 # Database

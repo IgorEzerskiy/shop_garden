@@ -10,8 +10,10 @@ from options_app.models import Footer, Carousel, ShippingAndBilling, ReturnPolic
 class AuthorAdmin(admin.ModelAdmin):
 
     # This will help you to disable add functionality
-    # def has_add_permission(self, request):
-    #     return False
+    def has_add_permission(self, request):
+        if Footer.objects.all().count() >= 1:
+            return False
+        return True
 
     # This will help you to disable delete functionality
     def has_delete_permission(self, request, obj=None):

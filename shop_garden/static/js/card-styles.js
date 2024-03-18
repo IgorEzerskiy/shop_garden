@@ -1,17 +1,19 @@
-let elems = document.querySelectorAll('div[class="card"]')
-let maxHeight = 0
+function cardSize() {
+    let elems = document.querySelectorAll('div[class="card"]')
+    let maxHeight = 0
 
-for (let elem of elems) {
-    if (elem.id !== 'cart') {
-        if (elem.offsetHeight > maxHeight) {
-            maxHeight = elem.offsetHeight
+    for (let elem of elems) {
+        if (elem.id !== 'cart') {
+            if (elem.offsetHeight > maxHeight) {
+                maxHeight = elem.offsetHeight
+            }
         }
     }
-}
 
-for (let elem of elems) {
-    if (elem.id !== 'cart') {
-        elem.style.height = String(maxHeight) + 'px'
+    for (let elem of elems) {
+        if (elem.id !== 'cart') {
+            elem.style.height = String(maxHeight) + 'px'
+        }
     }
 }
 
@@ -28,6 +30,32 @@ function cardClass() {
     }
 }
 
-cardClass();
+function disableCategoryCounter() {
+    let countersArray = document.querySelectorAll('#category-list > li > div > span')
+    const screenWidth = window.innerWidth;
 
-window.addEventListener('resize', cardClass);
+    if (screenWidth < 1400) {
+        for (let elem of countersArray) {
+            elem.style.display = 'none';
+        }
+    } else {
+        for (let elem of countersArray) {
+            elem.style.display = '';
+        }
+    }
+}
+
+//cardClass();
+
+function checkLoaded() {
+    if (document.readyState === "complete") {
+        cardClass();
+        cardSize();
+        disableCategoryCounter();
+    } else {
+        setTimeout(checkLoaded, 15);
+    }
+}
+
+window.addEventListener('resize', checkLoaded);
+window.addEventListener('load', checkLoaded);

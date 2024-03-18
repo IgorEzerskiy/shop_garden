@@ -4,9 +4,10 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib import messages
-
+from django.shortcuts import render
+from django.views.defaults import page_not_found
 from cart_app.forms import CartAddProductForm
-from options_app.models import Footer, Carousel
+from options_app.models import Footer, Carousel, TextAtMainPage
 from orders.models import Order
 from shop_main_app.forms import UserLoginForm, UserCreateForm, UserUpdateForm, UserPasswordChangeForm
 from shop_main_app.models import Product, Category, User
@@ -37,8 +38,15 @@ class UserLogoutView(LoginRequiredMixin, LogoutView):
 class PopularProductListView(ListView):
     template_name = 'main_page.html'
     queryset = Product.objects.all()
-    extra_context = {'carousel_items': Carousel.objects.filter(is_active=True)}
     paginate_by = settings.PAGINATE_BY
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['carousel_items'] = Carousel.objects.filter(is_active=True)
+        context['main_text'] = TextAtMainPage.objects.first()
+
+        return context
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(index=True)
@@ -129,6 +137,12 @@ class ProductDetailView(DetailView):
         context['form'].fields['quantity'].widget.attrs.update({'max': f'{self.object.quantity}'})
 
         return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.prefetch_related('images')
+
+        return queryset
 
 
 class ProfileInfoDetailsView(LoginRequiredMixin, DetailView):
@@ -238,3 +252,11 @@ class GeneratePDFView(DetailView):
 
                 return response
         return HttpResponseNotFound('err')
+
+
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
+
+
+def handler500(request):
+    return render(request, '500.html', status=500)

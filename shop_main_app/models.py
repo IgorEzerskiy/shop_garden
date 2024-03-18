@@ -89,7 +89,7 @@ class Category(models.Model):
 
     def save(self, **kwargs):
         if not self.slug:
-            self.slug = f'{randint(1, 1000)}-{slugify(transliterate_ua_to_en(self.name))}'
+            self.slug = f'{slugify(transliterate_ua_to_en(self.name))}'
 
         return super().save(**kwargs)
 
@@ -157,7 +157,7 @@ class Product(models.Model):
 
     def save(self, **kwargs):
         if not self.slug:
-            self.slug = f'{randint(1, 1000)}-{slugify(transliterate_ua_to_en(self.title))}'
+            self.slug = f'{slugify(transliterate_ua_to_en(self.title))}'
         return super().save(**kwargs)
 
     def __str__(self):

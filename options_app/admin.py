@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from options_app.models import Footer, Carousel, ShippingAndBilling, ReturnPolicy, AboutInfo, ContactForm
+from options_app.models import Footer, Carousel, ShippingAndBilling, ReturnPolicy, AboutInfo, ContactForm, TextAtMainPage
 
 
 # Register your models here.
@@ -46,6 +46,16 @@ class AuthorAdmin(admin.ModelAdmin):
     # This will help you to disable add functionality
     def has_add_permission(self, request):
         if ReturnPolicy.objects.all().count() >= 1:
+            return False
+        return True
+
+
+@admin.register(TextAtMainPage)
+class AuthorAdmin(admin.ModelAdmin):
+
+    # This will help you to disable add functionality
+    def has_add_permission(self, request):
+        if TextAtMainPage.objects.all().count() >= 1:
             return False
         return True
 

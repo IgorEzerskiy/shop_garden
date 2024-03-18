@@ -34,8 +34,10 @@ SECRET_KEY = env('SECRET_KEY')
 
 INTERNAL_IPS = ['127.0.0.1']
 
-# DEBUG = env("DEBUG")
-DEBUG = True
+ENVIRONMENT = {'prod': False,
+               'dev': True}
+
+DEBUG = ENVIRONMENT[env('ENVIRON')]
 
 ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
 
@@ -54,13 +56,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 'cachalot',
+    'phonenumber_field',
+    'tinymce',
+    'debug_toolbar',
+
     'shop_main_app',
     'options_app',
     'cart_app',
     'orders',
-    'phonenumber_field',
-    'tinymce',
-    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -107,7 +112,7 @@ WSGI_APPLICATION = 'shop_garden.wsgi.application'
 if DEBUG is True:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': env('DB_NAME'),
             'USER': env('DB_USER'),
             'PASSWORD': env('DB_PASSWORD'),
@@ -118,7 +123,7 @@ if DEBUG is True:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': env('POSTGRES_NAME'),
             'USER': env('POSTGRES_USER'),
             'PASSWORD': env('POSTGRES_PASSWORD'),
@@ -133,18 +138,12 @@ AUTHENTICATION_BACKENDS = ['shop_main_app.backends.EmailBackend']
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    # },
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    # },
 ]
 
 # Internationalization
@@ -205,6 +204,18 @@ INFO_BOT = InfoBot(api_token=TELEGRAM_BOT_API_TOKEN,
 CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
 
+# Cache settings
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": env("CACHE_BACKEND"),
+#         "LOCATION": env("CACHE_LOCATION_DEV") if DEBUG else env("CACHE_LOCATION_PROD"),
+#     }
+# }
+#
+# CACHALOT_DATABASES = ['default']
+# CACHALOT_TIMEOUT = 60 * 60 * 24
+
 # WKHTMLTOPDF_PATH (https://wkhtmltopdf.org/downloads.html)
 
 if platform.system() == 'Windows':
@@ -218,6 +229,24 @@ mimetypes.add_type("application/javascript", ".js", True)
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
+
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.history.HistoryPanel',
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+    'debug_toolbar.panels.profiling.ProfilingPanel',
+
+    # 'cachalot.panels.CachalotPanel',
+]
 
 # email notification credentials
 

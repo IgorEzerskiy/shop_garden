@@ -58,6 +58,20 @@ class ReturnPolicy(models.Model):
         return f'Сторінка "Умови повернення"'
 
 
+class TextAtMainPage(models.Model):
+    main_text = HTMLField(null=True,
+                          blank=True,
+                          verbose_name='Основний текст'
+                          )
+
+    class Meta:
+        verbose_name = 'Текст головної сторінки'
+        verbose_name_plural = 'Текст сторінки "Головна"'
+
+    def __str__(self):
+        return f'Текст головної сторінки'
+
+
 class AboutInfo(models.Model):
     left_side_of_page = HTMLField(verbose_name='Ліва частина сторінки')
     right_side_of_page = HTMLField(verbose_name='Права частина сторінки')

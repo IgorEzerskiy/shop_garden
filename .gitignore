@@ -7,3 +7,4 @@ storage/media_prod/category_images/*
 storage/media_prod/product_images/*
 storage/db_data/*
 storage/static_prod/*
+shop_garden/static/jsons

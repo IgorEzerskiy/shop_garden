@@ -1,5 +1,6 @@
 from django.forms import ModelForm, ValidationError
 from orders.models import OrderItem, Order
+from django import forms
 
 
 class OrderItemModelForm(ModelForm):
@@ -46,7 +47,8 @@ class OrderCreateForm(ModelForm):
         self.fields['email'].widget.attrs.update({'class': 'form-control'})
         self.fields['phone'].widget.attrs.update({'class': 'form-control'})
         self.fields['city'].widget.attrs.update({'class': 'form-control'})
-        self.fields['warehouse'].widget.attrs.update({'class': 'form-control'})
+        self.fields['warehouse'].widget = forms.HiddenInput()
+
 
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')

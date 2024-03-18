@@ -2,16 +2,17 @@
 
 {% block content %}
 
-    <article class="container page">
+    <section class="container page">
         <div class="row">
-            <div class="col col-12 col-lg-5">
+            <article class="col col-12 col-lg-5">
                 {{ about_info.left_side_of_page|safe }}
-            </div>
-            <div class="col col-12 offset-lg-1 col-lg-6 mt-5 mt-lg-0">
+            </article>
+            <article class="col col-12 offset-lg-1 col-lg-6 mt-5 mt-lg-0">
                 {{ about_info.right_side_of_page|safe }}
-            </div>
+            </article>
         </div>
-        <div style="width: 100%; display: flex; justify-content: center; margin-top: 20px; margin-bottom: 20px">
+        <h3>Маєте питання? Звертайтеся за цією формою:</h3>
+        <section style="width: 100%; display: flex; justify-content: center; margin-top: 20px; margin-bottom: 20px">
             <form style="width: 40rem;" method="post">
                 {% csrf_token %}
 
@@ -37,17 +38,19 @@
                 </div>
 
                 <!-- Message input -->
-                <div data-mdb-input-init class="form-outline mb-4">
+                <div data-mdb-input-init class="form-outline">
                     {{ form.message }}
                     <label class="form-label" for="message">Повідомлення</label>
                     {{ form.message.errors }}
                 </div>
-                <p>Максимум 500 символів.</p>
+                <div style="margin-top: 5px; margin-bottom: 25px">
+                    <span>Максимум 500 символів.</span>
+                </div>
 
                 <!-- Submit button -->
                 <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Надіслати</button>
             </form>
-        </div>
-    </article>
+        </section>
+    </section>
 
 {% endblock %}

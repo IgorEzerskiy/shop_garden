@@ -48,23 +48,23 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <p class="mb-0">Населений пункт</p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <p class="text-muted mb-0">{{ request.user.city|replace_data_if_value_none }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <p class="mb-0">Адреса відділення НП</p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <p class="text-muted mb-0">{{ request.user.warehouse|replace_data_if_value_none }}</p>
-                                </div>
-                            </div>
+                            {#                            <div class="row">#}
+                            {#                                <div class="col-sm-6">#}
+                            {#                                    <p class="mb-0">Населений пункт</p>#}
+                            {#                                </div>#}
+                            {#                                <div class="col-sm-6">#}
+                            {#                                    <p class="text-muted mb-0">{{ request.user.city|replace_data_if_value_none }}</p>#}
+                            {#                                </div>#}
+                            {#                            </div>#}
+                            {#                            <hr>#}
+                            {#                            <div class="row">#}
+                            {#                                <div class="col-sm-6">#}
+                            {#                                    <p class="mb-0">Адреса відділення НП</p>#}
+                            {#                                </div>#}
+                            {#                                <div class="col-sm-6">#}
+                            {#                                    <p class="text-muted mb-0">{{ request.user.warehouse|replace_data_if_value_none }}</p>#}
+                            {#                                </div>#}
+                            {#                            </div>#}
                         </div>
                     </div>
 
@@ -148,7 +148,8 @@
                                                             <i class="far fa-eye"></i>
                                                         </button>
                                                         <div style="margin-left: 5px">
-                                                            <form method="get" action="{% url 'render_invoice' order.id %}">
+                                                            <form method="get"
+                                                                  action="{% url 'render_invoice' order.id %}">
                                                                 <button type="submit"
                                                                         class="btn btn-primary btn-floating">
                                                                     <i class="fas fa-download"></i>
@@ -335,27 +336,27 @@
                                                 </div>
                                             </div>
 
-                                            <div class=" col-6 mb-3">
-                                                <p class="mb-0">Населений пункт</p>
-                                                <div class="form-outline">
-                                                    {{ user_update_form.city }}
-                                                </div>
-                                            </div>
+                                            {#                                            <div class=" col-6 mb-3">#}
+                                            {#                                                <p class="mb-0">Населений пункт</p>#}
+                                            {#                                                <div class="form-outline">#}
+                                            {#                                                    {{ user_update_form.city }}#}
+                                            {#                                                </div>#}
+                                            {#                                            </div>#}
+                                            {##}
+                                            {#                                            <div class=" col-6 mb-3">#}
+                                            {#                                                <p class="mb-0">Адеса відділення Нової Пошти</p>#}
+                                            {#                                                <div class="form-outline">#}
+                                            {#                                                    {{ user_update_form.warehouse }}#}
+                                            {#                                                </div>#}
+                                            {#                                            </div>#}
+                                            {#                                        </div>#}
 
-                                            <div class=" col-6 mb-3">
-                                                <p class="mb-0">Адеса відділення Нової Пошти</p>
-                                                <div class="form-outline">
-                                                    {{ user_update_form.warehouse }}
-                                                </div>
+                                            <div class="float-end">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-warning shadow-0 border">
+                                                    Оновити
+                                                </button>
                                             </div>
-                                        </div>
-
-                                        <div class="float-end">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-warning shadow-0 border">
-                                                Оновити
-                                            </button>
-                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -365,4 +366,8 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'js/profile-pagination.js' %}"></script>
 {% endblock %}

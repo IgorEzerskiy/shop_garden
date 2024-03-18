@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block content %}
-    <div class="row" style="margin-top: 15px;">
-        <div class="col-md-3" style="margin-bottom: 15px;">
-            <ul class="list-group">
+    <section class="row" style="margin-top: 15px;">
+        <aside class="col-md-3" style="margin-bottom: 15px;">
+            <ul class="list-group" id="category-list">
                 <li class="list-group-item list-group-item-action active">Категорії</li>
                 {% for category in category_list %}
                     <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
@@ -12,9 +12,9 @@
                         <div style="display: flex; justify-content: space-between;">
                             <a href="{% url 'category_list' category.slug %}">
                                 <img style="width: 30px; height: 30px;"
-                                     src="{{ category.image.url }}">
+                                     src="{{ category.image.url }}" alt="category_{{ category.slug }}">
                                 <a href="{% url 'category_list' category.slug %}"
-                                   style="margin-bottom: 0px; font-size: 20px; margin-left: 25px;">{{ category.name }}</a>
+                                   style="margin-bottom: 0; font-size: 20px; margin-left: 25px;">{{ category.name }}</a>
                             </a>
                         </div>
                         <div>
@@ -23,11 +23,11 @@
                     </li>
                 {% endfor %}
             </ul>
-        </div>
-        <div class="col-md-9">
-            <div class="container text-center">
+        </aside>
+        <section class="col-md-9">
+            <div class="container">
                 <div class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded">
-                    <h2>Результати пошуку</h2>
+                    <h1>Результати пошуку</h1>
                     {% if object_list %}
                         <p>Ви шукали: {{ request.GET.search }}</p>
                         <a href={% url 'main' %}>На головну</a>
@@ -45,14 +45,14 @@
                                         <div class=" bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                             {% if product.images.all.0.image.url %}
                                                 <img src="{{ product.images.all.0.image.url }}" class="card-img-top"
-                                                     alt="..."
+                                                     alt="{{ product.slug }}"
                                                         {% if not product.availability %}
                                                      style="filter: grayscale(1)"
                                                         {% endif %}
                                                 >
                                             {% else %}
                                                 <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
-                                                     class="card-img-top" alt="..."
+                                                     class="card-img-top" alt="not_available"
                                                 >
                                             {% endif %}
 
@@ -143,6 +143,10 @@
                     </ul>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </section>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'js/card-styles.js' %}"></script>
 {% endblock %}

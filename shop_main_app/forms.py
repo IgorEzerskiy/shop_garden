@@ -26,8 +26,6 @@ class UserUpdateForm(forms.ModelForm):
             'username',
             'email',
             'phone',
-            'city',
-            'warehouse'
         )
 
     def __init__(self, *args, **kwargs):
@@ -37,8 +35,6 @@ class UserUpdateForm(forms.ModelForm):
         self.fields['username'].widget.attrs.update({'class': 'form-control'})
         self.fields['email'].widget.attrs.update({'class': 'form-control'})
         self.fields['phone'].widget.attrs.update({'class': 'form-control'})
-        self.fields['city'].widget.attrs.update({'class': 'form-control'})
-        self.fields['warehouse'].widget.attrs.update({'class': 'form-control'})
 
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')

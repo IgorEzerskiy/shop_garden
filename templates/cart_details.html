@@ -151,7 +151,14 @@
                                                 <div class=" col-6 mb-3">
                                                     <p class="mb-0">Населений пункт</p>
                                                     <div class="form-outline">
+{#                                                        <input type="text" id="cityInput" name="cityInput">#}
                                                         {{ order_form.city }}
+                                                        <select class="form-select" id="citySelect" name="citySelect"
+                                                                style="display: none;"
+                                                                aria-label="Default select example">
+
+                                                        </select>
+
                                                     </div>
                                                 </div>
 
@@ -159,6 +166,10 @@
                                                     <p class="mb-0">Адеса відділення Нової Пошти</p>
                                                     <div class="form-outline">
                                                         {{ order_form.warehouse }}
+
+                                                        <select class="form-select" disabled id="warehouse" name="warehouse">
+
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,6 +193,12 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{% static 'js/nova_post_handler.js' %}"></script>
+    <script>
+        const staticJsonFilePath = "{% static "jsons/nova_post_fullinfo.json" %}";
+    </script>
+
 {% endblock %}
 
 {% block custom_scripts %}

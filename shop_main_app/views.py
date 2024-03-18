@@ -4,13 +4,15 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib import messages
-
+from django.shortcuts import render
+from django.views.defaults import page_not_found
 from cart_app.forms import CartAddProductForm
-from options_app.models import Footer, Carousel
+from options_app.models import Footer, Carousel, TextAtMainPage
 from orders.models import Order
 from shop_main_app.forms import UserLoginForm, UserCreateForm, UserUpdateForm, UserPasswordChangeForm
 from shop_main_app.models import Product, Category, User
 from django.db.models import Max, Min
+from django.conf import settings
 
 from shop_main_app.pdf_converter import render_from_html_to_pdf
 
@@ -36,8 +38,15 @@ class UserLogoutView(LoginRequiredMixin, LogoutView):
 class PopularProductListView(ListView):
     template_name = 'main_page.html'
     queryset = Product.objects.all()
-    extra_context = {'carousel_items': Carousel.objects.filter(is_active=True)}
-    paginate_by = 8
+    paginate_by = settings.PAGINATE_BY
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['carousel_items'] = Carousel.objects.filter(is_active=True)
+        context['main_text'] = TextAtMainPage.objects.first()
+
+        return context
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(index=True)
@@ -53,7 +62,7 @@ class PopularProductListView(ListView):
 class SearchListView(ListView):
     template_name = 'search_result.html'
     queryset = Product.objects.all()
-    paginate_by = 8
+    paginate_by = settings.PAGINATE_BY
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -76,7 +85,7 @@ class SearchListView(ListView):
 class CategoryListView(ListView):
     template_name = 'category_details.html'
     queryset = Product.objects.all()
-    paginate_by = 8
+    paginate_by = settings.PAGINATE_BY
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -129,6 +138,12 @@ class ProductDetailView(DetailView):
 
         return context
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.prefetch_related('images')
+
+        return queryset
+
 
 class ProfileInfoDetailsView(LoginRequiredMixin, DetailView):
     template_name = 'profile_page.html'
@@ -139,12 +154,12 @@ class ProfileInfoDetailsView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['user_update_form'] = UserUpdateForm(instance=self.object)
         context['user_password_change_form'] = UserPasswordChangeForm()
-        context['orders'] = Order.objects.prefetch_related('items',
-                                                           'items__product',
-                                                           'items__product__images',
-                                                           'items__product__measure',
-                                                           'items__product__category'
-                                                           )
+        context['orders'] = Order.objects.filter(user=self.object).prefetch_related('items',
+                                                                                    'items__product',
+                                                                                    'items__product__images',
+                                                                                    'items__product__measure',
+                                                                                    'items__product__category'
+                                                                                    )
 
         return context
 
@@ -237,3 +252,11 @@ class GeneratePDFView(DetailView):
 
                 return response
         return HttpResponseNotFound('err')
+
+
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
+
+
+def handler500(request):
+    return render(request, '500.html', status=500)

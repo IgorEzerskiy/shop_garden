@@ -23,213 +23,244 @@
     <!--css file-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
 
+    <link rel="shortcut icon" type="image/png" href="{% static '/favicon.png' %}" >
+    {% block custom_css %}
+    {% endblock %}
 </head>
 
 <body>
-<nav class="navbar navbar-expand-xxl bg-body-tertiary">
-    <div class="container-fluid mx-3">
-        <a class="navbar-brand" href="{% url 'main' %}">{{ footer_info.company_name }}</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-inline" id="nav-ul">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'main' %}  ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                             class="bi bi-house-door-fill" viewBox="0 0 16 16">
-                            <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/>
-                        </svg>
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        <svg class="svg-icon"
-                             style="width: 25px; height: 25px;vertical-align: middle;fill: currentColor;overflow: hidden;"
-                             viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M872.803 755.994h0.061v-0.37zM165.848 442.25c-36.401 0-65.925 28.55-65.925 63.803 0 35.266 29.524 63.863 65.925 63.863 36.43 0 65.954-28.597 65.954-63.863 0-35.222-29.525-63.804-65.954-63.804m197.818-202.573h527.455c18.227 0 32.954-14.285 32.954-31.895 0-17.64-14.727-31.938-32.954-31.938H363.666c-18.2 0-32.985 14.298-32.985 31.938 0 17.61 14.785 31.895 32.985 31.895M165.848 740.55c-36.401 0-65.925 28.568-65.925 63.82s29.524 63.85 65.925 63.85c36.43 0 65.954-28.597 65.954-63.85s-29.525-63.82-65.954-63.82M891.12 474.16H363.666c-18.2 0-32.985 14.283-32.985 31.895 0 17.655 14.785 31.939 32.985 31.939h527.455c18.227 0 32.954-14.283 32.954-31.94 0-17.61-14.726-31.894-32.954-31.894M165.848 143.933c-36.401 0-65.925 28.595-65.925 63.848 0 35.222 29.524 63.804 65.925 63.804 36.43 0 65.954-28.581 65.954-63.804 0-35.253-29.525-63.848-65.954-63.848M891.12 772.475H363.666c-18.2 0-32.985 14.255-32.985 31.896s14.785 31.895 32.985 31.895h527.455c18.227 0 32.954-14.254 32.954-31.895s-14.726-31.896-32.954-31.896"
-                                  fill=""/>
-                        </svg>
-                    </a>
-                    <ul class="dropdown-menu mt-2">
-                        {% for category in category_list %}
-                            <li>
-                                <a class="dropdown-item" href="{% url 'category_list' category.slug %}">
-                                    <div style="display: flex; justify-content: flex-start;">
-                                        <img style="width: 30px; height: 30px;"
-                                             src="{{ category.image.url }}">
-                                        <p style="margin-bottom: 0px; font-size: 20px; margin-left: 15px;">{{ category.name }}</p>
-                                    </div>
-                                </a>
-                            </li>
-                            {% if not forloop.last %}
+<header>
+    <div style="height: 50px; width: 100%; background: #198754; text-align: center; line-height: 40px; font-size: 24px">
+        <span style="display: inline-block; color: aliceblue; vertical-align: middle; line-height: normal;">
+            <a href="{{ footer_info.facebook }}" target="_blank" class="me-4 text-reset">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="{{ footer_info.instagram }}" target="_blank" class="me-4 text-reset">
+                <i class="fab fa-instagram"></i>
+            </a>
+            {{ footer_info.phones }}
+            <a href="{{ footer_info.telegram }}" target="_blank" class="ms-4 me-4 text-reset">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="{{ footer_info.viber }}" target="_blank" class="me-4 text-reset">
+                <i class="fab fa-viber"></i>
+            </a>
+        </span>
+    </div>
+    <nav class="navbar navbar-expand-xxl bg-body-tertiary">
+        <div class="container-fluid mx-3">
+            <a class="navbar-brand" href="{% url 'main' %}">{{ footer_info.company_name }}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-inline" id="nav-ul">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'main' %}  ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                 class="bi bi-house-door-fill" viewBox="0 0 16 16">
+                                <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown-center" id="nav-category-list">
+                        <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <svg class="svg-icon"
+                                 style="width: 25px; height: 25px;vertical-align: middle;fill: currentColor;overflow: hidden;"
+                                 viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M872.803 755.994h0.061v-0.37zM165.848 442.25c-36.401 0-65.925 28.55-65.925 63.803 0 35.266 29.524 63.863 65.925 63.863 36.43 0 65.954-28.597 65.954-63.863 0-35.222-29.525-63.804-65.954-63.804m197.818-202.573h527.455c18.227 0 32.954-14.285 32.954-31.895 0-17.64-14.727-31.938-32.954-31.938H363.666c-18.2 0-32.985 14.298-32.985 31.938 0 17.61 14.785 31.895 32.985 31.895M165.848 740.55c-36.401 0-65.925 28.568-65.925 63.82s29.524 63.85 65.925 63.85c36.43 0 65.954-28.597 65.954-63.85s-29.525-63.82-65.954-63.82M891.12 474.16H363.666c-18.2 0-32.985 14.283-32.985 31.895 0 17.655 14.785 31.939 32.985 31.939h527.455c18.227 0 32.954-14.283 32.954-31.94 0-17.61-14.726-31.894-32.954-31.894M165.848 143.933c-36.401 0-65.925 28.595-65.925 63.848 0 35.222 29.524 63.804 65.925 63.804 36.43 0 65.954-28.581 65.954-63.804 0-35.253-29.525-63.848-65.954-63.848M891.12 772.475H363.666c-18.2 0-32.985 14.255-32.985 31.896s14.785 31.895 32.985 31.895h527.455c18.227 0 32.954-14.254 32.954-31.895s-14.726-31.896-32.954-31.896"
+                                      fill=""/>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu mt-2 w-auto" id="nav-category-ul">
+                            {% for category in category_list %}
                                 <li>
-                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item" href="{% url 'category_list' category.slug %}">
+                                        <div style="display: flex; justify-content: flex-start;">
+                                            <img style="width: 30px; height: 30px;"
+                                                 src="{{ category.image.url }}" alt="category_{{ category.slug }}">
+                                            <p class="text-break"
+                                               style="margin-bottom: 0; font-size: 20px; margin-left: 15px;">{{ category.name }}</p>
+                                        </div>
+                                    </a>
                                 </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'about' %}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                             class="bi bi-info-square" viewBox="0 0 16 16">
-                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                        </svg>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <!-- Button trigger modal -->
-                    <a class="nav-link active" href="#" data-bs-toggle="modal"
-                       data-bs-target="#staticBackdrop" role="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                             class="bi bi-telephone" viewBox="0 0 16 16">
-                            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
-                        </svg>
-                    </a>
+                                {% if not forloop.last %}
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'about' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                 class="bi bi-info-square" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- Button trigger modal -->
+                        <a class="nav-link active" href="#" data-bs-toggle="modal"
+                           data-bs-target="#staticBackdrop" role="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                 class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                            </svg>
+                        </a>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Контактна інформація</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Ми у соціальних мережах:</p>
-                                    <div>
-                                        <a href="{{ footer_info.facebook }}" target="_blank" class="me-4 text-reset">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </a>
-                                        <a href="{{ footer_info.instagram }}" target="_blank" class="me-4 text-reset">
-                                            <i class="fab fa-instagram"></i>
-                                        </a>
-                                        <a href="{{ footer_info.telegram }}" target="_blank" class="me-4 text-reset">
-                                            <i class="fab fa-telegram"></i>
-                                        </a>
-                                        <a href="{{ footer_info.viber }}" target="_blank" class="me-4 text-reset">
-                                            <i class="fab fa-viber"></i>
-                                        </a>
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <strong class="modal-title fs-5" id="staticBackdropLabel">Контактна
+                                            інформація</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                     </div>
-                                    <hr class="dropdown-divider" style="margin-top: 15px; margin-bottom: 15px">
-                                    <p>Години роботи: 9:00 - 18:00</p>
-                                    <p><i class="fas fa-phone me-3"></i>{{ footer_info.phones }}</p>
-                                    <hr class="dropdown-divider" style="margin-top: 15px; margin-bottom: 15px">
-                                    <p>Поштова скринька:</p>
-                                    <p>
-                                        <i class="fas fa-envelope me-3"></i>
-                                        {{ footer_info.email }}
-                                    </p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Закрити
-                                    </button>
+                                    <div class="modal-body">
+                                        <p>Ми у соціальних мережах:</p>
+                                        <div>
+                                            <a href="{{ footer_info.facebook }}" target="_blank"
+                                               class="me-4 text-reset">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </a>
+                                            <a href="{{ footer_info.instagram }}" target="_blank"
+                                               class="me-4 text-reset">
+                                                <i class="fab fa-instagram"></i>
+                                            </a>
+                                            <a href="{{ footer_info.telegram }}" target="_blank"
+                                               class="me-4 text-reset">
+                                                <i class="fab fa-telegram"></i>
+                                            </a>
+                                            <a href="{{ footer_info.viber }}" target="_blank" class="me-4 text-reset">
+                                                <i class="fab fa-viber"></i>
+                                            </a>
+                                        </div>
+                                        <hr class="dropdown-divider" style="margin-top: 15px; margin-bottom: 15px">
+                                        <p>Години роботи: 9:00 - 18:00</p>
+                                        <p><i class="fas fa-phone me-3"></i>{{ footer_info.phones }}</p>
+                                        <hr class="dropdown-divider" style="margin-top: 15px; margin-bottom: 15px">
+                                        <p>Поштова скринька:</p>
+                                        <p>
+                                            <i class="fas fa-envelope me-3"></i>
+                                            {{ footer_info.email }}
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Закрити
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-            </ul>
-            <form class="d-flex search_form" role="search" action="{% url 'search' %}">
-                <input class="form-control me-2" type="search" placeholder="Пошук" aria-label="Search" name="search">
-                <button class="btn btn-outline-success" type="submit">Пошук</button>
-            </form>
-            <div class="bucket">
-                <a href="{% url 'cart:cart_detail' %}" class="position-relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                         class="bi bi-cart3 text-secondary" viewBox="0 0 16 16">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                    </svg>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                          style="color: black">
+                    </li>
+                </ul>
+                <form class="d-flex search_form" role="search" action="{% url 'search' %}">
+                    <input class="form-control me-2" type="search" placeholder="Пошук" aria-label="Search"
+                           name="search">
+                    <button class="btn btn-outline-success" type="submit">Пошук</button>
+                </form>
+                <div class="bucket">
+                    <a href="{% url 'cart:cart_detail' %}" class="position-relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                             class="bi bi-cart3 text-secondary" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                              style="color: black">
                     {% if cart|length > 0 %}
                         {{ cart|length }}
                     {% else %}
                         0
                     {% endif %}
                 </span>
-                </a>
-            </div>
-            {% if request.user.is_authenticated == False %}
-                <a class="btn btn-success ms-2" href="{% url 'login' %}" role="button" id="nav-login">Увійти</a>
-            {% else %}
-                <!-- Avatar -->
-                <div class="dropdown">
-                    <a
-                            class="dropdown-toggle d-flex align-items-center hidden-arrow"
-                            href="#"
-                            id="navbarDropdownMenuAvatar"
-                            role="button"
-                            data-mdb-toggle="dropdown"
-                            aria-expanded="false"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                             fill="currentColor" class="bi bi-person-circle text-secondary" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                            <path fill-rule="evenodd"
-                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                        </svg>
                     </a>
-                    <ul
-                            class="dropdown-menu dropdown-menu-end mt-3"
-                            aria-labelledby="navbarDropdownMenuAvatar"
-                    >
-                        <li>
-                            <a class="dropdown-item" href="{% url 'profile_details' request.user.id %}">
-                                <div style="display: flex; justify-content: flex-start;">
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                                             fill="currentColor" class="bi bi-person-circle text-secondary"
-                                             viewBox="0 0 16 16">
-                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                            <path fill-rule="evenodd"
-                                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                        </svg>
-                                    </div>
-                                    <p style="margin-bottom: 0px; font-size: 20px; margin-left: 15px;">Мій
-                                        профіль</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <div class="dropdown-item">
-                                <form class="d-flex" method="post" action={% url 'logout' %}>
-                                    {% csrf_token %}
-                                    <button class="ex-button" type="submit" style="width: 100%">
-                                        <div style="display: flex; justify-content: flex-start;">
-                                            <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
-                                                     fill="currentColor"
-                                                     class="bi bi-box-arrow-right text-secondary" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd"
-                                                          d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
-                                                    <path fill-rule="evenodd"
-                                                          d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                                                </svg>
-                                            </div>
-                                            <p style="margin-bottom: 0px; font-size: 20px; margin-left: 15px;">
-                                                Вийти</p>
-                                        </div>
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
-            {% endif %}
+                {% if request.user.is_authenticated == False %}
+                    <a class="btn btn-success ms-2" href="{% url 'login' %}" role="button" id="nav-login">Увійти</a>
+                {% else %}
+                    <!-- Avatar -->
+                    <div class="dropdown" id="nav-login"
+                         style="display: flex; justify-content: flex-end; align-items: flex-end">
+                        <a
+                                class="dropdown-toggle d-flex align-items-center hidden-arrow"
+                                href="#"
+                                id="navbarDropdownMenuAvatar"
+                                role="button"
+                                data-mdb-toggle="dropdown"
+                                aria-expanded="false"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                 fill="currentColor" class="bi bi-person-circle text-secondary" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                <path fill-rule="evenodd"
+                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                            </svg>
+                        </a>
+                        <ul
+                                class="dropdown-menu dropdown-menu-end mt-3"
+                                aria-labelledby="navbarDropdownMenuAvatar"
+                        >
+                            <li>
+                                <a class="dropdown-item" href="{% url 'profile_details' request.user.id %}">
+                                    <div style="display: flex; justify-content: flex-start;">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                 fill="currentColor" class="bi bi-person-circle text-secondary"
+                                                 viewBox="0 0 16 16">
+                                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                                <path fill-rule="evenodd"
+                                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                            </svg>
+                                        </div>
+                                        <p style="margin-bottom: 0; font-size: 20px; margin-left: 15px;">Мій
+                                            профіль</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <div class="dropdown-item">
+                                    <form class="d-flex" method="post" action={% url 'logout' %}>
+                                        {% csrf_token %}
+                                        <button class="ex-button" type="submit" style="width: 100%">
+                                            <div style="display: flex; justify-content: flex-start;">
+                                                <div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                         fill="currentColor"
+                                                         class="bi bi-box-arrow-right text-secondary"
+                                                         viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd"
+                                                              d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                                                        <path fill-rule="evenodd"
+                                                              d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                                                    </svg>
+                                                </div>
+                                                <p style="margin-bottom: 0px; font-size: 20px; margin-left: 15px;">
+                                                    Вийти</p>
+                                            </div>
+                                        </button>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</header>
 <main>
-    <div style="margin-top: 15px; width: 500px; height: auto;">
+    <section style="margin-top: 15px; width: 500px; height: auto;">
         {% for message in messages %}
             {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                 <div class="w-auto p-3">
@@ -247,7 +278,7 @@
                 </div>
             {% endif %}
         {% endfor %}
-    </div>
+    </section>
     {% block content %}
     {% endblock %}
 </main>
@@ -359,11 +390,12 @@
         crossorigin="anonymous"></script>
 <!-- MDB -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
-<script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/add_special_class.js' %}"></script>
-<script src="{% static 'js/cart-styles.js' %}"></script>
-<script src="{% static 'js/card-styles.js' %}"></script>
-<script src="{% static 'js/profile-pagination.js' %}"></script>
+<script src="{% static 'js/nav-mobile.js' %}"></script>
+
+{% block custom_scripts %}
+
+{% endblock %}
 </body>
 
 </html>

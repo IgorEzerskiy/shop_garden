@@ -38,13 +38,21 @@ def cart_remove(request, product_id):
 
 def cart_detail(request):
     cart = Cart(request)
-    instance = None
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(initial={
             'quantity': item['quantity'],
             'override': True})
+
     if request.user.is_authenticated:
-        instance = request.user
+        user_info = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+            'phone': request.user.phone,
+        }
+        order_form = OrderCreateForm(initial=user_info)
+    else:
+        order_form = OrderCreateForm()
 
     if cart.cart.values():
         total_price = cart.get_total_price()
@@ -53,5 +61,5 @@ def cart_detail(request):
 
     return render(request, 'cart_details.html', {'total_price': total_price,
                                                  'cart': cart,
-                                                 'order_form': OrderCreateForm(instance=instance)}
+                                                 'order_form': order_form}
                   )

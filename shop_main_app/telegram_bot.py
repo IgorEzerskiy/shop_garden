@@ -25,7 +25,7 @@ class InfoBot:
 Пошта: {report_info.get('buyer_email')};\n
 Номер телефону: {report_info.get('buyer_phone')};\n
 Місто відправки: {report_info.get('buyer_delivery_city')};\n
-Відділення НП: №{report_info.get('buyer_delivery_warehouse')};\n
+Відділення НП: {report_info.get('buyer_delivery_warehouse')};\n
 ----\n
 Сума: {report_info.get('order_price')} грн."""
 

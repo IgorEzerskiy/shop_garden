@@ -8,6 +8,7 @@ from decimal import Decimal
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from tinymce.models import HTMLField
+from datetime import datetime, timedelta
 
 
 class User(AbstractUser):
@@ -121,8 +122,8 @@ class Product(models.Model):
         related_name='product',
         verbose_name='Міра'
     )
-    created_at = models.DateField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     category = models.ManyToManyField(
         Category,
         related_name='products',
@@ -165,6 +166,12 @@ class Product(models.Model):
 
     def get_price_with_discount(self):
         return round(self.price - ((self.discount / Decimal(100)) * self.price), 2)
+
+    def is_it_new_product(self) -> bool:
+        difference = datetime.now().date() - self.created_at
+        if difference < timedelta(days=14):
+            return True
+        return False
 
 
 class ProductImage(models.Model):

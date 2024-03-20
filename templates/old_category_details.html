@@ -5,7 +5,7 @@
 
 {% block content %}
     <section class="row" style="margin-top: 25px">
-        <aside class="col-lg-3 col-md-5" style="margin-bottom: 15px;">
+        <aside class="col-md-3" style="margin-bottom: 15px;">
             <ul class="list-group" id="category-list">
                 <li class="list-group-item list-group-item-action active">Категорії</li>
                 {% for category in category_list %}
@@ -26,7 +26,7 @@
                 {% endfor %}
             </ul>
         </aside>
-        <section class="col-lg-9 col-md-7">
+        <section class="col-md-9">
             <div style="margin-bottom: 15px">
                 {% for category in category_list %}
                     {% if category.slug == slug %}
@@ -84,8 +84,8 @@
                                     <option selected value="-price">С початку дорожчі</option>
                                 </select>
                                 <div class="mt-3">
-                                    <label for="discount">Тільки товари зі знижкою</label>
-                                    <input type="checkbox" id="discount" name="discount"/>
+                                     <label for="discount">Тільки товари зі знижкою</label>
+                                    <input type="checkbox" id="discount" name="discount" />
                                 </div>
 
                                 <button class="btn btn-outline-success" type="submit" style="margin-top: 15px">Виконати
@@ -97,73 +97,71 @@
             </div>
             {% if object_list %}
                 <div class="container">
-                <div class="row">
-                    {% for product in object_list %}
-                        {% if product.index %}
-                            <div class="col-lg-3 col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-                                         data-mdb-ripple-color="light">
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="card-container">
+                {% for product in object_list %}
+                    {% if product.index %}
+                        <div class="col">
+                            <div class="card" style="width: auto; margin-bottom: 15px;">
+                                <a href="{% url 'product_details' product.slug %} ">
+                                    <div class=" bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                         {% if product.images.all.0.image.url %}
-                                            <img src="{{ product.images.all.0.image.url }}"
+                                            <img src="{{ product.images.all.0.image.url }}" class="card-img-top"
                                                  alt="{{ product.slug }}"
                                                     {% if not product.availability %}
                                                  style="filter: grayscale(1)"
                                                     {% endif %}
-                                                 class="w-100"/>
+                                            >
                                         {% else %}
                                             <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
-                                                 class="w-100" alt="not_available"
+                                                 class="card-img-top" alt="not_available"
                                             >
                                         {% endif %}
-                                        <a href="{% url 'product_details' product.slug %}">
-                                            <div class="mask">
-                                                <div class="d-flex justify-content-start align-items-end h-100">
-                                                    <h5>
-                                                        {% if product.is_it_new_product %}
-                                                            <span class="badge bg-success ms-2">Новинка</span>
-                                                        {% endif %}
-                                                        {% if product.get_price_with_discount != product.price %}
-                                                            <span class="badge bg-danger ms-2">{{ product.discount }}%</span>
-                                                        {% endif %}
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                            <div class="hover-overlay">
-                                                <div class="mask"
-                                                     style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                            </div>
-                                        </a>
+                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
                                     </div>
-                                    <div class="card-body">
-                                        <a href="{% url 'product_details' product.slug %}" class="text-reset">
-                                            <h5 class="card-title mb-3">{{ product.title }}</h5>
-                                        </a>
-                                        {% if product.get_price_with_discount != product.price %}
-                                            <h6 class="mb-3">
-                                                {{ product.get_price_with_discount }} ₴<s>
-                                                <strong
-                                                        class="ms-2 text-danger">{{ product.price }} ₴</strong>
-                                            </s>
-                                            </h6>
-                                        {% else %}
-                                            <h6 class="mb-3">{{ product.price }} ₴</h6>
-                                        {% endif %}
-                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.title }}</h5>
+                                    {#                                    <p class="card-text">{{ product.description }}</p>#}
+                                    {% if product.get_price_with_discount != product.price %}
+                                        <div class="price-area my-4">
+                                            <h4 class="new-price text-bold mb-1">{{ product.get_price_with_discount }}
+                                                ₴</h4>
+                                            <del>{{ product.price }} ₴</del>
+                                            <span class="old-price-discount text-danger">(ЗНИЖКА {{ product.discount }}%)</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="price-area my-4">
+                                            <h5 class="new-price text-bold mb-1">{{ product.price }} ₴</h5>
+                                        </div>
+                                    {% endif %}
+                                    {% if product.availability %}
+                                        <div class="text-success text-end" style="margin-bottom: 15px"><span>&check; В наявності</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="text-danger text-end" style="margin-bottom: 15px"><span>&#10008; Немає в наявності</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer text-center">
+                                    {% if product.availability %}
+                                        <a href="{% url 'product_details' product.slug %} "
+                                           class="btn btn-primary">Купити</a>
+                                    {% else %}
+                                        <a href="{% url 'product_details' product.slug %} "
+                                           class="btn btn-primary">Дивитись</a>
+                                    {% endif %}
                                 </div>
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             {% else %}
-                <div class="container">
-                    <div class="alert alert-danger" role="alert">
-                        <h4 class="alert-heading">Упс... Нажаль ця категорія порожня(((</h4>
-                        <hr>
-                    </div>
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Упс... Нажаль ця категорія порожня(((</h4>
+                    <hr>
                 </div>
             {% endif %}
+            </div>
             <div aria-label="..." style="display: flex; justify-content: center" class="mb-3">
                 <ul class="pagination d-flex">
                     {% if page_obj.has_previous %}
@@ -199,6 +197,6 @@
 
 {% block custom_scripts %}
     <script src="{% static 'js/app.js' %}"></script>
-    {#    <script src="{% static 'js/card-styles.js' %}"></script>#}
+    <script src="{% static 'js/card-styles.js' %}"></script>
     <script src="{% static 'js/filter-saver.js' %}"></script>
 {% endblock %}

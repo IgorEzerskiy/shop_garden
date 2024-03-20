@@ -264,6 +264,8 @@
                                                                         </table>
                                                                     </div>
                                                                     <figure style="margin-top: 15px">
+                                                                        <div class="fw-normal">Місто:<p class="font-monospace">{{ order.city }}</p></div>
+                                                                        <div class="fw-normal ml-2">Відділення Нової Пошти:<p class="font-monospace">{{ order.warehouse }}</p></div>
                                                                         <blockquote class="blockquote">
                                                                             <p>Загальна сума
                                                                                 замовлення: {{ order.get_total_cost }}
@@ -357,6 +359,7 @@
                                                     Оновити
                                                 </button>
                                             </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>

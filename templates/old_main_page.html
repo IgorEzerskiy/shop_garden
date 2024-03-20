@@ -50,7 +50,7 @@
     </section>
 
     <section class="row">
-        <aside class="col-lg-3 col-md-5" style="margin-bottom: 15px;">
+        <aside class="col-md-3" style="margin-bottom: 15px;">
             <ul class="list-group" id="category-list">
                 <li class="list-group-item list-group-item-action active">Категорії</li>
                 {% for category in category_list %}
@@ -71,63 +71,61 @@
                 {% endfor %}
             </ul>
         </aside>
-        <section class="col-lg-9 col-md-7">
+        <section class="col-md-9">
             <header>
                 <h1 class="d-md-block shadow p-3 mb-5 bg-body-tertiary rounded text-center">Популярні товари</h1>
             </header>
             <div class="container">
-                <div class="row">
+                <div class="row row-cols-1 row-cols-md-3 g-3" id="card-container">
                     {% for product in object_list %}
                         {% if product.index %}
-                            <div class="col-lg-3 col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-                                         data-mdb-ripple-color="light">
-                                        {% if product.images.all.0.image.url %}
-                                            <img src="{{ product.images.all.0.image.url }}"
-                                                 alt="{{ product.slug }}"
-                                                    {% if not product.availability %}
-                                                 style="filter: grayscale(1)"
-                                                    {% endif %}
-                                                 class="w-100"/>
-                                        {% else %}
-                                            <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
-                                                 class="w-100" alt="not_available"
-                                            >
-                                        {% endif %}
-                                        <a href="{% url 'product_details' product.slug %}">
-                                            <div class="mask">
-                                                <div class="d-flex justify-content-start align-items-end h-100">
-                                                    <h5><span class="badge bg-primary ms-2">Топ</span>
-                                                        {% if product.is_it_new_product %}
-                                                            <span class="badge bg-success ms-2">Новинка</span>
+                            <div class="col col-mb-6 col-lg-4">
+                                <div class="card" style="height: auto; margin-bottom: 15px;">
+                                    <a href="{% url 'product_details' product.slug %} ">
+                                        <div class=" bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                            {% if product.images.all.0.image.url %}
+                                                <img src="{{ product.images.all.0.image.url }}" class="card-img-top"
+                                                     alt="{{ product.slug }}"
+                                                        {% if not product.availability %}
+                                                     style="filter: grayscale(1)"
                                                         {% endif %}
-                                                        {% if product.get_price_with_discount != product.price %}
-                                                            <span class="badge bg-danger ms-2">{{ product.discount }}%</span>
-                                                        {% endif %}
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                            <div class="hover-overlay">
-                                                <div class="mask"
-                                                     style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                            </div>
-                                        </a>
-                                    </div>
+                                                >
+                                            {% else %}
+                                                <img src="{% static 'not_available_icons/no-image-icon-23485.png' %}"
+                                                     class="card-img-top" alt="not_available"
+                                                >
+                                            {% endif %}
+                                            <div class="mask"
+                                                 style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                        </div>
+                                    </a>
                                     <div class="card-body">
-                                        <a href="{% url 'product_details' product.slug %}" class="text-reset">
-                                            <h5 class="card-title mb-3">{{ product.title }}</h5>
-                                        </a>
+                                        <h5 class="card-title">{{ product.title }}</h5>
+                                        {#                                        <div class="cut-text">{{ product.description }}</div>#}
                                         {% if product.get_price_with_discount != product.price %}
-                                            <h6 class="mb-3">
-                                                {{ product.get_price_with_discount }} ₴<s><strong
-                                                    class="ms-2 text-danger">{{ product.price }} ₴</strong>
-                                            </s>
-                                            </h6>
+                                            <div class="price-area my-4">
+                                                <h4 class="new-price text-bold mb-1">{{ product.get_price_with_discount }}
+                                                    ₴</h4>
+                                                <del>{{ product.price }} ₴</del>
+                                                <span class="old-price-discount text-danger">(ЗНИЖКА {{ product.discount }}%)</span>
+                                            </div>
                                         {% else %}
-                                            <h6 class="mb-3">{{ product.price }} ₴</h6>
+                                            <div class="price-area my-4">
+                                                <h5 class="new-price text-bold mb-1">{{ product.price }} ₴</h5>
+                                            </div>
+                                        {% endif %}
+                                        {% if not product.availability %}
+                                            <div class="text-danger text-end" style="margin-bottom: 15px"><span>&#10008; Немає в наявності</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="text-success text-end" style="margin-bottom: 15px">
+                                                <span>&check; В наявності</span>
+                                            </div>
                                         {% endif %}
                                     </div>
+                                    <div class="card-footer text-center"><a class="btn btn-primary"
+                                                                            href="{% url 'product_details' product.slug %}"
+                                                                            role="button">Дивитись</a></div>
                                 </div>
                             </div>
                         {% endif %}
@@ -176,5 +174,5 @@
 {% endblock %}
 
 {% block custom_scripts %}
-    {#    <script src="{% static 'js/card-styles.js' %}"></script>#}
+    <script src="{% static 'js/card-styles.js' %}"></script>
 {% endblock %}

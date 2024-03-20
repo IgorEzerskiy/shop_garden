@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 'cachalot',
     'phonenumber_field',
     'tinymce',
     'debug_toolbar',
@@ -102,7 +101,7 @@ TEMPLATES = [
     },
 ]
 
-PAGINATE_BY = 18
+PAGINATE_BY = 12
 
 WSGI_APPLICATION = 'shop_garden.wsgi.application'
 
@@ -204,18 +203,6 @@ INFO_BOT = InfoBot(api_token=TELEGRAM_BOT_API_TOKEN,
 CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
 
-# Cache settings
-
-# CACHES = {
-#     "default": {
-#         "BACKEND": env("CACHE_BACKEND"),
-#         "LOCATION": env("CACHE_LOCATION_DEV") if DEBUG else env("CACHE_LOCATION_PROD"),
-#     }
-# }
-#
-# CACHALOT_DATABASES = ['default']
-# CACHALOT_TIMEOUT = 60 * 60 * 24
-
 # WKHTMLTOPDF_PATH (https://wkhtmltopdf.org/downloads.html)
 
 if platform.system() == 'Windows':
@@ -244,8 +231,6 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.signals.SignalsPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
     'debug_toolbar.panels.profiling.ProfilingPanel',
-
-    # 'cachalot.panels.CachalotPanel',
 ]
 
 # email notification credentials
@@ -254,3 +239,21 @@ SMTP_SERVER = env('SMTP_SERVER')
 SMTP_PORT = env('SMTP_PORT')
 SMTP_EMAIL_USERNAME = env('SMTP_EMAIL_USERNAME')
 SMTP_EMAIL_PASSWORD = env('SMTP_EMAIL_PASSWORD')
+
+# Cache settings
+
+if not DEBUG:
+    INSTALLED_APPS.append('cachalot')
+
+    CACHES = {
+        "default": {
+            "BACKEND": env("CACHE_BACKEND"),
+            "LOCATION": env("CACHE_LOCATION_DEV") if DEBUG else env("CACHE_LOCATION_PROD"),
+        }
+    }
+
+    DEBUG_TOOLBAR_PANELS.append('cachalot.panels.CachalotPanel')
+
+    CACHALOT_DATABASES = ['default']
+    CACHALOT_TIMEOUT = 60 * 60 * 24
+

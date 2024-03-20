@@ -69,7 +69,8 @@ class Category(models.Model):
     )
     slug = models.SlugField(
         unique=True,
-        verbose_name='Слаг'
+        verbose_name='Слаг',
+        max_length=256,
     )
     description = HTMLField(
         max_length=550,
@@ -102,11 +103,12 @@ class Product(models.Model):
     )
     slug = models.SlugField(
         unique=True,
-        verbose_name='Слаг'
+        verbose_name='Слаг',
+        max_length=256,
     )
     description = HTMLField(verbose_name='Опис')
     characteristics = HTMLField(verbose_name='Характеристики')
-    quantity = models.IntegerField(verbose_name='К-сть')
+    quantity = models.PositiveIntegerField(verbose_name='К-сть')
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,

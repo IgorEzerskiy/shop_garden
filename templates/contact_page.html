@@ -13,35 +13,35 @@
         </div>
         <h3>Маєте питання? Звертайтеся за цією формою:</h3>
         <section style="width: 100%; display: flex; justify-content: center; margin-top: 20px; margin-bottom: 20px">
-            <form style="width: 40rem;" method="post">
+            <form style="width: 40rem;" method="post" action="{% url 'contact-form-create' %}">
                 {% csrf_token %}
 
-                {% if form.non_field_errors %}
+                {% if question_form.non_field_errors %}
                     <ul>
-                        {% for error in form.non_field_errors %}
+                        {% for error in question_form.non_field_errors %}
                             <li>{{ error }}</li>
                         {% endfor %}
                     </ul>
                 {% endif %}
                 <!-- Name input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    {{ form.name }}
+                    {{ question_form.name }}
                     <label class="form-label" for="name">Ім'я</label>
-                    {{ form.name.errors }}
+                    {{ question_form.name.errors }}
                 </div>
 
                 <!-- Email input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    {{ form.email }}
+                    {{ question_form.email }}
                     <label class="form-label" for="email">Електронна адреса</label>
-                    {{ form.email.errors }}
+                    {{ question_form.email.errors }}
                 </div>
 
                 <!-- Message input -->
                 <div data-mdb-input-init class="form-outline">
-                    {{ form.message }}
+                    {{ question_form.message }}
                     <label class="form-label" for="message">Повідомлення</label>
-                    {{ form.message.errors }}
+                    {{ question_form.message.errors }}
                 </div>
                 <div style="margin-top: 5px; margin-bottom: 25px">
                     <span>Максимум 500 символів.</span>

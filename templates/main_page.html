@@ -2,6 +2,11 @@
 {% load static %}
 {% load custom_length %}
 
+{% block custom_title %}
+    <title>{{ footer_info.company_name }}</title>
+{% endblock %}
+
+
 {% block content %}
     <section class="container" style="margin-bottom: 25px; margin-top: 25px">
         <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-mdb-ride="carousel">

@@ -114,6 +114,70 @@
                         {% else %}
                             <p>Немає в наявності</p>
                         {% endif %}
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-link mb-5" data-bs-toggle="modal"
+                                data-bs-target="#product_question">
+                            Маєте питання по товару?
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="product_question" tabindex="-1" aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Питання стосовно товару</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <form method="post" action="{% url 'contact-form-create' %}">
+                                        <div class="modal-body">
+                                            <h5>Маєте питання? Звертайтеся за цією формою:</h5>
+                                            {% csrf_token %}
+
+                                            {% if question_form.non_field_errors %}
+                                                <ul>
+                                                    {% for error in question_form.non_field_errors %}
+                                                        <li>{{ error }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                            <!-- Name input -->
+                                            <div data-mdb-input-init class="form-outline mb-4">
+                                                {{ question_form.name }}
+                                                <label class="form-label" for="name">Ім'я</label>
+                                                {{ question_form.name.errors }}
+                                            </div>
+
+                                            <!-- Email input -->
+                                            <div data-mdb-input-init class="form-outline mb-4">
+                                                {{ question_form.email }}
+                                                <label class="form-label" for="email">Електронна адреса</label>
+                                                {{ question_form.email.errors }}
+                                            </div>
+
+                                            <!-- Message input -->
+                                            <div data-mdb-input-init class="form-outline">
+                                                {{ question_form.message }}
+                                                <label class="form-label" for="message">Повідомлення</label>
+                                                {{ question_form.message.errors }}
+                                            </div>
+                                            <div style="margin-top: 5px; margin-bottom: 25px">
+                                                <span>Максимум 500 символів.</span>
+                                            </div>
+                                            <input id="product-id" name="product-id" type="hidden" value="">
+                                            <input id="product-slug" name="product-slug" type="hidden" value="">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Заткрити
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Запитати</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="accordion" id="accordionPanelsStayOpenExample">
                         <div class="accordion-item">
@@ -193,4 +257,15 @@
             </div>
         </div>
     {% endif %}
+{% endblock %}
+{% block custom_scripts %}
+    <script>
+        const product_name_input = document.getElementById('product-id')
+
+        product_name_input.value = "{{ object.title }}"
+
+        const product_slug_input = document.getElementById('product-slug')
+
+        product_slug_input.value = "{{ object.slug }}"
+    </script>
 {% endblock %}

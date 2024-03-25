@@ -13,6 +13,11 @@ class ContactModelForm(ModelForm):
                   'message')
 
     def __init__(self, *args, **kwargs):
+        self.product_name = None
+        if 'request' in kwargs:
+            self.request = kwargs.pop('request')
+            self.product_name = self.request.POST.get('product-id')
+
         super(ContactModelForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control',
                                                  'id': 'name'})
@@ -29,3 +34,10 @@ class ContactModelForm(ModelForm):
             raise forms.ValidationError('Введіть правильну електронну адресу.')
         return email
 
+    def clean_message(self):
+        msg = self.cleaned_data.get('message')
+
+        if self.product_name is not None:
+            msg = msg + '\nНазва товару:\n' + self.product_name
+
+        return msg

@@ -18,7 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 from django.views.i18n import set_language
+from django.contrib.sitemaps.views import sitemap
+from shop_main_app.sitemap import CategorySitemap, ProductSitemap, StaticSitemap
+
+sitemaps = {
+    'static_pages': StaticSitemap,
+    'categories': CategorySitemap,
+    'products': ProductSitemap,
+}
 
 urlpatterns = [
     path('i18n/', set_language, name='set_language'),
@@ -28,11 +37,17 @@ urlpatterns = [
     path('', include('orders.urls')),
     path('cart/', include('cart_app.urls', namespace='cart')),
     path('tinymce/', include('tinymce.urls')),
+    path('sitemap.xml', sitemap,
+         {'sitemaps': sitemaps},
+         name='django.contrib.sitemaps.views.sitemap')
 ]
 
 if settings.DEBUG:
     urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += [path('robots.txt', TemplateView.as_view(template_name='robots/robots.txt',
+                                                            content_type='text/plain'))
+                    ]
 else:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

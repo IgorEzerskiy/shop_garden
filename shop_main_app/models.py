@@ -95,6 +95,9 @@ class Category(models.Model):
 
         return super().save(**kwargs)
 
+    def get_absolute_url(self):
+        return f'/category/{self.slug}'
+
 
 class Product(models.Model):
     title = models.CharField(
@@ -174,6 +177,9 @@ class Product(models.Model):
         if difference < timedelta(days=14):
             return True
         return False
+
+    def get_absolute_url(self):
+        return f'/product/{self.slug}'
 
 
 class ProductImage(models.Model):

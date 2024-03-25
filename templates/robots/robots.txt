@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /profile/
+Disallow: /logout/
+Disallow: /search/
+Disallow: /user-update-password/
+Disallow: /profile-update/
+Disallow: /render-invoice/
+Disallow: /cart/
+Disallow: /create_order/
+Disallow: /contact-form-create/

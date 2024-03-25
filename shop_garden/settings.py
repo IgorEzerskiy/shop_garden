@@ -39,6 +39,8 @@ ENVIRONMENT = {'prod': False,
 
 DEBUG = ENVIRONMENT[env('ENVIRON')]
 
+SITE_ID = 1
+
 ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
 
 if env("ALLOWED_HOSTS") is not None:
@@ -56,6 +58,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 
     'phonenumber_field',
     'tinymce',

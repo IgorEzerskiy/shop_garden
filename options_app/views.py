@@ -1,4 +1,6 @@
+from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, CreateView
+from django.urls import reverse
 
 from options_app.models import ShippingAndBilling, ReturnPolicy, AboutInfo, ContactForm
 from options_app.forms import ContactModelForm
@@ -28,7 +30,7 @@ class ReturnPolicyView(TemplateView):
         return context
 
 
-class AboutView(CreateView):
+class AboutView(TemplateView):
     template_name = 'contact_page.html'
 
     def get_context_data(self, **kwargs):
@@ -38,13 +40,47 @@ class AboutView(CreateView):
 
         return context
 
-    model = ContactForm
+    # model = ContactForm
+    # form_class = ContactModelForm
+    # success_url = 'about'
+    #
+    # def form_valid(self, form):
+    #     messages.success(self.request,
+    #                      'Запит відправлено успішно. '
+    #                      'Дочекайтесь відповіді адміністратора на пошту.'
+    #                      )
+    #     return super().form_valid(form=form)
+
+
+class ContactFormCreateView(CreateView):
+    queryset = ContactForm.objects.all()
     form_class = ContactModelForm
-    success_url = 'about'
+    success_url = '/'
+
+    def get_success_url(self):
+        # url = super().get_success_url()
+
+        if self.request.POST.get("product-slug"):
+            return f'/product/{self.request.POST.get("product-slug")}'
+        else:
+            return '/about'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+
+        return kwargs
 
     def form_valid(self, form):
         messages.success(self.request,
                          'Запит відправлено успішно. '
                          'Дочекайтесь відповіді адміністратора на пошту.'
                          )
+
         return super().form_valid(form=form)
+
+    def form_invalid(self, form):
+        messages.error(self.request,
+                       'Помилка відправлення питання. Будь ласка перевірте вірність введених Вами даних.'
+                       )
+        return HttpResponseRedirect(self.get_success_url())

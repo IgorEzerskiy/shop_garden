@@ -6,6 +6,10 @@
     <title>{{ footer_info.company_name }}</title>
 {% endblock %}
 
+{% block custom_meta %}
+    <meta name="description" content="{{ main_text.meta_description }}">
+    <meta name="robots" content="index, follow">
+{% endblock %}
 
 {% block content %}
     <section class="container" style="margin-bottom: 25px; margin-top: 25px">

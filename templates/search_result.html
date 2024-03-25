@@ -2,6 +2,20 @@
 {% load static %}
 {% load custom_length %}
 
+{% block custom_title %}
+    {% if object_list %}
+        <title>{{ request.GET.search }}</title>
+        <meta name="description" content="{{ request.GET.search }}">
+    {% else %}
+        <title>Помилка пошуку</title>
+        <meta name="description" content="Помилка пошуку">
+    {% endif %}
+{% endblock %}
+
+{% block custom_meta %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block content %}
     <section class="row" style="margin-top: 15px;">
         <aside class="col-lg-3 col-md-5" style="margin-bottom: 15px;">

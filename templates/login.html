@@ -1,6 +1,15 @@
 {% extends 'index.html' %}
 {% load static %}
 
+{% block custom_title %}
+    <title>Вхід</title>
+{% endblock %}
+
+{% block custom_meta %}
+    <meta name="description" content="Увійди на сайт, та переглянь свої замолвення.">
+    <meta name="robots" content="index, follow">
+{% endblock %}
+
 {% block content %}
     <section class="container-sm auth-form">
         <!-- Pills navs -->

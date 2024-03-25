@@ -35,6 +35,16 @@ class ContactForm(models.Model):
 class ShippingAndBilling(models.Model):
     delivery_info = HTMLField(verbose_name='Доставка')
     payments = HTMLField(verbose_name='Оплата')
+    meta_description = models.TextField(null=True,
+                                        blank=True,
+                                        verbose_name='Короткий опис',
+                                        max_length=160
+                                        )
+    meta_title = models.CharField(null=True,
+                                  blank=True,
+                                  verbose_name='Назва сторінки',
+                                  max_length=60
+                                  )
 
     class Meta:
         verbose_name = 'Оплата та доставка'
@@ -49,6 +59,16 @@ class ReturnPolicy(models.Model):
                           blank=True,
                           verbose_name='Основна інформація'
                           )
+    meta_description = models.TextField(null=True,
+                                        blank=True,
+                                        verbose_name='Короткий опис',
+                                        max_length=160
+                                        )
+    meta_title = models.CharField(null=True,
+                                  blank=True,
+                                  verbose_name='Назва сторінки',
+                                  max_length=60
+                                  )
 
     class Meta:
         verbose_name = 'Умови повернення'
@@ -63,6 +83,11 @@ class TextAtMainPage(models.Model):
                           blank=True,
                           verbose_name='Основний текст'
                           )
+    meta_description = models.TextField(null=True,
+                                        blank=True,
+                                        verbose_name='Короткий опис',
+                                        max_length=160
+                                        )
 
     class Meta:
         verbose_name = 'Текст головної сторінки'
@@ -75,6 +100,17 @@ class TextAtMainPage(models.Model):
 class AboutInfo(models.Model):
     left_side_of_page = HTMLField(verbose_name='Ліва частина сторінки')
     right_side_of_page = HTMLField(verbose_name='Права частина сторінки')
+
+    meta_description = models.TextField(null=True,
+                                        blank=True,
+                                        verbose_name='Короткий опис',
+                                        max_length=160
+                                        )
+    meta_title = models.CharField(null=True,
+                                  blank=True,
+                                  verbose_name='Назва сторінки',
+                                  max_length=60
+                                  )
 
     class Meta:
         verbose_name = 'Про нас'

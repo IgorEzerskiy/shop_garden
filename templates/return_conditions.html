@@ -1,5 +1,14 @@
 {% extends 'index.html' %}
 
+{% block custom_title %}
+    <title>{{ shipping_info.meta_title }}</title>
+{% endblock %}
+
+{% block custom_meta %}
+    <meta name="description" content="{{ shipping_info.meta_description }}">
+    <meta name="robots" content="index, follow">
+{% endblock %}
+
 {% block content %}
 
     <article class="container mt-3">

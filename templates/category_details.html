@@ -3,6 +3,19 @@
 {% load static %}
 {% load custom_length %}
 
+{% block custom_title %}
+    {% for category in category_list %}
+        {% if category.slug == slug %}
+            <title>{{ category.name }}</title>
+            <meta name="description" content="{{ category.meta_description }}">
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block custom_meta %}
+    <meta name="robots" content="index, follow">
+{% endblock %}
+
 {% block content %}
     <section class="row" style="margin-top: 25px">
         <aside class="col-lg-3 col-md-5" style="margin-bottom: 15px;">

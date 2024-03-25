@@ -76,6 +76,11 @@ class Category(models.Model):
         max_length=550,
         verbose_name='Опис'
     )
+    meta_description = models.TextField(null=True,
+                                        blank=True,
+                                        verbose_name='Короткий опис',
+                                        max_length=160
+                                        )
     image = models.ImageField(
         upload_to='category_images/',
         max_length=100,
@@ -110,6 +115,11 @@ class Product(models.Model):
         max_length=256,
     )
     description = HTMLField(verbose_name='Опис')
+    meta_description = models.TextField(null=True,
+                                        blank=True,
+                                        verbose_name='Короткий опис',
+                                        max_length=160
+                                        )
     characteristics = HTMLField(verbose_name='Характеристики')
     quantity = models.PositiveIntegerField(verbose_name='К-сть')
     price = models.DecimalField(

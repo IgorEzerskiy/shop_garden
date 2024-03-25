@@ -19,7 +19,7 @@ class InfoBot:
         requests.post(url=url)
 
     async def send_message_that_order_created(self, report_info: dict = None):
-        msg = f"""Привіт. У вас нове замовлення №{report_info.get('order_id')}.\n
+        msg = f"""💵💵💵Привіт!\nУ вас нове замовлення №{report_info.get('order_id')}.\n
 ---Інфо про покупця---\n
 І'мя та прізвище: {report_info.get('buyer_f_l_name')};\n
 Пошта: {report_info.get('buyer_email')};\n
@@ -32,7 +32,7 @@ class InfoBot:
         await self.__send_message(msg=msg)
 
     async def send_message_when_the_product_is_out_of_stock(self, product_info: dict):
-        msg = f"""Товар {product_info.get('product_name')} скінчився.\n
+        msg = f"""❗️❗️❗️ Товар {product_info.get('product_name')} скінчився.\n
 Посилання:
 http://127.0.0.1:8000/product/{product_info.get('product_slug')}/"""
 

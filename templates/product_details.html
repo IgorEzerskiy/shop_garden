@@ -2,12 +2,16 @@
 {% load static %}
 
 {% block custom_title %}
-    <title>{{ object.title }}</title>
+    <title>{{ object.meta_title }}</title>
 {% endblock %}
 
 {% block custom_meta %}
     <meta name="description" content="{{ object.meta_description }}">
-    <meta name="robots" content="index, follow">
+    {% if object.index %}
+        <meta name="robots" content="index, follow">
+    {% else %}
+        <meta name="robots" content="noindex, nofollow">
+    {% endif %}
 {% endblock %}
 
 {% block content %}

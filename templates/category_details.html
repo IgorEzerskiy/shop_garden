@@ -6,7 +6,7 @@
 {% block custom_title %}
     {% for category in category_list %}
         {% if category.slug == slug %}
-            <title>{{ category.name }}</title>
+            <title>{{ category.meta_title }}</title>
             <meta name="description" content="{{ category.meta_description }}">
         {% endif %}
     {% endfor %}

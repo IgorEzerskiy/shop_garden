@@ -1,9 +1,22 @@
 from django.contrib import admin
 
-from options_app.models import Footer, Carousel, ShippingAndBilling, ReturnPolicy, AboutInfo, ContactForm, TextAtMainPage
+from options_app.models import Footer, Carousel, ShippingAndBilling, ReturnPolicy, AboutInfo, ContactForm, \
+    TextAtMainPage, TelegramBotConfig
 
 
 # Register your models here.
+
+@admin.register(TelegramBotConfig)
+class AuthorAdmin(admin.ModelAdmin):
+
+    # This will help you to disable add functionality
+    def has_add_permission(self, request):
+        if TelegramBotConfig.objects.all().count() >= 1:
+            return False
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(Footer)

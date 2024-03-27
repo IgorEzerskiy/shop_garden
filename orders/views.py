@@ -7,10 +7,31 @@ from orders.models import OrderItem
 from orders.forms import OrderCreateForm
 from cart_app.cart import Cart
 from email_sender import email_notific
-from shop_garden.settings import INFO_BOT, DEBUG
+from shop_garden.settings import DEBUG
+from shop_main_app.telegram_bot import InfoBot
+from options_app.models import TelegramBotConfig
+
+
+def init_telegram_bot():
+    telegram_info_bot = None
+
+    bot_credentials = TelegramBotConfig.objects.first()
+
+    if bot_credentials:
+        try:
+            telegram_info_bot = InfoBot(api_token=bot_credentials.api_token,
+                                        chanel_id=bot_credentials.chanel_id,
+                                        is_bot_enable=bot_credentials.is_bot_enable)
+        except ValueError as ex:
+            print(ex)
+    else:
+        print('Telegram bot does not configured.')
+    return telegram_info_bot
 
 
 def order_create(request):
+    telegram_info_bot = init_telegram_bot()
+
     cart = Cart(request)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
@@ -37,8 +58,9 @@ def order_create(request):
                             product_info_for_bot = {'product_name': product_item.title,
                                                     'product_slug': product_item.slug
                                                     }
-                            asyncio.run(INFO_BOT.send_message_when_the_product_is_out_of_stock(
-                                product_info=product_info_for_bot))
+                            if telegram_info_bot:
+                                asyncio.run(telegram_info_bot.send_message_when_the_product_is_out_of_stock(
+                                    product_info=product_info_for_bot))
 
                         product_item.save()
                         OrderItem.objects.create(order=order,
@@ -65,7 +87,8 @@ def order_create(request):
                                       'buyer_delivery_city': order.city,
                                       'buyer_delivery_warehouse': order.warehouse
                                       }
-                asyncio.run(INFO_BOT.send_message_that_order_created(report_info=order_info_for_bot))
+                if telegram_info_bot:
+                    asyncio.run(telegram_info_bot.send_message_that_order_created(report_info=order_info_for_bot))
 
                 # email notification
 

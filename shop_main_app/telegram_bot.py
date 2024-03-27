@@ -1,18 +1,21 @@
 import requests
+import re
 
 
 class InfoBot:
-    __instance = None
 
-    def __init__(self, api_token: str, chanel_id: str):
+    def __init__(self, api_token: str, chanel_id: str, is_bot_enable: bool = False):
+        if not is_bot_enable:
+            raise ValueError('[WARNING] Telegram bot does not enabled for this project.')
+        self.__IS_BOT_ENABLE = is_bot_enable
+
+        if not re.match(pattern=r'^[0-9]{8,10}:[a-zA-Z0-9_-]{35}$', string=api_token):
+            raise ValueError('[WARNING] API token for telegram bot is invalid.')
         self.__API_TOKEN = api_token
+
+        if not re.match(pattern=r'^-[0-9]{13}$', string=chanel_id):
+            raise ValueError('[WARNING] Chanel ID for telegram bot is invalid.')
         self.__CHANEL_ID = chanel_id
-
-    def __new__(cls, *args, **kwargs):
-        if cls.__instance is None:
-            cls.__instance = super(InfoBot, cls).__new__(cls)
-
-        return cls.__instance
 
     async def __send_message(self, msg):
         url = f"https://api.telegram.org/bot{self.__API_TOKEN}/sendMessage?chat_id={self.__CHANEL_ID}&text={msg}"

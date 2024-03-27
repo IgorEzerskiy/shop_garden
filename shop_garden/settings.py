@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import platform
 from pathlib import Path
 import os
-from shop_main_app.telegram_bot import InfoBot
+# from shop_main_app.telegram_bot import InfoBot
 import environ
 import mimetypes
 
@@ -34,10 +34,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 INTERNAL_IPS = ['127.0.0.1']
 
-ENVIRONMENT = {'prod': False,
-               'dev': True}
-
-DEBUG = ENVIRONMENT[env('ENVIRON')]
+DEBUG = True if env('DEBUG') == 'True' else False
 
 SITE_ID = 1
 
@@ -193,14 +190,6 @@ else:
 AUTH_USER_MODEL = 'shop_main_app.User'
 
 # Telegram bot
-
-TELEGRAM_BOT_API_TOKEN = env('TELEGRAM_API_TOKEN')
-CHANEL_ID = env('TELEGRAM_CHANEL_ID')
-
-# async single tone telegram bot
-
-INFO_BOT = InfoBot(api_token=TELEGRAM_BOT_API_TOKEN,
-                   chanel_id=CHANEL_ID)
 
 # Celery/Redis
 

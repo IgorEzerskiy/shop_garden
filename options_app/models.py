@@ -10,6 +10,24 @@ CONTACT_FROM_STATUS_CHOICES = (
 )
 
 
+class TelegramBotConfig(models.Model):
+    api_token = models.CharField(max_length=60,
+                                 verbose_name="API токен"
+                                 )
+    chanel_id = models.CharField(max_length=20,
+                                 verbose_name="ID каналу")
+    is_bot_enable = models.BooleanField(default=False,
+                                        verbose_name='Увімкнути бота'
+                                        )
+
+    class Meta:
+        verbose_name = 'Телеграм бот'
+        verbose_name_plural = 'Конфігурація телеграм боту'
+
+    def __str__(self):
+        return 'Конфігурація телеграм боту'
+
+
 class ContactForm(models.Model):
     name = models.CharField(_("name"),
                             max_length=40
